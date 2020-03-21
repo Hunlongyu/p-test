@@ -1,6 +1,6 @@
 <template>
   <div class="frame">
-    <span class="min" @click="frameClickEvent('min')">-</span>
+    <span class="min" @click="frameClickEvent('min')"></span>
     <span class="close" @click="frameClickEvent('close')"></span>
   </div>
 </template>
@@ -27,10 +27,17 @@ export default {
   span{
     -webkit-app-region: no-drag;
     display: inline-block;
-    width: 30px;
-    height: 30px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
-    border: 1px solid #000;
+    margin-right: 10px;
+    cursor: pointer;
+    &.min{
+      background-color: #ffbe2a;
+    }
+    &.close{
+      background-color: #ff5f56;
+    }
   }
 }
 </style>
