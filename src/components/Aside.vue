@@ -1,5 +1,5 @@
 <template>
-  <div class="aside">aside</div>
+  <div class="aside">{{ $t('zh') }}</div>
 </template>
 <script>
 export default {
