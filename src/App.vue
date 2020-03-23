@@ -39,8 +39,11 @@ html, body, #app{
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  backdrop-filter: blur(0.8) opacity(0.8);
-  background-image: radial-gradient( circle farthest-corner at -4% -12.9%,  rgba(74,98,110,1) 0.3%, rgba(30,33,48,1) 90.2% );
+  will-change: transform;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(1px);
+  // backdrop-filter: blur(0.8) contrast(0.8);
+  // background-image: radial-gradient( circle farthest-corner at -4% -12.9%,  rgba(74,98,110,1) 0.3%, rgba(30,33,48,1) 90.2% );
   // background-size: 300%;
   // animation: gradient 60s ease infinite;
   @keyframes gradient {
