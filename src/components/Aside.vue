@@ -14,7 +14,7 @@
         </g>
       </svg>
     </span>
-    <span class="play">
+    <span class="play active">
       <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="playIconTitle">
         <title id="playIconTitle">播放</title>
         <path d="M20 12L5 21V3z"></path>
@@ -50,7 +50,7 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  box-shadow: 0 2px 12px 0 #0000001a;
+  border-right: 1px solid #00000010;
   span{
     -webkit-app-region: no-drag;
     display: flex;
@@ -63,17 +63,28 @@ export default {
     cursor: pointer;
     overflow: hidden;
     &:hover{
-      background-color: #823aa011;
+      animation: SHAni 0.8s ease both;
+      @keyframes SHAni {
+        to{
+          background-color: #823aa011;
+        }
+      }
       svg{
-        stroke: #823aa0ee;
-        stroke-width: 1.5;
+        animation: SHSAni 0.8s ease both;
+        @keyframes SHSAni {
+          to{
+            stroke: #823aa0ee;
+            stroke-width: 1.5;
+            fill: #823aa022;
+          }
+        }
       }
     }
     &.active{
       svg{
         stroke: #823aa0;
-        stroke-width: 1.5;
-        fill: #823aa022;
+        stroke-width: 2;
+        fill: #823aa044;
       }
     }
     svg{

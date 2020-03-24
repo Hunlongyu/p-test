@@ -53,7 +53,8 @@ html, body, #app{
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
-    background-color: #f9f9f9;
+    background-color: #fafafa;
+    padding: 0 10px 10px 10px;
   }
 }
 </style>
