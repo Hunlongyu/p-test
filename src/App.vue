@@ -54,8 +54,8 @@ html, body, #app{
   justify-content: space-between;
   align-items: flex-start;
   will-change: transform;
-  background-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(1px);
+  background-color: #ffffff;
+  // backdrop-filter: blur(1px);
   @keyframes gradient {
     0%{background-position:0% 50%}
     50%{background-position:100% 50%}
@@ -68,7 +68,7 @@ html, body, #app{
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
-    background-color: #fafafa;
+    background-color: #f5f5f5;
     padding: 0 10px 10px 10px;
   }
 }
