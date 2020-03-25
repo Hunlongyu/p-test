@@ -3,7 +3,7 @@
     <Aside />
     <div class="body">
       <Frame />
-      <main :is="main" />
+      <main :is="view" />
     </div>
     <!-- <Detail /> -->
   </div>
@@ -13,6 +13,7 @@
 import Aside from './components/Aside'
 import Frame from './components/Frame'
 // import Detail from './components/Detail'
+import { mapMutations } from 'vuex'
 export default {
   name: 'App',
   data () {
@@ -24,6 +25,19 @@ export default {
     Aside,
     Frame
     // Detail
+  },
+  computed: {
+    view: {
+      get () {
+        return this.$store.getters.getView
+      },
+      set (val) {
+        this.SET_VIEW(val)
+      }
+    }
+  },
+  methods: {
+    ...mapMutations(['SET_VIEW'])
   }
 }
 </script>
@@ -42,10 +56,6 @@ html, body, #app{
   will-change: transform;
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(1px);
-  // backdrop-filter: blur(0.8) contrast(0.8);
-  // background-image: radial-gradient( circle farthest-corner at -4% -12.9%,  rgba(74,98,110,1) 0.3%, rgba(30,33,48,1) 90.2% );
-  // background-size: 300%;
-  // animation: gradient 60s ease infinite;
   @keyframes gradient {
     0%{background-position:0% 50%}
     50%{background-position:100% 50%}
