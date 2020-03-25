@@ -1,4 +1,5 @@
 # player
+svg: https://ikonate.com/
 
 ## Project setup
 ```

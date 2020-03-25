@@ -1,5 +1,5 @@
 <template>
-  <div class="setting">setting</div>
+  <div class="setting">{{ $t('zh') }}</div>
 </template>
 <script>
 import { mapMutations } from 'vuex'

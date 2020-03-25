@@ -68,6 +68,8 @@ html, body, #app{
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
+    background-color: #fafafa;
+    padding: 0 10px 10px 10px;
   }
 }
 </style>
