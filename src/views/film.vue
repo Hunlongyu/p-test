@@ -18,25 +18,6 @@
     <div class="middle">
       <Vtb />
     </div>
-    <div class="bottom">
-      <span>共124条</span>
-      <span>
-        <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="chevronLeftIconTitle">
-          <title id="chevronLeftIconTitle">Chevron Left</title>
-          <polyline points="14 18 8 12 14 6 14 6"></polyline>
-        </svg>
-      </span>
-      <span>2</span>
-      <span>
-        <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="chevronRightIconTitle">
-          <title id="chevronRightIconTitle">Chevron Right</title>
-          <polyline points="10 6 16 12 10 18 10 18"></polyline>
-        </svg>
-      </span>
-      <span>
-        <input type="number">
-      </span>
-    </div>
   </div>
 </template>
 <script>
@@ -59,7 +40,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .film{
-  height: 680px;
+  height: 670px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -121,34 +102,9 @@ export default {
     }
   }
   .middle{
-    height: 580px;
+    height: 620px;
     width: 100%;
-    padding: 10px;
-  }
-  .bottom{
-    width: 100%;
-    height: 40px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    flex-direction: row;
-    padding-right: 10px;
-    span{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0 5px;
-      font-size: 12px;
-    }
-    svg{
-      width: 24px;
-      height: 24px;
-      stroke: #823aa099;
-      stroke-width: 1;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      fill: none;
-    }
+    padding-bottom: 10px;
   }
 }
 </style>

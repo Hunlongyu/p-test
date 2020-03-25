@@ -69,7 +69,7 @@ html, body, #app{
     align-items: flex-start;
     flex-direction: column;
     background-color: #f5f5f5;
-    padding: 0 10px 10px 10px;
+    padding: 0 10px 10px;
   }
 }
 </style>
