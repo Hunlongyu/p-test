@@ -37,8 +37,8 @@ export default {
   margin: 10px;
   position: relative;
   display: inline-block;
-  width: 220px;
-  height: 40px;
+  width: 200px;
+  height: 30px;
   vertical-align: middle;
   color: #332f5c;
   box-shadow: 0 3px 1px -2px #8e8da233, 0 2px 2px 0 #8e8da224, 0 1px 5px 0 #8e8da21f;
@@ -80,7 +80,7 @@ export default {
       list-style: none;
       li{
         width: 100%;
-        height: 40px;
+        height: 30px;
         display: flex;
         justify-content: flex-start;
         align-items: center;

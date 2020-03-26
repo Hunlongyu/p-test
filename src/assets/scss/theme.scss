@@ -1,0 +1,12 @@
+:root{
+  // light
+  --l-c: #823aa0;
+
+  // dark
+  --d-c: #823aa0;
+}
+
+@import './light.scss';
+@import './dark.scss';
+
+@import './style.scss';

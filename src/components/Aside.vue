@@ -68,7 +68,6 @@ export default {
   align-items: center;
   flex-direction: column;
   border-right: 1px solid #00000010;
-  // background-color: #ffffff;
   span{
     -webkit-app-region: no-drag;
     display: flex;
@@ -104,15 +103,6 @@ export default {
         stroke-width: 2;
         fill: #823aa033;
       }
-    }
-    svg{
-      width: 24px;
-      height: 24px;
-      stroke: #823aa099;
-      stroke-width: 1;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      fill: none;
     }
   }
 }

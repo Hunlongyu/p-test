@@ -44,31 +44,27 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
   animation: viewFadeIn 1s ease-in both;
-  @keyframes viewFadeIn {
-    to{
-      box-shadow: 0 3px 1px -2px #8e8da233, 0 2px 2px 0 #8e8da224, 0 1px 5px 0 #8e8da21f;
-    }
-  }
   .top{
     width: 100%;
-    height: 60px;
+    height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: #fff;
+    box-shadow: 0 3px 1px -2px #8e8da233, 0 2px 2px 0 #8e8da224, 0 1px 5px 0 #8e8da21f;
     .search{
       margin: 10px;
-      width: 220px;
-      height: 40px;
+      width: 200px;
+      height: 30px;
       display: flex;
       justify-content: center;
       align-items: center;
-      border-radius: 20px;
+      border-radius: 15px;
       box-shadow: 0 3px 1px -2px #8e8da233, 0 2px 2px 0 #8e8da224, 0 1px 5px 0 #8e8da21f;
       svg{
-        width: 24px;
-        height: 24px;
+        width: 20px;
+        height: 20px;
         stroke: #823aa099;
         stroke-width: 1;
         stroke-linecap: round;
@@ -77,14 +73,14 @@ export default {
       }
       .search-icon{
         width: 40px;
-        height: 40px;
+        height: 30px;
         display: flex;
         justify-content: center;
         align-items: center;
       }
       .search-box{
-        width: 180px;
-        height: 40px;
+        width: 160px;
+        height: 30px;
         border-radius: 20px;
         border: none;
         background-color: #00000000;
@@ -102,9 +98,12 @@ export default {
     }
   }
   .middle{
-    height: 620px;
+    height: 610px;
     width: 100%;
-    padding-bottom: 10px;
+    margin-top: 10px;
+    padding-bottom:0px;
+    background-color: #fff;
+    box-shadow: 0 3px 1px -2px #8e8da233, 0 2px 2px 0 #8e8da224, 0 1px 5px 0 #8e8da21f;
   }
 }
 </style>

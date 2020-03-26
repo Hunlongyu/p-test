@@ -1,30 +1,33 @@
 <template>
-  <div id="app">
+  <div id="app" class="theme-light">
     <Aside />
     <div class="body">
       <Frame />
       <main :is="view" />
     </div>
-    <!-- <Detail /> -->
+    <transition name="slide">
+      <Detail v-if="show"/>
+    </transition>
   </div>
 </template>
 
 <script>
 import Aside from './components/Aside'
 import Frame from './components/Frame'
-// import Detail from './components/Detail'
+import Detail from './components/Detail'
 import { mapMutations } from 'vuex'
 export default {
   name: 'App',
   data () {
     return {
-      main: 'Film'
+      main: 'Film',
+      show: false
     }
   },
   components: {
     Aside,
-    Frame
-    // Detail
+    Frame,
+    Detail
   },
   computed: {
     view: {
@@ -43,6 +46,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import './assets/scss/theme.scss';
 html, body, #app{
   height: 100%;
 }
@@ -54,7 +58,7 @@ html, body, #app{
   justify-content: space-between;
   align-items: flex-start;
   will-change: transform;
-  background-color: #ffffff;
+  overflow: hidden;
   // backdrop-filter: blur(1px);
   @keyframes gradient {
     0%{background-position:0% 50%}
@@ -70,6 +74,13 @@ html, body, #app{
     flex-direction: column;
     background-color: #f5f5f5;
     padding: 0 10px 10px;
+  }
+  .slide-enter-active, .slide-leave-active{
+    transition: all 0.8s ease-in-out;
+  }
+  .slide-enter, .slide-leave-to{
+    transform: translateY(100%);
+    opacity: 0;
   }
 }
 </style>

@@ -14,7 +14,7 @@
           <span class="type">欧美剧</span>
           <span class="time">2019-09-16 16:40:60</span>
           <span class="from">OK资源网</span>
-          <span class="operate">详情 删除 播放 分享</span>
+          <span class="operate">删除 播放 分享</span>
         </li>
       </ul>
     </div>

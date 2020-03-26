@@ -24,8 +24,9 @@ function createWindow () {
     transparent: true,
     resizable: false,
     webPreferences: {
-      experimentalFeatures: true,
-      nodeIntegration: true
+      webSecurity: false,
+      nodeIntegration: true,
+      experimentalFeatures: true
     }
   })
 
