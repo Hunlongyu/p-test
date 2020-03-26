@@ -16,6 +16,7 @@ import Aside from './components/Aside'
 import Frame from './components/Frame'
 import Detail from './components/Detail'
 import { mapMutations } from 'vuex'
+import './lib/dexie/index'
 export default {
   name: 'App',
   data () {
