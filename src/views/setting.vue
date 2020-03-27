@@ -32,7 +32,7 @@ export default {
   },
   created () {
     setting.find().then(res => {
-      console.log(res, 'find')
+      // console.log(res, 'find')
     })
   }
 }

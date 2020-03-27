@@ -23,6 +23,7 @@
 <script>
 import Vst from '../components/Select'
 import Vtb from '../components/Table'
+import tools from '../lib/site/tools'
 export default {
   name: 'film',
   data () {
@@ -35,6 +36,11 @@ export default {
   components: {
     Vst,
     Vtb
+  },
+  created () {
+    tools.getFilms().then(res => {
+      console.log(res)
+    })
   }
 }
 </script>

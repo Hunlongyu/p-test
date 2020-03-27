@@ -3,110 +3,112 @@ const sites = [
     key: 'zuidazy',
     name: '最大资源网',
     url: 'http://www.zuidazy1.com',
+    view: 'http://www.zuidazy1.com/?m=vod-type-id-{id}-page-{pages}.html',
+    search: 'http://www.zuidazy1.com/index.php?m=vod-search-pg-{pages}-wd-{keywords}.html',
     type: 0,
     tags: [
       {
         title: '最新',
-        index: 0,
+        id: 0,
         children: []
       },
       {
         title: '电影',
-        index: 1,
+        id: 1,
         children: [
           {
             title: '动作片',
-            index: 5
+            id: 5
           },
           {
             title: '喜剧片',
-            index: 6
+            id: 6
           },
           {
             title: '爱情片',
-            index: 7
+            id: 7
           },
           {
             title: '科幻片',
-            index: 8
+            id: 8
           },
           {
             title: '恐怖片',
-            index: 9
+            id: 9
           },
           {
             title: '剧情片',
-            index: 10
+            id: 10
           },
           {
             title: '战争片',
-            index: 11
+            id: 11
           },
           {
             title: '纪录片',
-            index: 22
+            id: 22
           }
         ]
       },
       {
         title: '连续剧',
-        index: 2,
+        id: 2,
         children: [
           {
             title: '国产剧',
-            index: 12
+            id: 12
           },
           {
             title: '香港剧',
-            index: 13
+            id: 13
           },
           {
             title: '韩国剧',
-            index: 14
+            id: 14
           },
           {
             title: '欧美剧',
-            index: 15
+            id: 15
           },
           {
             title: '台湾剧',
-            index: 19
+            id: 19
           },
           {
             title: '日本剧',
-            index: 20
+            id: 20
           },
           {
             title: '海外剧',
-            index: 21
+            id: 21
           }
         ]
       },
       {
         title: '综艺片',
-        index: 3,
+        id: 3,
         children: []
       },
       {
         title: '动漫片',
-        index: 4,
+        id: 4,
         children: []
       },
       {
         title: '福利片',
-        index: 16,
+        id: 16,
         children: []
       },
       {
         title: '伦理片',
-        index: 17,
+        id: 17,
         children: []
       },
       {
         title: '音乐片',
-        index: 18,
+        id: 18,
         children: []
-      },
+      }
     ]
   },
   {
@@ -131,3 +133,5 @@ const sites = [
     tags: []
   }
 ]
+
+export default sites
