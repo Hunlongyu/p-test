@@ -14,13 +14,12 @@ db.version(2).stores({
   video: '++id, name, type, time, detail, urls, index'
 })
 
-const initData = [
-  {
-    theme: 'light',
-    site: 0,
-    language: 'zh-cn'
-  }
-]
+const initData = [{
+  id: 0,
+  theme: 'light',
+  site: 0,
+  language: 'zh-cn'
+}]
 
 db.on('populate', () => {
   db.setting.bulkAdd(initData)

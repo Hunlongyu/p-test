@@ -3,7 +3,10 @@
     <Aside />
     <div class="body">
       <Frame />
-      <main :is="view" />
+      <Film v-show="view === 'Film'" />
+      <Play v-show="view === 'Play'" />
+      <Star v-show="view === 'Star'" />
+      <Setting v-show="view === 'Setting'" />
     </div>
     <transition name="slide">
       <Detail v-if="show"/>
@@ -21,7 +24,6 @@ export default {
   name: 'App',
   data () {
     return {
-      main: 'Film',
       show: false
     }
   },

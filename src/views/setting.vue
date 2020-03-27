@@ -6,6 +6,7 @@
 </template>
 <script>
 import { mapMutations } from 'vuex'
+import setting from '../lib/dexie/setting'
 export default {
   name: 'setting',
   computed: {
@@ -28,6 +29,11 @@ export default {
   },
   methods: {
     ...mapMutations(['SET_THEME', 'SET_LANGUAGE'])
+  },
+  created () {
+    setting.find().then(res => {
+      console.log(res, 'find')
+    })
   }
 }
 </script>
