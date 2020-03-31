@@ -3,7 +3,10 @@
     <div class="box">
       <div class="title"></div>
       <div id="xg"></div>
-      <div class="more"><button @click="show = !show">show</button></div>
+      <div class="more">
+        <button @click="show = !show">show</button>
+        <button @click="play">play</button>
+      </div>
     </div>
     <transition name="slideX">
       <div v-if="show" class="list">
@@ -15,7 +18,7 @@
 </template>
 <script>
 import 'xgplayer'
-// import Hls from 'xgplayer-hls.js'
+import Hls from 'xgplayer-hls.js'
 export default {
   name: 'play',
   data () {
@@ -46,10 +49,13 @@ export default {
       num: ''
     }
   },
-  mounted () {
-    // this.xg = new Hls(this.config)
-    // this.xg.src = 'https://shuixian.nihaozuida.com/20200213/285_99244172/index.m3u8'
-  }
+  methods: {
+    play () {
+      this.xg = new Hls(this.config)
+      this.xg.src = 'https://shuixian.nihaozuida.com/20200213/285_99244172/index.m3u8'
+    }
+  },
+  mounted () {}
 }
 </script>
 <style lang="scss" scoped>

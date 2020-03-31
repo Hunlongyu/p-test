@@ -1,5 +1,5 @@
 import db from './index'
-const { video }  = db
+const { video } = db
 export default {
   async add (doc) {
     return await video.add(doc)

@@ -1,5 +1,5 @@
 import db from './index'
-const { history }  = db
+const { history } = db
 export default {
   async add (doc) {
     return await history.add(doc)

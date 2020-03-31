@@ -58,6 +58,15 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+svg{
+  width: 24px;
+  height: 24px;
+  stroke: #823aa099;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
 .aside{
   width: 60px;
   height: 100%;

@@ -19,23 +19,7 @@
       </ul>
     </div>
     <div class="tFooter">
-      <span>共124条</span>
-      <span class="icon">
-        <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="chevronLeftIconTitle">
-          <title id="chevronLeftIconTitle">Chevron Left</title>
-          <polyline points="14 18 8 12 14 6 14 6"></polyline>
-        </svg>
-      </span>
-      <span>2</span>
-      <span class="icon">
-        <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="chevronRightIconTitle">
-          <title id="chevronRightIconTitle">Chevron Right</title>
-          <polyline points="10 6 16 12 10 18 10 18"></polyline>
-        </svg>
-      </span>
-      <span>
-        <input class="jump" type="text">
-      </span>
+      <el-pagination small :page-size="10" :total="100" layout="total, prev, pager, next, jumper"></el-pagination>
     </div>
   </div>
 </template>
