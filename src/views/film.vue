@@ -38,17 +38,17 @@ export default {
     Vtb
   },
   created () {
-    // tools.film_get(4).then(res => {
-    //   console.log(res, 'film')
-    //   const url = res.list[0].detail
-    //   console.log(url, 'url')
-    //   tools.detail_get(4, url).then(res => {
-    //     console.log(res, 'detail')
-    //   })
-    // })
-    tools.search_get(4, '人').then(res => {
-      console.log(res, 'search')
+    tools.film_get(5, 31, 2).then(res => {
+      console.log(res, 'film')
+      const url = res.list[0].detail
+      console.log(url, 'url')
+      tools.detail_get(5, url).then(res => {
+        console.log(res, 'detail')
+      })
     })
+    // tools.search_get(4, '人').then(res => {
+    //   console.log(res, 'search')
+    // })
   }
 }
 </script>

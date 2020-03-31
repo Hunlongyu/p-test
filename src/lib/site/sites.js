@@ -245,7 +245,7 @@ const sites = [
     name: '高清资源网',
     url: 'http://www.gaoqingzy.com',
     view: 'http://www.gaoqingzy.com/?m=vod-type-id-{id}-pg-{page}.html',
-    search: 'http://www.gaoqingzy.com/search.html?searchword={keywords}',
+    search: '',
     type: 2,
     tags: []
   }

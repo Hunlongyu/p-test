@@ -5,6 +5,7 @@ const zy = {
   id: 0, // 视频类型
   page: 1, // 第几页
   keywords: '', // 搜索关键字
+  // 获取浏览列表
   film_get (n = 0, id = 1, page = 1) {
     return new Promise((resolve, reject) => {
       const url = sites[n].view.replace(/{id}/, id).replace(/{page}/, page)
@@ -18,6 +19,10 @@ const zy = {
         if (type === 1) {
           const oneData = await this.film_get_type_one(data, n)
           resolve(oneData)
+        }
+        if (type === 2) {
+          const twoData = await this.film_get_type_two(data, n)
+          resolve(twoData)
         }
       }).catch(err => {
         reject(err)
@@ -43,8 +48,8 @@ const zy = {
           }
           d.list.push(info)
         }
-        d.update = html.querySelectorAll('.xing_top_right li strong')[0].innerText
-        d.total = html.querySelectorAll('.xing_top_right li strong')[1].innerText
+        d.update = parseInt(html.querySelectorAll('.xing_top_right li strong')[0].innerText)
+        d.total = parseInt(html.querySelectorAll('.xing_top_right li strong')[1].innerText)
         resolve(d)
       } catch (err) {
         reject(err)
@@ -70,14 +75,42 @@ const zy = {
           }
           d.list.push(info)
         }
-        d.update = html.querySelectorAll('.header_list li span')[0].innerText
-        d.total = html.querySelectorAll('.header_list li span')[1].innerText
+        d.update = parseInt(html.querySelectorAll('.header_list li span')[0].innerText)
+        d.total = parseInt(html.querySelectorAll('.header_list li span')[1].innerText)
         resolve(d)
       } catch (err) {
         reject(err)
       }
     })
   },
+  film_get_type_two (txt, n = 0) {
+    return new Promise((resolve, reject) => {
+      try {
+        const parser = new DOMParser()
+        const html = parser.parseFromString(txt, 'text/html')
+        const list = html.querySelectorAll('.nr')
+        const d = { list: [], total: 0, update: 0 }
+        for (let i = 0; i < list.length; i++) {
+          const info = {
+            site: n,
+            name: list[i].querySelector('.name').innerText,
+            type: list[i].querySelector('.btn_span').innerText,
+            time: list[i].querySelector('.hours').innerText,
+            detail: sites[n].url + list[i].querySelector('.name').getAttribute('href'),
+            urls: [],
+            index: 0
+          }
+          d.list.push(info)
+        }
+        d.update = parseInt(html.querySelector('.date span').innerText)
+        d.total = parseInt(html.querySelector('.kfs em').innerText)
+        resolve(d)
+      } catch (err) {
+        reject(err)
+      }
+    })
+  },
+  // 获取详情
   detail_get (n = 0, url) {
     return new Promise((resolve, reject) => {
       const type = sites[n].type
@@ -89,6 +122,10 @@ const zy = {
         if (type === 1) {
           const oneData = await this.detail_get_type_one(res.data, n)
           resolve(oneData)
+        }
+        if (type === 2) {
+          const twoData = await this.detail_get_type_two(res.data, n)
+          resolve(twoData)
         }
       }).catch(err => {
         reject(err)
@@ -177,6 +214,42 @@ const zy = {
       }
     })
   },
+  detail_get_type_two (txt, n = 0) {
+    return new Promise((resolve, reject) => {
+      try {
+        const parser = new DOMParser()
+        const html = parser.parseFromString(txt, 'text/html')
+        const data = {
+          site: n,
+          info: '',
+          desc: '',
+          m3u8_urls: [],
+          mp4_urls: []
+        }
+        const vodBox = html.querySelector('.vodBox')
+        data.info = vodBox
+        data.desc = html.querySelector('.vodplayinfo')
+        const vodLi = html.querySelectorAll('.vodplayinfo li')
+        const m3u8UrlArr = []
+        const mp4UrlArr = []
+        for (let i = 0; i < vodLi.length; i++) {
+          const j = vodLi[i].innerText
+          if (j.indexOf('.m3u8') >= 0) {
+            m3u8UrlArr.push(j)
+          }
+          if (j.indexOf('.mp4') >= 0) {
+            mp4UrlArr.push(j)
+          }
+        }
+        data.m3u8_urls = m3u8UrlArr
+        data.mp4_urls = mp4UrlArr
+        resolve(data)
+      } catch (err) {
+        reject(err)
+      }
+    })
+  },
+  // 搜索列表
   search_get (n = 0, keywords = '', page = 1) {
     return new Promise((resolve, reject) => {
       const type = sites[n].type
