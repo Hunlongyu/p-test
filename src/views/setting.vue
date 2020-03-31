@@ -2,6 +2,7 @@
   <div class="setting">
     <div class="logo"><img src="@/assets/image/logo.png"></div>
     <div class="language">{{ $t('zh') }}</div>
+    <div><el-button size="mini">lala</el-button></div>
   </div>
 </template>
 <script>

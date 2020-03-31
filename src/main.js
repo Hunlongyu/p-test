@@ -5,6 +5,7 @@ import VueI18n from 'vue-i18n'
 import Register from './views/register'
 import 'modern-normalize'
 import { languages, defaultLocal } from './locales/index'
+import './lib/element/element.js'
 
 Vue.config.productionTip = false
 Vue.use(VueI18n)
