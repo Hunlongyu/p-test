@@ -14,7 +14,7 @@
   "main": "background.js",
   "dependencies": {
     "axios": "^0.19.2",
-     "core-js": "^3.6.4",
+    "core-js": "^3.6.4",
     "dexie": "^2.0.4",
     "modern-normalize": "^0.6.0",
     "vue": "^2.6.11",
