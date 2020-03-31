@@ -38,8 +38,16 @@ export default {
     Vtb
   },
   created () {
-    tools.getFilms().then(res => {
-      console.log(res)
+    // tools.film_get(4).then(res => {
+    //   console.log(res, 'film')
+    //   const url = res.list[0].detail
+    //   console.log(url, 'url')
+    //   tools.detail_get(4, url).then(res => {
+    //     console.log(res, 'detail')
+    //   })
+    // })
+    tools.search_get(4, '人').then(res => {
+      console.log(res, 'search')
     })
   }
 }
