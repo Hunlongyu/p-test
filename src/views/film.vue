@@ -23,7 +23,7 @@
 <script>
 import Vst from '../components/Select'
 import Vtb from '../components/Table'
-// import tools from '../lib/site/tools'
+import tools from '../lib/site/tools'
 export default {
   name: 'film',
   data () {
@@ -38,15 +38,19 @@ export default {
     Vtb
   },
   created () {
-    // tools.film_get(5, 31, 2).then(res => {
+    tools.film_get(5).then(res => {
+      console.log(res, 'film')
+    })
+
+    // tools.film_get(5).then(res => {
     //   console.log(res, 'film')
-    //   const url = res.list[0].detail
-    //   console.log(url, 'url')
+    //   const url = res.list[2].detail
+    //   // console.log(url, 'url')
     //   tools.detail_get(5, url).then(res => {
     //     console.log(res, 'detail')
     //   })
     // })
-    // tools.search_get(4, '人').then(res => {
+    // tools.search_get(5, '人').then(res => {
     //   console.log(res, 'search')
     // })
   }
