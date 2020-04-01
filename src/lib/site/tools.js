@@ -102,8 +102,8 @@ const zy = {
           }
           d.list.push(info)
         }
-        d.update = parseInt(html.querySelector('.date span').innerText)
-        d.total = parseInt(html.querySelector('.kfs em').innerText)
+        d.update = parseInt(html.querySelector('.kfs em').innerText)
+        d.total = parseInt(html.querySelector('.date span').innerText)
         resolve(d)
       } catch (err) {
         reject(err)
