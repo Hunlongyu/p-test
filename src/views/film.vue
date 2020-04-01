@@ -38,18 +38,18 @@ export default {
     Vtb
   },
   created () {
-    tools.film_get(5).then(res => {
-      console.log(res, 'film')
-    })
-
-    // tools.film_get(5).then(res => {
+    // tools.film_get(6).then(res => {
     //   console.log(res, 'film')
-    //   const url = res.list[2].detail
-    //   // console.log(url, 'url')
-    //   tools.detail_get(5, url).then(res => {
-    //     console.log(res, 'detail')
-    //   })
     // })
+
+    tools.film_get(6).then(res => {
+      console.log(res, 'film')
+      const url = res.list[2].detail
+      // console.log(url, 'url')
+      tools.detail_get(6, url).then(res => {
+        console.log(res, 'detail')
+      })
+    })
     // tools.search_get(5, '人').then(res => {
     //   console.log(res, 'search')
     // })

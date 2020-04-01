@@ -697,6 +697,168 @@ const sites = [
     ]
   },
   {
+    key: '666zy',
+    name: '哈酷资源网',
+    url: 'http://www.666zy.com',
+    view: 'http://www.666zy.com/?m=vod-type-id-{id}-pg-{page}.html',
+    search: 'http://www.666zy.com/index.php?m=vod-search-pg-{page}-wd-{keywords}.html',
+    type: 0,
+    tags: [
+      {
+        title: '最新',
+        id: 0,
+        children: []
+      },
+      {
+        title: '电影',
+        id: 1,
+        children: [
+          {
+            title: '动作片',
+            id: 5
+          },
+          {
+            title: '喜剧片',
+            id: 6
+          },
+          {
+            title: '爱情片',
+            id: 7
+          },
+          {
+            title: '科幻片',
+            id: 8
+          },
+          {
+            title: '恐怖片',
+            id: 9
+          },
+          {
+            title: '剧情片',
+            id: 10
+          },
+          {
+            title: '战争片',
+            id: 11
+          },
+          {
+            title: '动画片',
+            id: 20
+          },
+          {
+            title: '伦理片',
+            id: 21
+          },
+          {
+            title: '写真片',
+            id: 26
+          },
+          {
+            title: '粤语片',
+            id: 28
+          }
+        ]
+      },
+      {
+        title: '连续剧',
+        id: 2,
+        children: [
+          {
+            title: '国产剧',
+            id: 12
+          },
+          {
+            title: '港剧',
+            id: 13
+          },
+          {
+            title: '韩剧',
+            id: 14
+          },
+          {
+            title: '美剧',
+            id: 15
+          },
+          {
+            title: '台剧',
+            id: 16
+          },
+          {
+            title: '日剧',
+            id: 17
+          },
+          {
+            title: '泰剧',
+            id: 19
+          },
+          {
+            title: '海外剧',
+            id: 23
+          }
+        ]
+      },
+      {
+        title: '综艺',
+        id: 3,
+        children: [
+          {
+            title: '大陆综艺',
+            id: 30
+          },
+          {
+            title: '港台综艺',
+            id: 31
+          },
+          {
+            title: '欧美综艺',
+            id: 32
+          },
+          {
+            title: '日韩综艺',
+            id: 33
+          }
+        ]
+      },
+      {
+        title: '动漫',
+        id: 4,
+        children: [
+          {
+            title: '国产动漫',
+            id: 34
+          },
+          {
+            title: '日本动漫',
+            id: 35
+          },
+          {
+            title: '港台动漫',
+            id: 36
+          },
+          {
+            title: '欧美动漫',
+            id: 37
+          }
+        ]
+      },
+      {
+        title: '纪录',
+        id: 22,
+        children: []
+      },
+      {
+        title: '游戏解说',
+        id: 27,
+        children: []
+      },
+      {
+        title: '微电影',
+        id: 29,
+        children: []
+      }
+    ]
+  },
+  {
     key: 'wolongzy',
     name: '卧龙资源网',
     url: 'https://wolongzy.net',
