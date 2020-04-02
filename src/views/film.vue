@@ -43,11 +43,11 @@ export default {
     // })
 
     tools.film_get(6).then(res => {
-      console.log(res, 'film')
+      // console.log(res, 'film')
       const url = res.list[2].detail
       // console.log(url, 'url')
       tools.detail_get(6, url).then(res => {
-        console.log(res, 'detail')
+        // console.log(res, 'detail')
       })
     })
     // tools.search_get(5, '人').then(res => {
@@ -65,17 +65,17 @@ export default {
   animation: viewFadeIn 1s ease-in both;
   .top{
     width: 100%;
-    height: 50px;
+    height: 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #fff;
-    box-shadow: 0 3px 1px -2px #8e8da233, 0 2px 2px 0 #8e8da224, 0 1px 5px 0 #8e8da21f;
+    // background-color: #fff;
+    // box-shadow: 0 3px 1px -2px #8e8da233, 0 2px 2px 0 #8e8da224, 0 1px 5px 0 #8e8da21f;
     .search{
-      margin: 10px;
       width: 200px;
       height: 30px;
       display: flex;
+      background-color: #fff;
       justify-content: center;
       align-items: center;
       border-radius: 15px;
@@ -102,25 +102,28 @@ export default {
         border-radius: 20px;
         border: none;
         background-color: #00000000;
+        text-indent: 2px;
         &:focus{
           outline: none;
+          border: none;
         }
       }
       &.active{
         box-shadow: 0 14px 26px -12px #8e8da26b, 0 4px 23px 0 #8e8da21f, 0 8px 10px -5px #8e8da233;
         svg{
           stroke-width: 1.5;
-          // fill: #823aa022;
+          fill: #823aa022;
         }
       }
     }
   }
   .middle{
-    height: 610px;
+    height: 630px;
     width: 100%;
     margin-top: 10px;
     padding-bottom:0px;
     background-color: #fff;
+    border-radius: 5px;
     box-shadow: 0 3px 1px -2px #8e8da233, 0 2px 2px 0 #8e8da224, 0 1px 5px 0 #8e8da21f;
   }
 }
