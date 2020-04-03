@@ -95,9 +95,10 @@ export default {
     right: 0;
     width: 300px;
     height: 100%;
-    border: 1px solid #000;
+    border: 1px solid #00000022;
     background-color: #fff;
     z-index: 555;
+    border-radius: 3px;
   }
   .slideX-enter-active, .slideX-leave-active{
     transition: all .5s ease;

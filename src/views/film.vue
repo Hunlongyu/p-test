@@ -87,18 +87,14 @@ export default {
       this.tag = 0
       this.show.site = false
       const id = this.tags[0].id
-      tools.film_get(n, id).then(res => {
-        console.log(res, 'film')
-      })
+      tools.film_get(n, id).then(res => {})
     },
     tagClick (e, n) {
       this.tag = n
       this.types = this.tags[n].children
       this.type = 0
       this.show.tags = false
-      tools.film_get(this.site, n).then(res => {
-        console.log(res, 'film')
-      })
+      tools.film_get(this.site, n).then(res => {})
     },
     typeClick (e, n) {
       this.type = n
@@ -106,7 +102,7 @@ export default {
     }
   },
   created () {
-    this.tags = this.sites[this.site].tags
+    // this.tags = this.sites[this.site].tags
 
     // tools.film_get(6).then(res => {
     //   console.log(res, 'film')
@@ -117,14 +113,14 @@ export default {
     //   })
     // })
 
-    tools.film_get(6).then(res => {
-      // console.log(res, 'film')
-      const url = res.list[2].detail
-      // console.log(url, 'url')
-      tools.detail_get(6, url).then(res => {
-        // console.log(res, 'detail')
-      })
-    })
+    // tools.film_get(6).then(res => {
+    //   // console.log(res, 'film')
+    //   const url = res.list[2].detail
+    //   // console.log(url, 'url')
+    //   tools.detail_get(6, url).then(res => {
+    //     // console.log(res, 'detail')
+    //   })
+    // })
     // tools.search_get(5, '人').then(res => {
     //   console.log(res, 'search')
     // })
@@ -144,8 +140,6 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    // background-color: #fff;
-    // box-shadow: 0 3px 1px -2px #8e8da233, 0 2px 2px 0 #8e8da224, 0 1px 5px 0 #8e8da21f;
     .search{
       width: 200px;
       height: 30px;

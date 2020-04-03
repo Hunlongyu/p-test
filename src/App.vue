@@ -53,7 +53,7 @@ export default {
 @import url('./assets/scss/style.scss');
 html, body, #app{
   height: 100%;
-  border-radius: 10px;
+  border-radius: 6px;
 }
 #app {
   font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', SimSun, sans-serif;
