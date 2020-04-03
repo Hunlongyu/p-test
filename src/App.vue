@@ -50,6 +50,7 @@ export default {
 
 <style lang="scss">
 @import './assets/scss/theme.scss';
+@import url('./assets/scss/style.scss');
 html, body, #app{
   height: 100%;
 }

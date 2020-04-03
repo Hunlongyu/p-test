@@ -3,7 +3,7 @@
     <div class="vst-placeholder" @click="show = true">{{select}}</div>
     <div class="vst-options" v-show="show">
       <ul>
-        <li :class="select === i ? 'active' : ''" v-for="(i, j) in options" :key="j" @click="optionClick(i)">{{ i }}</li>
+        <li :class="select === i[os] ? 'active' : ''" v-for="(i, j) in options" :key="j" @click="optionClick(i)">{{ i[os] }}</li>
       </ul>
     </div>
   </div>
@@ -19,11 +19,14 @@ export default {
   },
   props: [
     'placeholder',
-    'options'
+    'options',
+    'os'
   ],
   methods: {
     optionClick (e) {
-      this.select = e
+      console.log(e)
+      this.select = e[this.os]
+      console.log(this.select)
       this.show = false
     }
   },

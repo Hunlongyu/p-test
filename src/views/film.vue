@@ -1,9 +1,33 @@
 <template>
   <div class="film">
     <div class="top">
-      <Vst :placeholder="site" :options="options" />
-      <Vst :placeholder="site" :options="options" />
-      <Vst :placeholder="site" :options="options" />
+      <!-- site -->
+      <div class="vue-select" @mouseleave="show.site = false">
+        <div class="vs-placeholder" @click="show.site = true">{{sites[site].name}}</div>
+        <div class="vs-options" v-show="show.site">
+          <ul>
+            <li :class="site === j ? 'active' : ''" v-for="(i, j) in sites" :key="j" @click="siteClick(i, j)">{{ i.name }}</li>
+          </ul>
+        </div>
+      </div>
+      <!-- tags -->
+      <div class="vue-select" @mouseleave="show.tags = false" v-if="tags.length > 0">
+        <div class="vs-placeholder" @click="show.tags = true">{{tags[tag].title}}</div>
+        <div class="vs-options" v-show="show.tags">
+          <ul>
+            <li :class="tag === j ? 'active' : ''" v-for="(i, j) in tags" :key="j" @click="tagClick(i, j)">{{ i.title }}</li>
+          </ul>
+        </div>
+      </div>
+      <!-- type -->
+      <div class="vue-select" @mouseleave="show.type = false" v-if="types.length > 0">
+        <div class="vs-placeholder" @click="show.type = true">{{types[type].title}}</div>
+        <div class="vs-options" v-show="show.type">
+          <ul>
+            <li :class="type === j ? 'active' : ''" v-for="(i, j) in types" :key="j" @click="typeClick(i, j)">{{ i.title }}</li>
+          </ul>
+        </div>
+      </div>
       <div :class="[inputFocus ? 'active ': ''] + 'search'" @mouseover="inputFocus = true" @mouseleave="inputFocus = false">
         <div class="search-icon">
           <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="searchIconTitle">
@@ -21,35 +45,77 @@
   </div>
 </template>
 <script>
-import Vst from '../components/Select'
+import { mapMutations } from 'vuex'
 import Vtb from '../components/Table'
+import sites from '../lib/site/sites'
 import tools from '../lib/site/tools'
 export default {
   name: 'film',
   data () {
     return {
-      site: 'of',
-      options: ['site', 'of', 'options'],
+      sites: sites,
+      tags: [],
+      tag: 0,
+      types: [],
+      type: 0,
+      show: {
+        site: false,
+        tags: false,
+        type: false
+      },
       inputFocus: false
     }
   },
   components: {
-    Vst,
     Vtb
   },
+  computed: {
+    site: {
+      get () {
+        return this.$store.getters.getSite
+      },
+      set (val) {
+        this.SET_SITE(val)
+      }
+    }
+  },
+  methods: {
+    ...mapMutations(['SET_SITE']),
+    siteClick (e, n) {
+      this.site = n
+      this.tags = this.sites[n].tags
+      this.tag = 0
+      this.show.site = false
+      const id = this.tags[0].id
+      tools.film_get(n, id).then(res => {
+        console.log(res, 'film')
+      })
+    },
+    tagClick (e, n) {
+      this.tag = n
+      this.types = this.tags[n].children
+      this.type = 0
+      this.show.tags = false
+      tools.film_get(this.site, n).then(res => {
+        console.log(res, 'film')
+      })
+    },
+    typeClick (e, n) {
+      this.type = n
+      this.show.type = false
+    }
+  },
   created () {
+    this.tags = this.sites[this.site].tags
+
     // tools.film_get(6).then(res => {
     //   console.log(res, 'film')
+    //   const url = res.list[2].detail
+    //   // console.log(url, 'url')
+    //   tools.detail_get(6, url).then(res => {
+    //     console.log(res, 'detail')
+    //   })
     // })
-
-    tools.film_get(6).then(res => {
-      console.log(res, 'film')
-      const url = res.list[2].detail
-      // console.log(url, 'url')
-      tools.detail_get(6, url).then(res => {
-        console.log(res, 'detail')
-      })
-    })
     // tools.search_get(5, '人').then(res => {
     //   console.log(res, 'search')
     // })

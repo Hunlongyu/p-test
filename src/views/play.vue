@@ -1,7 +1,7 @@
 <template>
   <div class="play">
     <div class="box">
-      <div class="title"></div>
+      <div class="title">视频名称</div>
       <div id="xg"></div>
       <div class="more">
         <button @click="show = !show">show</button>
@@ -83,6 +83,9 @@ export default {
       width: 100%;
       height: 60px;
       border: 1px solid red;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
     }
   }
   .list{

@@ -8,7 +8,12 @@ const zy = {
   // 获取浏览列表
   film_get (n = 0, id = 1, page = 1) {
     return new Promise((resolve, reject) => {
-      const url = sites[n].view.replace(/{id}/, id).replace(/{page}/, page)
+      let url = ''
+      if (id === 0) {
+        url = sites[n].new.replace(/{page}/, page)
+      } else {
+        url = sites[n].view.replace(/{id}/, id).replace(/{page}/, page)
+      }
       const type = sites[n].type
       axios.get(url).then(async res => {
         const data = res.data
