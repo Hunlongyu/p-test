@@ -41,27 +41,31 @@ export default {
   height: 100%;
   color: #332f5c;
   font-size: 15px;
-  padding: 0 10px;
   .tHead{
-    height: 40px;
+    height: 50px;
     width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     border-bottom: 1px solid #823aa022;
+    padding: 0 5px 0 0;
+    font-weight: 600;
+    background-color: #ffffff88;
     span{
       display: flex;
       width: 180px;
-      padding-left: 10px;
       font-size: 16px;
       &.name{
         flex: 1;
-        padding-left: 10px;
+        padding-left: 15px;
       }
       &.type{
         width: 120px;
       }
       &.from{
+        width: 120px;
+      }
+      &.operate{
         width: 120px;
       }
     }
@@ -109,10 +113,10 @@ export default {
         span{
           display: flex;
           width: 180px;
-          padding-left: 10px;
           font-size: 13px;
           &.name{
             flex: 1;
+            padding-left: 15px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -121,6 +125,9 @@ export default {
             width: 120px;
           }
           &.from{
+            width: 120px;
+          }
+          &.operate{
             width: 120px;
           }
         }

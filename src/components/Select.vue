@@ -37,17 +37,18 @@ export default {
 </script>
 <style lang="scss" scoped>
 .vst{
-  margin: 10px;
   position: relative;
   display: inline-block;
   width: 200px;
   height: 30px;
   vertical-align: middle;
   color: #332f5c;
+  background-color: #fff;
   box-shadow: 0 3px 1px -2px #8e8da233, 0 2px 2px 0 #8e8da224, 0 1px 5px 0 #8e8da21f;
   cursor: pointer;
   border-radius: 2px;
   user-select: none;
+  border-radius: 3px;
   &:hover{
     box-shadow: 0 14px 26px -12px #8e8da26b, 0 4px 23px 0 #8e8da21f, 0 8px 10px -5px #8e8da233;
   }

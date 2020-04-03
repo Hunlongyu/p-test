@@ -53,6 +53,7 @@ export default {
 @import url('./assets/scss/style.scss');
 html, body, #app{
   height: 100%;
+  border-radius: 10px;
 }
 #app {
   font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', SimSun, sans-serif;
@@ -76,7 +77,7 @@ html, body, #app{
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
-    background-color: #f5f5f5;
+    background-color: #f2f6f9;
     padding: 0 10px 10px;
   }
   .slide-enter-active, .slide-leave-active{
