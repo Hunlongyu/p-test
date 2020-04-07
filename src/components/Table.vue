@@ -9,7 +9,7 @@
     </div>
     <div class="tBody" :style="{overflowY:scroll? 'auto' : 'hidden',paddingRight: scroll ? '0': '5px' }" @mouseenter="scroll = true" @mouseleave="scroll = false">
       <ul>
-        <li v-for="(i, j) in data.list" :key="j">
+        <li v-for="(i, j) in data.list" :key="j" @click.stop="detailEvent(i)">
           <span class="name">{{i.name}}</span>
           <span class="type">{{i.type}}</span>
           <span class="time">{{i.time}}</span>
@@ -24,6 +24,7 @@
   </div>
 </template>
 <script>
+import { mapMutations } from 'vuex'
 export default {
   name: 'Vtb',
   data () {
@@ -35,7 +36,34 @@ export default {
     'data',
     'layout'
   ],
-  methods: {}
+  computed: {
+    detail: {
+      get () {
+        return this.$store.getters.getDetail
+      },
+      set (val) {
+        this.SET_DETAIL(val)
+      }
+    },
+    video: {
+      get () {
+        return this.$store.getters.getVideo
+      },
+      set (val) {
+        this.SET_VIDEO(val)
+      }
+    }
+  },
+  methods: {
+    ...mapMutations(['SET_DETAIL', 'SET_VIDEO']),
+    detailEvent (e) {
+      console.log(e)
+      this.detail = {
+        show: true,
+        url: 'http://www.zuidazy5.com/?m=vod-detail-id-83037.html'
+      }
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

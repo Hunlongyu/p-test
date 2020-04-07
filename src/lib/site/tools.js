@@ -150,12 +150,12 @@ const zy = {
           mp4_urls: []
         }
         const vodBox = html.querySelector('.vodBox')
-        data.info = vodBox
+        data.info = vodBox.innerHTML
         const vodInfo = html.querySelectorAll('.playBox')
         for (let i = 0; i < vodInfo.length; i++) {
           const k = vodInfo[i].innerText
           if (k.indexOf('剧情介绍') >= 0) {
-            data.desc = vodInfo[i].querySelector('.vodplayinfo')
+            data.desc = vodInfo[i].querySelector('.vodplayinfo').innerHTML
           }
         }
         const vodLi = html.querySelectorAll('.ibox .vodplayinfo li')

@@ -9,7 +9,7 @@
       <Setting v-show="view === 'Setting'" />
     </div>
     <transition name="slide">
-      <Detail v-if="show"/>
+      <Detail v-if="detail.show"/>
     </transition>
   </div>
 </template>
@@ -40,10 +40,18 @@ export default {
       set (val) {
         this.SET_VIEW(val)
       }
+    },
+    detail: {
+      get () {
+        return this.$store.getters.getDetail
+      },
+      set (val) {
+        this.SET_DETAIL(val)
+      }
     }
   },
   methods: {
-    ...mapMutations(['SET_VIEW'])
+    ...mapMutations(['SET_VIEW', 'SET_DETAIL'])
   }
 }
 </script>
@@ -81,7 +89,7 @@ html, body, #app{
     padding: 0 20px 20px;
   }
   .slide-enter-active, .slide-leave-active{
-    transition: all 0.8s ease-in-out;
+    transition: all 0.5s ease-in-out;
   }
   .slide-enter, .slide-leave-to{
     transform: translateY(100%);
