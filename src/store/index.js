@@ -8,7 +8,15 @@ export default new Vuex.Store({
     view: 'Film',
     theme: 'light',
     site: 0,
-    language: 'zh-cn'
+    language: 'zh-cn',
+    detail: {
+      show: false,
+      url: ''
+    },
+    video: {
+      dUrl: '',
+      vUrl: ''
+    }
   },
   getters: {
     getView: state => {
@@ -22,6 +30,12 @@ export default new Vuex.Store({
     },
     getLanguage: state => {
       return state.language
+    },
+    getDetail: state => {
+      return state.detail
+    },
+    getVideo: state => {
+      return state.video
     }
   },
   mutations: {
@@ -36,6 +50,12 @@ export default new Vuex.Store({
     },
     SET_LANGUAGE: (state, payload) => {
       state.language = payload
+    },
+    SET_DETAIL: (state, payload) => {
+      state.detail = payload
+    },
+    SET_VIDEO: (state, payload) => {
+      state.video = payload
     }
   }
 })

@@ -28,9 +28,9 @@ export default {
       config: {
         id: 'xg',
         lang: 'zh-cn',
-        url: 'https://shuixian.nihaozuida.com/20200213/285_99244172/index.m3u8',
+        url: '',
         fluid: true,
-        autoplay: true,
+        autoplay: false,
         videoInit: true,
         keyShortcut: 'on',
         crossOrigin: true,
@@ -51,11 +51,12 @@ export default {
   },
   methods: {
     play () {
-      this.xg = new Hls(this.config)
       this.xg.src = 'https://shuixian.nihaozuida.com/20200213/285_99244172/index.m3u8'
     }
   },
-  mounted () {}
+  mounted () {
+    this.xg = new Hls(this.config)
+  }
 }
 </script>
 <style lang="scss" scoped>
