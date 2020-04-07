@@ -56,7 +56,7 @@ export default {
       console.log(e)
       this.detail = {
         show: true,
-        url: 'http://www.zuidazy5.com/?m=vod-detail-id-83127.html'
+        url: 'http://www.zuidazy5.com/?m=vod-detail-id-83037.html'
       }
     }
   }
