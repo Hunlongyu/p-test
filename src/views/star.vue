@@ -14,7 +14,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .star{
-  height: 670px;
+  height: 660px;
   width: 100%;
   display: flex;
   flex-direction: column;

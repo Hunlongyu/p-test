@@ -40,7 +40,7 @@
       </div>
     </div>
     <div class="middle">
-      <Vtb />
+      <Vtb :data="data" :layout="['play', 'share']" />
     </div>
   </div>
 </template>
@@ -63,7 +63,8 @@ export default {
         tags: false,
         type: false
       },
-      inputFocus: false
+      inputFocus: false,
+      data: []
     }
   },
   components: {
@@ -87,14 +88,18 @@ export default {
       this.tag = 0
       this.show.site = false
       const id = this.tags[0].id
-      tools.film_get(n, id).then(res => {})
+      tools.film_get(n, id).then(res => {
+        this.data = res
+      })
     },
     tagClick (e, n) {
       this.tag = n
       this.types = this.tags[n].children
       this.type = 0
       this.show.tags = false
-      tools.film_get(this.site, n).then(res => {})
+      tools.film_get(this.site, n).then(res => {
+        this.data = res
+      })
     },
     typeClick (e, n) {
       this.type = n
@@ -187,7 +192,7 @@ export default {
     }
   }
   .middle{
-    height: 630px;
+    height: 620px;
     width: 100%;
     margin-top: 10px;
     padding-bottom:0px;

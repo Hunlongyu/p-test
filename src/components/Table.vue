@@ -9,12 +9,12 @@
     </div>
     <div class="tBody" :style="{overflowY:scroll? 'auto' : 'hidden',paddingRight: scroll ? '0': '5px' }" @mouseenter="scroll = true" @mouseleave="scroll = false">
       <ul>
-        <li v-for="(i, j) in 50" :key="j">
-          <span class="name">良医</span>
-          <span class="type">欧美剧</span>
-          <span class="time">2019-09-16 16:40:60</span>
+        <li v-for="(i, j) in data.list" :key="j">
+          <span class="name">{{i.name}}</span>
+          <span class="type">{{i.type}}</span>
+          <span class="time">{{i.time}}</span>
           <span class="from">OK资源网</span>
-          <span class="operate">删除 播放 分享</span>
+          <span class="operate"><span v-for="(m, n) in layout" :key="n">{{m}}</span></span>
         </li>
       </ul>
     </div>
@@ -31,6 +31,10 @@ export default {
       scroll: false
     }
   },
+  props: [
+    'data',
+    'layout'
+  ],
   methods: {}
 }
 </script>

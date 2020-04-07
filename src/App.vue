@@ -78,7 +78,7 @@ html, body, #app{
     align-items: flex-start;
     flex-direction: column;
     background-color: #f2f6f9;
-    padding: 0 10px 10px;
+    padding: 0 20px 20px;
   }
   .slide-enter-active, .slide-leave-active{
     transition: all 0.8s ease-in-out;

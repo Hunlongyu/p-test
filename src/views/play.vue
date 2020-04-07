@@ -61,7 +61,7 @@ export default {
 <style lang="scss" scoped>
 .play{
   position: relative;
-  height: 670px;
+  height: 660px;
   width: 100%;
   display: flex;
   justify-content: center;
