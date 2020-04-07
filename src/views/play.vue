@@ -71,7 +71,7 @@ export default {
   border-radius: 5px;
   box-shadow: 0 3px 1px -2px #8e8da233, 0 2px 2px 0 #8e8da224, 0 1px 5px 0 #8e8da21f;
   .box{
-    width: 90%;
+    width: 92%;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -80,11 +80,12 @@ export default {
     .title{
       width: 100%;
       height: 40px;
+      line-height: 40px;
     }
     .more{
       width: 100%;
       height: 60px;
-      border: 1px solid red;
+      // border: 1px solid red;
       display: flex;
       justify-content: flex-start;
       align-items: center;

@@ -10,7 +10,7 @@
           </svg>
         </span>
       </div>
-      <div class="detail-body" :style="{overflowY:scroll? 'auto' : 'hidden',paddingRight: scroll ? '0': '5px' }" @mouseenter="scroll = true" @mouseleave="scroll = false">
+      <div class="detail-body" v-show="!loading" :style="{overflowY:scroll? 'auto' : 'hidden',paddingRight: scroll ? '0': '5px' }" @mouseenter="scroll = true" @mouseleave="scroll = false">
         <div class="info" v-html="vDetail.info"></div>
         <div class="desc" v-html="vDetail.desc"></div>
         <div class="m3u8_urls">
@@ -20,9 +20,10 @@
           </div>
         </div>
         <div class="mp4_urls" v-if="vDetail.mp4_urls">
-          <div class="title">下载:</div>
+          <div class="title">下载链接:</div>
           <div class="box">
-            <span v-for="(i, j) in vDetail.mp4_urls" :key="j">{{i | ftName}}</span>
+            <span v-for="(i, j) in vDetail.mp4_urls" :key="j" @click="download(i)">{{i | ftName}}</span>
+            <span v-if="vDetail.mp4_urls.length > 1" @click="allDownload">全集下载</span>
           </div>
         </div>
       </div>
@@ -35,6 +36,7 @@
 <script>
 import { mapMutations } from 'vuex'
 import tools from '../lib/site/tools'
+const { clipboard } = require('electron')
 export default {
   name: 'detail',
   data () {
@@ -85,6 +87,22 @@ export default {
           this.loading = false
         })
       })
+    },
+    download (e) {
+      const name = e.split('$')[0]
+      const txt = encodeURI(e.split('$')[1])
+      clipboard.writeText(txt)
+      this.$message.success(`已复制${name}下载链接, 快去下载吧!`)
+    },
+    allDownload () {
+      const urls = [...this.vDetail.mp4_urls]
+      let txt = ''
+      for (const i of urls) {
+        const url = encodeURI(i.split('$')[1])
+        txt += (url + '\n')
+      }
+      clipboard.writeText(txt)
+      this.$message.success('已复制全集下载链接, 快去下载吧!')
     }
   },
   created () {
@@ -158,7 +176,7 @@ export default {
         justify-content: flex-start;
         align-items: flex-start;
         flex-wrap: wrap;
-        width: 975px;
+        width: 970px;
         padding: 10px;
         border: 1px solid #823aa022;
         border-radius: 3px;
@@ -217,7 +235,7 @@ export default {
       .desc{
         border: 1px solid #823aa033;
         padding: 10px;
-        width: 975px;
+        width: 970px;
         margin: 10px 0;
         border-radius: 3px;
         font-size: 14px;
@@ -225,7 +243,7 @@ export default {
       .m3u8_urls, .mp4_urls{
         border: 1px solid #823aa033;
         padding: 10px;
-        width: 975px;
+        width: 970px;
         margin: 10px 0 0 0;
         border-radius: 3px;
         .title{
@@ -235,7 +253,7 @@ export default {
         .box{
           width: 100%;
           display: flex;
-          justify-content: space-around;
+          justify-content: space-between;
           flex-wrap: wrap;
           &::after{
             content: '';
