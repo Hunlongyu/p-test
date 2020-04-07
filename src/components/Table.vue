@@ -60,7 +60,7 @@ export default {
       console.log(e)
       this.detail = {
         show: true,
-        url: 'http://www.zuidazy5.com/?m=vod-detail-id-83037.html'
+        url: e.detail
       }
     }
   }
@@ -135,7 +135,7 @@ export default {
         border-bottom: 1px solid #823aa010;
         cursor: pointer;
         &:hover{
-          animation: tableHoverAni 0.5s ease both;
+          animation: tableHoverAni 0.3s ease both;
           @keyframes tableHoverAni {
             to{
               box-shadow: 0 14px 26px -12px #8e8da26b, 0 4px 23px 0 #8e8da21f, 0 8px 10px -5px #8e8da233;

@@ -19,7 +19,7 @@
             <span v-for="(i, j) in vDetail.m3u8_urls" :key="j">{{i | ftName}}</span>
           </div>
         </div>
-        <div class="mp4_urls" v-if="vDetail.mp4_urls">
+        <div class="mp4_urls" v-if="vDetail.mp4_urls && vDetail.mp4_urls.length >= 1">
           <div class="title">下载链接:</div>
           <div class="box">
             <span v-for="(i, j) in vDetail.mp4_urls" :key="j" @click="download(i)">{{i | ftName}}</span>
@@ -92,7 +92,7 @@ export default {
       const name = e.split('$')[0]
       const txt = encodeURI(e.split('$')[1])
       clipboard.writeText(txt)
-      this.$message.success(`已复制${name}下载链接, 快去下载吧!`)
+      this.$message.success(`已复制 ${name} 下载链接, 快去下载吧!`)
     },
     allDownload () {
       const urls = [...this.vDetail.mp4_urls]
@@ -179,7 +179,7 @@ export default {
         width: 970px;
         padding: 10px;
         border: 1px solid #823aa022;
-        border-radius: 3px;
+        border-radius: 2px;
         .vodImg{
           width: 200px;
           img{
@@ -195,7 +195,7 @@ export default {
           margin-left: 20px;
           overflow: hidden;
           .vodh{
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             h2{
               display: inline-block;
               margin: 0;
@@ -220,6 +220,7 @@ export default {
           li{
             list-style: none;
             font-size: 14px;
+            line-height: 18px;
             height: 18px;
             overflow: hidden;
             a{
@@ -237,15 +238,16 @@ export default {
         padding: 10px;
         width: 970px;
         margin: 10px 0;
-        border-radius: 3px;
+        border-radius: 2px;
         font-size: 14px;
+        line-height: 20px;
       }
       .m3u8_urls, .mp4_urls{
         border: 1px solid #823aa033;
         padding: 10px;
         width: 970px;
         margin: 10px 0 0 0;
-        border-radius: 3px;
+        border-radius: 2px;
         .title{
           font-size: 16px;
           margin-bottom: 10px;
@@ -273,6 +275,9 @@ export default {
             }
           }
         }
+      }
+      .mp4_urls{
+        margin-bottom: 10px;
       }
     }
     .detail-mask{
