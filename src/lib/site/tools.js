@@ -54,7 +54,10 @@ const zy = {
           d.list.push(info)
         }
         d.update = parseInt(html.querySelectorAll('.xing_top_right li strong')[0].innerText)
-        d.total = parseInt(html.querySelectorAll('.xing_top_right li strong')[1].innerText)
+        let t = html.querySelector('.pages').innerText
+        t = t.split('条')[0]
+        t = t.split('共')[1]
+        d.total = parseInt(t)
         resolve(d)
       } catch (err) {
         reject(err)
@@ -81,7 +84,9 @@ const zy = {
           d.list.push(info)
         }
         d.update = parseInt(html.querySelectorAll('.header_list li span')[0].innerText)
-        d.total = parseInt(html.querySelectorAll('.header_list li span')[1].innerText)
+        let t = html.querySelectorAll('.pagination li')
+        t = t[t.length - 2].innerText
+        d.total = parseInt(t) * 50
         resolve(d)
       } catch (err) {
         reject(err)
@@ -109,6 +114,10 @@ const zy = {
         }
         d.update = parseInt(html.querySelector('.kfs em').innerText)
         d.total = parseInt(html.querySelector('.date span').innerText)
+        let t = html.querySelector('.pag2').innerText
+        t = t.split('条')[0]
+        t = t.split('共')[1]
+        d.total = parseInt(t)
         resolve(d)
       } catch (err) {
         reject(err)
@@ -190,13 +199,13 @@ const zy = {
           m3u8_urls: [],
           mp4_urls: []
         }
-        const vodBox = html.querySelector('.white')
+        const vodBox = html.querySelector('.white').innerHTML
         data.info = vodBox
         const vodInfo = html.querySelectorAll('.white')
         for (let i = 0; i < vodInfo.length; i++) {
           const k = vodInfo[i].innerText
           if (k.indexOf('剧情介绍') >= 0) {
-            data.desc = vodInfo[i].querySelector('div')
+            data.desc = vodInfo[i].querySelector('div').innerText
           }
         }
         const vodLi = html.querySelectorAll('.playlist li #m3u8')
@@ -231,9 +240,9 @@ const zy = {
           m3u8_urls: [],
           mp4_urls: []
         }
-        const vodBox = html.querySelector('.vodBox')
+        const vodBox = html.querySelector('.vodBox').innerHTML
         data.info = vodBox
-        data.desc = html.querySelector('.vodplayinfo')
+        data.desc = html.querySelector('.vodplayinfo').innerText
         const vodLi = html.querySelectorAll('.vodplayinfo li')
         const m3u8UrlArr = []
         const mp4UrlArr = []

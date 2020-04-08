@@ -35,12 +35,14 @@
 </template>
 <script>
 import { mapMutations } from 'vuex'
+import sites from '../lib/site/sites'
 import tools from '../lib/site/tools'
 const { clipboard } = require('electron')
 export default {
   name: 'detail',
   data () {
     return {
+      sites: sites,
       scroll: false,
       loading: true,
       vDetail: {},
@@ -85,7 +87,6 @@ export default {
     getDetail () {
       tools.detail_get(this.site, this.detail.url).then(res => {
         this.vDetail = res
-        console.log(res, 'detail res')
         if (res.desc.length > 0) {
           this.show.desc = true
         }
@@ -197,6 +198,7 @@ export default {
         padding: 10px;
         border: 1px solid #823aa022;
         border-radius: 2px;
+        margin-bottom: 10px;
         .vodImg{
           width: 200px;
           img{
@@ -234,18 +236,50 @@ export default {
             padding: 0;
             margin: 0;
           }
+          a{
+            display: none;
+            pointer-events: none;
+          }
           li{
             list-style: none;
             font-size: 14px;
             line-height: 18px;
             height: 18px;
             overflow: hidden;
-            a{
-              display: none;
-              pointer-events: none;
-            }
             span{
               word-wrap: nowrap;
+            }
+          }
+        }
+        .whitetitle{
+          width: 100%;
+          font-size: 22px;
+          font-weight: bold;
+          margin: 4px 0;
+        }
+        .people{
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          flex-wrap: wrap;
+          .left{
+            width: 200px;
+            img{
+              width: 100%;
+              height: auto;
+            }
+          }
+          .right{
+            flex: 1;
+            margin-left: 20px;
+            overflow: hidden;
+            p{
+              font-size: 14px;
+            }
+            a{
+              pointer-events: none;
+              color: #808695;
+              text-decoration: none;
             }
           }
         }
@@ -254,7 +288,7 @@ export default {
         border: 1px solid #823aa033;
         padding: 10px;
         width: 970px;
-        margin: 10px 0;
+        margin-bottom: 10px;
         border-radius: 2px;
         font-size: 14px;
         line-height: 20px;
@@ -263,7 +297,7 @@ export default {
         border: 1px solid #823aa033;
         padding: 10px;
         width: 970px;
-        margin: 10px 0 0 0;
+        margin-bottom: 10px;
         border-radius: 2px;
         .title{
           font-size: 16px;
@@ -273,13 +307,14 @@ export default {
           width: 100%;
           display: flex;
           justify-content: space-between;
+          flex-wrap: wrap;
           span{
             font-size: 12px;
             border: 1px solid #823aa055;
             border-radius: 2px;
             cursor: pointer;
             margin: 4px;
-            padding: 8px 16px;
+            padding: 8px 22px;
             &:hover{
               color: #6e7380;
               background-color: #823aa011;
@@ -297,9 +332,9 @@ export default {
     }
     .detail-mask{
       width: 980px;
-      height: 660px;
+      height: 600px;
       position: absolute;
-      top: 0;
+      top: 50px;
       display: flex;
       justify-content: center;
       align-items: center;

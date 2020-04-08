@@ -142,10 +142,13 @@ export default {
       })
     },
     siteClick (e, n) {
+      this.tb.update = 0
+      this.tb.total = 0
       this.site = n
       this.tag = 0
       const id = e.tags[0].id
       this.tb.loading = true
+      this.show.site = false
       tools.film_get(n, id).then(res => {
         this.tb.list = res.list
         this.tb.total = res.total
@@ -154,6 +157,8 @@ export default {
       })
     },
     tagClick (e, n) {
+      this.tb.update = 0
+      this.tb.total = 0
       this.tag = n
       this.type = 0
       let id = null
@@ -163,6 +168,7 @@ export default {
         id = e.children[this.type].id
       }
       this.tb.loading = true
+      this.show.tags = false
       tools.film_get(this.site, id).then(res => {
         this.tb.list = res.list
         this.tb.total = res.total
@@ -171,9 +177,12 @@ export default {
       })
     },
     typeClick (e, n) {
+      this.tb.update = 0
+      this.tb.total = 0
       this.type = n
       const id = e.id
       this.tb.loading = true
+      this.show.type = false
       tools.film_get(this.site, id).then(res => {
         this.tb.list = res.list
         this.tb.total = res.total
@@ -182,6 +191,11 @@ export default {
       })
     },
     searchEvent () {
+      const flag = this.sites[this.site].search
+      if (flag === '') {
+        this.$message.warning('该视频源不支持搜索')
+        return false
+      }
       this.tb.loading = true
       this.tb.update = 0
       this.tb.total = 0
