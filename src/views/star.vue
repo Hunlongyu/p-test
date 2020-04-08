@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="tFooter">
-        <span class="tFooter-span">gong 13 items</span>
+        <span class="tFooter-span">共 {{total}} 条数据</span>
       </div>
     </div>
   </div>
@@ -42,10 +42,14 @@ export default {
     return {
       sites: sites,
       data: [],
-      loading: true
+      loading: true,
+      total: 0
     }
   },
   computed: {
+    view () {
+      return this.$store.getters.getView
+    },
     detail: {
       get () {
         return this.$store.getters.getDetail
@@ -61,6 +65,11 @@ export default {
       set (val) {
         this.SET_VIDEO(val)
       }
+    }
+  },
+  watch: {
+    view () {
+      this.getAllStar()
     }
   },
   methods: {
@@ -84,10 +93,14 @@ export default {
         this.getAllStar()
       })
     },
+    shareEvent (e) {
+      console.log(e, 'share')
+    },
     getAllStar () {
       video.all().then(res => {
-        this.data = res
+        this.data = res.reverse()
         this.loading = false
+        this.total = res.length
       })
     }
   },

@@ -271,18 +271,15 @@ export default {
         }
         .box{
           width: 100%;
-          padding: 0 4px;
+          display: flex;
+          justify-content: space-between;
           span{
-            width: 80px;
-            height: 26px;
             font-size: 12px;
             border: 1px solid #823aa055;
-            display: inline-block;
-            text-align: center;
-            line-height: 26px;
             border-radius: 2px;
             cursor: pointer;
-            margin: 4px 7px;
+            margin: 4px;
+            padding: 8px 16px;
             &:hover{
               color: #6e7380;
               background-color: #823aa011;

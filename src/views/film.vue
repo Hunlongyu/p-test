@@ -11,20 +11,20 @@
         </div>
       </div>
       <!-- tags -->
-      <div class="vue-select" @mouseleave="show.tags = false" v-if="tags.length > 0">
-        <div class="vs-placeholder" @click="show.tags = true">{{tags[tag].title}}</div>
+      <div class="vue-select" @mouseleave="show.tags = false" v-if="sites[site].tags.length > 0">
+        <div class="vs-placeholder" @click="show.tags = true">{{sites[site].tags[tag].title}}</div>
         <div class="vs-options" v-show="show.tags">
           <ul>
-            <li :class="tag === j ? 'active' : ''" v-for="(i, j) in tags" :key="j" @click="tagClick(i, j)">{{ i.title }}</li>
+            <li :class="tag === j ? 'active' : ''" v-for="(i, j) in sites[site].tags" :key="j" @click="tagClick(i, j)">{{ i.title }}</li>
           </ul>
         </div>
       </div>
       <!-- type -->
-      <div class="vue-select" @mouseleave="show.type = false" v-if="types.length > 0">
-        <div class="vs-placeholder" @click="show.type = true">{{types[type].title}}</div>
+      <div class="vue-select" @mouseleave="show.type = false" v-if="sites[site].tags[tag].children.length > 0">
+        <div class="vs-placeholder" @click="show.type = true">{{sites[site].tags[tag].children[type].title}}</div>
         <div class="vs-options" v-show="show.type">
           <ul>
-            <li :class="type === j ? 'active' : ''" v-for="(i, j) in types" :key="j" @click="typeClick(i, j)">{{ i.title }}</li>
+            <li :class="type === j ? 'active' : ''" v-for="(i, j) in sites[site].tags[tag].children" :key="j" @click="typeClick(i, j)">{{ i.title }}</li>
           </ul>
         </div>
       </div>
@@ -36,7 +36,7 @@
             <circle cx="10" cy="10" r="6"></circle>
           </svg>
         </div>
-        <input type="text" class="search-box">
+        <input type="text" class="search-box" v-model="keywords" @keypress.enter="searchEvent">
       </div>
     </div>
     <div class="middle">
@@ -77,15 +77,15 @@ import { mapMutations } from 'vuex'
 import sites from '../lib/site/sites'
 import tools from '../lib/site/tools'
 import video from '../lib/dexie/video'
+import setting from '../lib/dexie/setting'
 export default {
   name: 'film',
   data () {
     return {
       sites: sites,
-      tags: [],
       tag: 0,
-      types: [],
       type: 0,
+      keywords: '',
       show: {
         site: false,
         tags: false,
@@ -130,32 +130,67 @@ export default {
   },
   methods: {
     ...mapMutations(['SET_SITE', 'SET_DETAIL', 'SET_VIDEO']),
+    init () {
+      setting.find().then(res => {
+        this.site = res.site
+        tools.film_get(res.site).then(tRes => {
+          this.tb.list = tRes.list
+          this.tb.total = tRes.total
+          this.tb.update = tRes.update
+          this.tb.loading = false
+        })
+      })
+    },
     siteClick (e, n) {
       this.site = n
-      this.tags = this.sites[n].tags
       this.tag = 0
-      this.show.site = false
-      const id = this.tags[0].id
-      this.tLoading = true
+      const id = e.tags[0].id
+      this.tb.loading = true
       tools.film_get(n, id).then(res => {
-        this.tData = res
-        this.tLoading = false
+        this.tb.list = res.list
+        this.tb.total = res.total
+        this.tb.update = res.update
+        this.tb.loading = false
       })
     },
     tagClick (e, n) {
       this.tag = n
-      this.types = this.tags[n].children
       this.type = 0
-      this.show.tags = false
-      this.tLoading = true
-      tools.film_get(this.site, n).then(res => {
-        this.tData = res
-        this.tLoading = false
+      let id = null
+      if (e.children.length === 0) {
+        id = e.id
+      } else {
+        id = e.children[this.type].id
+      }
+      this.tb.loading = true
+      tools.film_get(this.site, id).then(res => {
+        this.tb.list = res.list
+        this.tb.total = res.total
+        this.tb.update = res.update
+        this.tb.loading = false
       })
     },
     typeClick (e, n) {
       this.type = n
-      this.show.type = false
+      const id = e.id
+      this.tb.loading = true
+      tools.film_get(this.site, id).then(res => {
+        this.tb.list = res.list
+        this.tb.total = res.total
+        this.tb.update = res.update
+        this.tb.loading = false
+      })
+    },
+    searchEvent () {
+      this.tb.loading = true
+      this.tb.update = 0
+      this.tb.total = 0
+      tools.search_get(this.site, this.keywords).then(res => {
+        console.log(res, 'search')
+        this.tb.list = res.list
+        this.tb.total = res.total
+        this.tb.loading = false
+      })
     },
     detailEvent (e) {
       this.detail = {
@@ -185,19 +220,7 @@ export default {
     }
   },
   created () {
-    // this.tags = this.sites[this.site].tags
-
-    tools.film_get(1, 2, 1).then(res => {
-      console.log(res, 'film')
-      this.tb.list = res.list
-      this.tb.total = res.total
-      this.tb.update = res.update
-      this.tb.loading = false
-    })
-
-    // tools.search_get(5, '人').then(res => {
-    //   console.log(res, 'search')
-    // })
+    this.init()
   }
 }
 </script>
@@ -246,6 +269,7 @@ export default {
         border: none;
         background-color: #00000000;
         text-indent: 2px;
+        font-size: 14px;
         &:focus{
           outline: none;
           border: none;

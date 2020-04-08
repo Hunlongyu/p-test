@@ -299,7 +299,8 @@ const zy = {
           }
           d.list.push(info)
         }
-        d.total = html.querySelector('.nvc dd').innerText.replace(/[^\d]/g, '')
+        const t = html.querySelector('.nvc dd').innerText.replace(/[^\d]/g, '')
+        d.total = parseInt(t)
         resolve(d)
       } catch (err) {
         reject(err)
