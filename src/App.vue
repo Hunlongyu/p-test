@@ -89,7 +89,7 @@ html, body, #app{
     padding: 0 20px 20px;
   }
   .slide-enter-active, .slide-leave-active{
-    transition: all 0.5s ease-in-out;
+    transition: all 0.3s ease-in-out;
   }
   .slide-enter, .slide-leave-to{
     transform: translateY(100%);

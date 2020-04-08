@@ -40,15 +40,43 @@
       </div>
     </div>
     <div class="middle">
-      <Vtb :data="data" :layout="['play', 'share']" />
+      <div class="vue-table">
+        <div class="tHead">
+          <span class="name">影片名称</span>
+          <span class="type">类型</span>
+          <span class="time">时间</span>
+          <span class="operate">操作</span>
+        </div>
+        <div class="tBody">
+          <ul v-show="!tb.loading">
+            <li v-for="(i, j) in tb.list" :key="j" @click="detailEvent(i)">
+              <span class="name">{{i.name}}</span>
+              <span class="type">{{i.type}}</span>
+              <span class="time">{{i.time}}</span>
+              <span class="operate">
+                <span class="btn" @click.stop="playEvent(i)">播放</span>
+                <span class="btn" @click.stop="starEvent(i)">收藏</span>
+                <span class="btn" @click.stop="shareEvent(i)">分享</span>
+              </span>
+            </li>
+          </ul>
+          <div class="tBody-mask" v-show="tb.loading">
+            <div class="loader"></div>
+          </div>
+        </div>
+        <div class="tFooter">
+          <span class="tFooter-span">今日更新: {{ tb.update }} 条</span>
+          <el-pagination small :page-size="tb.size" :total="tb.total" :current-page="tb.page" @current-change="tbPageChange" layout="total, prev, pager, next, jumper"></el-pagination>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import { mapMutations } from 'vuex'
-import Vtb from '../components/Table'
 import sites from '../lib/site/sites'
 import tools from '../lib/site/tools'
+import video from '../lib/dexie/video'
 export default {
   name: 'film',
   data () {
@@ -64,11 +92,15 @@ export default {
         type: false
       },
       inputFocus: false,
-      data: []
+      tb: {
+        list: [],
+        page: 1,
+        size: 50,
+        total: 0,
+        update: 0,
+        loading: true
+      }
     }
-  },
-  components: {
-    Vtb
   },
   computed: {
     site: {
@@ -78,18 +110,36 @@ export default {
       set (val) {
         this.SET_SITE(val)
       }
+    },
+    detail: {
+      get () {
+        return this.$store.getters.getDetail
+      },
+      set (val) {
+        this.SET_DETAIL(val)
+      }
+    },
+    video: {
+      get () {
+        return this.$store.getters.getVideo
+      },
+      set (val) {
+        this.SET_VIDEO(val)
+      }
     }
   },
   methods: {
-    ...mapMutations(['SET_SITE']),
+    ...mapMutations(['SET_SITE', 'SET_DETAIL', 'SET_VIDEO']),
     siteClick (e, n) {
       this.site = n
       this.tags = this.sites[n].tags
       this.tag = 0
       this.show.site = false
       const id = this.tags[0].id
+      this.tLoading = true
       tools.film_get(n, id).then(res => {
-        this.data = res
+        this.tData = res
+        this.tLoading = false
       })
     },
     tagClick (e, n) {
@@ -97,35 +147,54 @@ export default {
       this.types = this.tags[n].children
       this.type = 0
       this.show.tags = false
+      this.tLoading = true
       tools.film_get(this.site, n).then(res => {
-        this.data = res
+        this.tData = res
+        this.tLoading = false
       })
     },
     typeClick (e, n) {
       this.type = n
       this.show.type = false
+    },
+    detailEvent (e) {
+      this.detail = {
+        show: true,
+        url: e.detail
+      }
+    },
+    playEvent (e) {
+      console.log(e, 'play')
+    },
+    starEvent (e) {
+      video.find({ detail: e.detail }).then(res => {
+        if (res) {
+          this.$message.warning('已存在')
+        } else {
+          video.add(e).then(res => {
+            this.$message.success('收藏成功')
+          })
+        }
+      })
+    },
+    shareEvent (e) {
+      console.log(e, 'share')
+    },
+    tbPageChange () {
+      console.log(this.tb.page, 'this.tb.page')
     }
   },
   created () {
     // this.tags = this.sites[this.site].tags
 
-    // tools.film_get(6).then(res => {
-    //   console.log(res, 'film')
-    //   const url = res.list[2].detail
-    //   // console.log(url, 'url')
-    //   tools.detail_get(6, url).then(res => {
-    //     console.log(res, 'detail')
-    //   })
-    // })
+    tools.film_get(1, 2, 1).then(res => {
+      console.log(res, 'film')
+      this.tb.list = res.list
+      this.tb.total = res.total
+      this.tb.update = res.update
+      this.tb.loading = false
+    })
 
-    // tools.film_get(6).then(res => {
-    //   // console.log(res, 'film')
-    //   const url = res.list[2].detail
-    //   // console.log(url, 'url')
-    //   tools.detail_get(6, url).then(res => {
-    //     // console.log(res, 'detail')
-    //   })
-    // })
     // tools.search_get(5, '人').then(res => {
     //   console.log(res, 'search')
     // })

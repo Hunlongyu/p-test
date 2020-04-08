@@ -4,6 +4,9 @@ export default {
   async add (doc) {
     return await video.add(doc)
   },
+  async find (doc) {
+    return await video.get(doc)
+  },
   async all () {
     return await video.toArray()
   },

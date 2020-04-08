@@ -1,14 +1,98 @@
 <template>
   <div class="star">
-    <Vtb />
+    <div class="vue-table">
+      <div class="tHead">
+        <span class="name">影片名称</span>
+        <span class="type">类型</span>
+        <span class="time">时间</span>
+        <span class="from">来源</span>
+        <span class="operate">操作</span>
+      </div>
+      <div class="tBody">
+        <ul v-show="!loading">
+          <li v-for="(i, j) in data" :key="j" @click="detailEvent(i)">
+            <span class="name">{{i.name}}</span>
+            <span class="type">{{i.type}}</span>
+            <span class="time">{{i.time}}</span>
+            <span class="from">{{ sites[i.site].name }}</span>
+            <span class="operate">
+              <span class="btn" @click.stop="playEvent(i)">播放</span>
+              <span class="btn" @click.stop="deleteEvent(i)">删除</span>
+              <span class="btn" @click.stop="shareEvent(i)">分享</span>
+            </span>
+          </li>
+        </ul>
+        <div class="tBody-mask" v-show="loading">
+          <div class="loader"></div>
+        </div>
+      </div>
+      <div class="tFooter">
+        <span class="tFooter-span">gong 13 items</span>
+      </div>
+    </div>
   </div>
 </template>
 <script>
-import Vtb from '../components/Table'
+import { mapMutations } from 'vuex'
+import video from '../lib/dexie/video'
+import sites from '../lib/site/sites'
 export default {
   name: 'star',
-  components: {
-    Vtb
+  data () {
+    return {
+      sites: sites,
+      data: [],
+      loading: true
+    }
+  },
+  computed: {
+    detail: {
+      get () {
+        return this.$store.getters.getDetail
+      },
+      set (val) {
+        this.SET_DETAIL(val)
+      }
+    },
+    video: {
+      get () {
+        return this.$store.getters.getVideo
+      },
+      set (val) {
+        this.SET_VIDEO(val)
+      }
+    }
+  },
+  methods: {
+    ...mapMutations(['SET_DETAIL', 'SET_VIDEO']),
+    detailEvent (e) {
+      this.detail = {
+        show: true,
+        url: e.detail
+      }
+    },
+    playEvent (e) {
+      console.log(e, 'play')
+    },
+    deleteEvent (e) {
+      video.remove(e.id).then(res => {
+        if (res) {
+          this.$message.warning('删除失败')
+        } else {
+          this.$message.success('删除成功')
+        }
+        this.getAllStar()
+      })
+    },
+    getAllStar () {
+      video.all().then(res => {
+        this.data = res
+        this.loading = false
+      })
+    }
+  },
+  created () {
+    this.getAllStar()
   }
 }
 </script>

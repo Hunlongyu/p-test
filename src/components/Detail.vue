@@ -12,18 +12,18 @@
       </div>
       <div class="detail-body" v-show="!loading" :style="{overflowY:scroll? 'auto' : 'hidden',paddingRight: scroll ? '0': '5px' }" @mouseenter="scroll = true" @mouseleave="scroll = false">
         <div class="info" v-html="vDetail.info"></div>
-        <div class="desc" v-html="vDetail.desc"></div>
+        <div class="desc" v-html="vDetail.desc" v-if="show.desc"></div>
         <div class="m3u8_urls">
           <div class="title">播放:</div>
           <div class="box">
-            <span v-for="(i, j) in vDetail.m3u8_urls" :key="j">{{i | ftName}}</span>
+            <span v-for="(i, j) in vDetail.m3u8_urls" :key="j" @click="playEvent(i)">{{i | ftName}}</span>
           </div>
         </div>
-        <div class="mp4_urls" v-if="vDetail.mp4_urls && vDetail.mp4_urls.length >= 1">
+        <div class="mp4_urls" v-if="show.download">
           <div class="title">下载链接:</div>
           <div class="box">
             <span v-for="(i, j) in vDetail.mp4_urls" :key="j" @click="download(i)">{{i | ftName}}</span>
-            <span v-if="vDetail.mp4_urls.length > 1" @click="allDownload">全集下载</span>
+            <span @click="allDownload" v-show="vDetail.mp4_urls.length > 1">全集下载</span>
           </div>
         </div>
       </div>
@@ -43,7 +43,11 @@ export default {
     return {
       scroll: false,
       loading: true,
-      vDetail: {}
+      vDetail: {},
+      show: {
+        desc: false,
+        download: false
+      }
     }
   },
   filters: {
@@ -76,17 +80,29 @@ export default {
   methods: {
     ...mapMutations(['SET_VIDEO', 'SET_DETAIL']),
     closeDetail () {
-      console.log('close')
       this.detail.show = false
     },
     getDetail () {
-      console.log(this.detail.url)
       tools.detail_get(this.site, this.detail.url).then(res => {
         this.vDetail = res
+        console.log(res, 'detail res')
+        if (res.desc.length > 0) {
+          this.show.desc = true
+        }
+        if (res.mp4_urls.length > 0) {
+          this.show.download = true
+        }
         this.$nextTick(() => {
           this.loading = false
         })
       })
+    },
+    playEvent (e) {
+      const v = {
+        dUrl: this.detail.url,
+        vUrl: e
+      }
+      this.video = v
     },
     download (e) {
       const name = e.split('$')[0]
@@ -136,6 +152,7 @@ export default {
         font-size: 16px;
       }
       .detail-close{
+        margin-right: 5px;
         svg{
           width: 24px;
           height: 24px;
@@ -254,25 +271,26 @@ export default {
         }
         .box{
           width: 100%;
-          display: flex;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          &::after{
-            content: '';
-            flex: auto;
-          }
+          padding: 0 4px;
           span{
+            width: 80px;
+            height: 26px;
             font-size: 12px;
             border: 1px solid #823aa055;
             display: inline-block;
-            padding: 6px 12px;
+            text-align: center;
+            line-height: 26px;
             border-radius: 2px;
             cursor: pointer;
-            margin: 4px;
+            margin: 4px 7px;
             &:hover{
               color: #6e7380;
               background-color: #823aa011;
             }
+          }
+          &::after {
+            content: '';
+            flex: 1;
           }
         }
       }
@@ -290,8 +308,7 @@ export default {
       align-items: center;
       .loader {
         color: #823aa055;
-        font-size: 10px;
-        // margin: 100px auto;
+        font-size: 8px;
         width: 1em;
         height: 1em;
         border-radius: 50%;
