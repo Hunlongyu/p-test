@@ -86,6 +86,7 @@ export default {
       tag: 0,
       type: 0,
       keywords: '',
+      id: '',
       show: {
         site: false,
         tags: false,
@@ -103,6 +104,14 @@ export default {
     }
   },
   computed: {
+    view: {
+      get () {
+        return this.$store.getters.getView
+      },
+      set (val) {
+        this.SET_VIEW(val)
+      }
+    },
     site: {
       get () {
         return this.$store.getters.getSite
@@ -129,7 +138,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['SET_SITE', 'SET_DETAIL', 'SET_VIDEO']),
+    ...mapMutations(['SET_VIEW', 'SET_SITE', 'SET_DETAIL', 'SET_VIDEO']),
     init () {
       setting.find().then(res => {
         this.site = res.site
@@ -146,10 +155,10 @@ export default {
       this.tb.total = 0
       this.site = n
       this.tag = 0
-      const id = e.tags[0].id
+      this.id = e.tags[0].id
       this.tb.loading = true
       this.show.site = false
-      tools.film_get(n, id).then(res => {
+      tools.film_get(n, this.id).then(res => {
         this.tb.list = res.list
         this.tb.total = res.total
         this.tb.update = res.update
@@ -161,15 +170,14 @@ export default {
       this.tb.total = 0
       this.tag = n
       this.type = 0
-      let id = null
       if (e.children.length === 0) {
-        id = e.id
+        this.id = e.id
       } else {
-        id = e.children[this.type].id
+        this.id = e.children[this.type].id
       }
       this.tb.loading = true
       this.show.tags = false
-      tools.film_get(this.site, id).then(res => {
+      tools.film_get(this.site, this.id).then(res => {
         this.tb.list = res.list
         this.tb.total = res.total
         this.tb.update = res.update
@@ -180,10 +188,10 @@ export default {
       this.tb.update = 0
       this.tb.total = 0
       this.type = n
-      const id = e.id
+      this.id = e.id
       this.tb.loading = true
       this.show.type = false
-      tools.film_get(this.site, id).then(res => {
+      tools.film_get(this.site, this.id).then(res => {
         this.tb.list = res.list
         this.tb.total = res.total
         this.tb.update = res.update
@@ -200,7 +208,6 @@ export default {
       this.tb.update = 0
       this.tb.total = 0
       tools.search_get(this.site, this.keywords).then(res => {
-        console.log(res, 'search')
         this.tb.list = res.list
         this.tb.total = res.total
         this.tb.loading = false
@@ -213,7 +220,8 @@ export default {
       }
     },
     playEvent (e) {
-      console.log(e, 'play')
+      this.video = e
+      this.view = 'Play'
     },
     starEvent (e) {
       video.find({ detail: e.detail }).then(res => {
@@ -229,8 +237,13 @@ export default {
     shareEvent (e) {
       console.log(e, 'share')
     },
-    tbPageChange () {
-      console.log(this.tb.page, 'this.tb.page')
+    tbPageChange (e) {
+      this.tb.loading = true
+      this.tb.page = e
+      tools.film_get(this.site, this.id, this.tb.page).then(res => {
+        this.tb.list = res.list
+        this.tb.loading = false
+      })
     }
   },
   created () {

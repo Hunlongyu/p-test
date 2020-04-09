@@ -52,7 +52,7 @@ export default {
   methods: {
     ...mapMutations(['SET_VIEW']),
     changeView (e) {
-      this.SET_VIEW(e)
+      this.view = e
     }
   }
 }

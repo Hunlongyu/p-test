@@ -301,7 +301,6 @@ export default {
         border-radius: 2px;
         .title{
           font-size: 16px;
-          margin-bottom: 10px;
         }
         .box{
           width: 100%;
@@ -313,7 +312,7 @@ export default {
             border: 1px solid #823aa055;
             border-radius: 2px;
             cursor: pointer;
-            margin: 4px;
+            margin: 6px 10px 0px 0px;
             padding: 8px 22px;
             &:hover{
               color: #6e7380;

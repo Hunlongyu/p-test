@@ -13,10 +13,7 @@ export default new Vuex.Store({
       show: false,
       url: ''
     },
-    video: {
-      dUrl: '',
-      vUrl: ''
-    }
+    video: {}
   },
   getters: {
     getView: state => {

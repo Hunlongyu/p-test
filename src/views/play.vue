@@ -1,11 +1,10 @@
 <template>
   <div class="play">
     <div class="box">
-      <div class="title">视频名称</div>
+      <div class="title">{{name}}</div>
       <div id="xg"></div>
       <div class="more">
         <button @click="show = !show">show</button>
-        <button @click="play">play</button>
       </div>
     </div>
     <transition name="slideX">
@@ -17,6 +16,9 @@
   </div>
 </template>
 <script>
+import { mapMutations } from 'vuex'
+import tools from '../lib/site/tools'
+// import video from '../lib/dexie/video'
 import 'xgplayer'
 import Hls from 'xgplayer-hls.js'
 export default {
@@ -40,18 +42,54 @@ export default {
           urlList: []
         }
       },
-      urls: [
-        'https://shuixian.nihaozuida.com/20200213/285_99244172/index.m3u8',
-        'https://shuixian.nihaozuida.com/20200228/797_3ae5e907/index.m3u8',
-        'https://shuixian.nihaozuida.com/20200312/1365_9ef884db/index.m3u8',
-        'https://shuixian.nihaozuida.com/20200319/1702_ab88b00c/index.m3u8'
-      ],
-      num: ''
+      name: ''
+    }
+  },
+  computed: {
+    video: {
+      get () {
+        return this.$store.getters.getVideo
+      },
+      set (val) {
+        this.SET_VIDEO(val)
+      }
+    },
+    detail: {
+      get () {
+        return this.$store.getters.getDetail
+      },
+      set (val) {
+        this.SET_DETAIL(val)
+      }
+    }
+  },
+  watch: {
+    video: {
+      handler () {
+        this.getUrls()
+      },
+      deep: true
     }
   },
   methods: {
-    play () {
-      this.xg.src = 'https://shuixian.nihaozuida.com/20200213/285_99244172/index.m3u8'
+    ...mapMutations(['SET_VIEW', 'SET_DETAIL', 'SET_VIDEO']),
+    getUrls () {
+      tools.detail_get(this.video.site, this.video.detail).then(res => {
+        const link = res.m3u8_urls[this.video.index]
+        const src = link.split('$')[1]
+        this.name = this.video.name
+        this.xg.src = src
+        this.xg.play()
+        if (res.m3u8_urls.length > 1) {
+          const m3 = res.m3u8_urls
+          const arr = []
+          for (const i of m3) {
+            arr.push(i.split('$')[1])
+          }
+          this.xg.playNext.urlList = arr
+          console.log(this.xg.playNext, 'next')
+        }
+      })
     }
   },
   mounted () {
@@ -85,7 +123,6 @@ export default {
     .more{
       width: 100%;
       height: 60px;
-      // border: 1px solid red;
       display: flex;
       justify-content: flex-start;
       align-items: center;
@@ -103,7 +140,7 @@ export default {
     border-radius: 3px;
   }
   .slideX-enter-active, .slideX-leave-active{
-    transition: all .5s ease;
+    transition: all .5s ease-in-out;
   }
   .slideX-enter, .slideX-leave-to{
     transform: translateX(100%);
