@@ -37,9 +37,9 @@ export default {
         keyShortcut: 'on',
         crossOrigin: true,
         defaultPlaybackRate: 1,
-        playbackRate: [0.5, 0.75, 1, 1.5, 2],
+        playbackRate: [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2],
         playNext: {
-          urlList: []
+          urlList: ['https://yuledy.helanzuida.com/20200312/131_41fc5eef/index.m3u8', 'https://meng.wuyou-zuida.com/20200319/28142_6f46cf60/index.m3u8', 'https://meng.wuyou-zuida.com/20200326/28476_ecccdfde/index.m3u8', 'https://yuledy.helanzuida.com/20200402/1725_0017a862/index.m3u8', 'https://yuledy.helanzuida.com/20200409/2133_2e6c127a/index.m3u8']
         }
       },
       name: ''
@@ -74,26 +74,36 @@ export default {
   methods: {
     ...mapMutations(['SET_VIEW', 'SET_DETAIL', 'SET_VIDEO']),
     getUrls () {
+      if (this.xg) {
+        this.xg.destroy(true)
+        this.xg = null
+      }
       tools.detail_get(this.video.site, this.video.detail).then(res => {
-        const link = res.m3u8_urls[this.video.index]
-        const src = link.split('$')[1]
         this.name = this.video.name
-        this.xg.src = src
-        this.xg.play()
         if (res.m3u8_urls.length > 1) {
           const m3 = res.m3u8_urls
           const arr = []
           for (const i of m3) {
             arr.push(i.split('$')[1])
           }
-          this.xg.playNext.urlList = arr
-          console.log(this.xg.playNext, 'next')
+          console.log(arr, 'arr')
+          this.config.playNext.urlList = arr
+          this.xg = new Hls(this.conifg)
+          this.xg.src = arr[this.video.index]
+          this.$nextTick(() => {
+            this.xg.play()
+          })
+        } else {
+          const link = res.m3u8_urls[this.video.index]
+          const src = link.split('$')[1]
+          this.xg.src = src
+          this.xg.play()
         }
       })
     }
   },
   mounted () {
-    this.xg = new Hls(this.config)
+    // this.xg = new Hls(this.config)
   }
 }
 </script>
