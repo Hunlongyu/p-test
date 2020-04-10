@@ -74,10 +74,6 @@ export default {
   methods: {
     ...mapMutations(['SET_VIEW', 'SET_DETAIL', 'SET_VIDEO']),
     getUrls () {
-      if (this.xg) {
-        this.xg.destroy(true)
-        this.xg = null
-      }
       tools.detail_get(this.video.site, this.video.detail).then(res => {
         this.name = this.video.name
         if (res.m3u8_urls.length > 1) {
@@ -86,13 +82,8 @@ export default {
           for (const i of m3) {
             arr.push(i.split('$')[1])
           }
-          console.log(arr, 'arr')
-          this.config.playNext.urlList = arr
-          this.xg = new Hls(this.conifg)
           this.xg.src = arr[this.video.index]
-          this.$nextTick(() => {
-            this.xg.play()
-          })
+          this.xg.play()
         } else {
           const link = res.m3u8_urls[this.video.index]
           const src = link.split('$')[1]
@@ -103,7 +94,7 @@ export default {
     }
   },
   mounted () {
-    // this.xg = new Hls(this.config)
+    this.xg = new Hls(this.config)
   }
 }
 </script>
