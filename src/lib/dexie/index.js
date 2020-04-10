@@ -9,7 +9,7 @@ db.version(1).stores({
 })
 
 db.version(2).stores({
-  setting: 'id, theme, site, language',
+  setting: 'id, theme, site, language, cloud, cloudKey',
   history: '++id, name, detail, index, currentTime, playTime',
   video: '++id, name, type, time, detail, urls, index'
 })
@@ -18,7 +18,9 @@ const initData = [{
   id: 0,
   theme: 'light',
   site: 0,
-  language: 'zh-cn'
+  language: 'zh-cn',
+  cloud: false,
+  cloudKey: ''
 }]
 
 db.on('populate', () => {

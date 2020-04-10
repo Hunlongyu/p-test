@@ -6,6 +6,7 @@ import Register from './views/register'
 import 'modern-normalize'
 import { languages, defaultLocal } from './locales/index'
 import './lib/element/element.js'
+import './lib/cloud/index'
 
 Vue.config.productionTip = false
 Vue.use(VueI18n)
