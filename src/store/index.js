@@ -11,7 +11,7 @@ export default new Vuex.Store({
     language: 'zh-cn',
     detail: {
       show: false,
-      url: ''
+      v: {}
     },
     video: {}
   },

@@ -14,7 +14,7 @@
             <span class="name">{{i.name}}</span>
             <span class="type">{{i.type}}</span>
             <span class="time">{{i.time}}</span>
-            <span class="from">{{ sites[i.site].name }}</span>
+            <span class="from">{{i.site | ftSite}}</span>
             <span class="operate">
               <span class="btn" @click.stop="playEvent(i)">播放</span>
               <span class="btn" @click.stop="deleteEvent(i)">删除</span>
@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="tFooter">
-        <span class="tFooter-span">共 {{total}} 条数据</span>
+        <span class="tFooter-span">共 {{data.length}} 条数据</span>
       </div>
     </div>
   </div>
@@ -35,20 +35,24 @@
 <script>
 import { mapMutations } from 'vuex'
 import video from '../lib/dexie/video'
-import sites from '../lib/site/sites'
+import { sites, getSite } from '../lib/site/sites'
 export default {
   name: 'star',
   data () {
     return {
       sites: sites,
       data: [],
-      loading: true,
-      total: 0
+      loading: true
     }
   },
   computed: {
-    view () {
-      return this.$store.getters.getView
+    view: {
+      get () {
+        return this.$store.getters.getView
+      },
+      set (val) {
+        this.SET_VIEW(val)
+      }
     },
     detail: {
       get () {
@@ -67,21 +71,28 @@ export default {
       }
     }
   },
+  filters: {
+    ftSite (e) {
+      const name = getSite(e).name
+      return name
+    }
+  },
   watch: {
     view () {
       this.getAllStar()
     }
   },
   methods: {
-    ...mapMutations(['SET_DETAIL', 'SET_VIDEO']),
+    ...mapMutations(['SET_VIEW', 'SET_DETAIL', 'SET_VIDEO']),
     detailEvent (e) {
       this.detail = {
         show: true,
-        url: e.detail
+        v: e
       }
     },
     playEvent (e) {
-      console.log(e, 'play')
+      this.video = e
+      this.view = 'Play'
     },
     deleteEvent (e) {
       video.remove(e.id).then(res => {
@@ -93,14 +104,13 @@ export default {
         this.getAllStar()
       })
     },
-    shareEvent (e) {
+    shareEvent (e) { // TODO: share
       console.log(e, 'share')
     },
     getAllStar () {
       video.all().then(res => {
         this.data = res.reverse()
         this.loading = false
-        this.total = res.length
       })
     }
   },

@@ -5,7 +5,7 @@
         <span class="detail-title">详情</span>
         <span class="detail-close" @click="closeDetail">
           <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="closeIconTitle">
-            <title id="closeIconTitle">Close</title>
+            <title id="closeIconTitle">关闭</title>
             <path d="M6.34314575 6.34314575L17.6568542 17.6568542M6.34314575 17.6568542L17.6568542 6.34314575"></path>
           </svg>
         </span>
@@ -35,14 +35,12 @@
 </template>
 <script>
 import { mapMutations } from 'vuex'
-import sites from '../lib/site/sites'
 import tools from '../lib/site/tools'
 const { clipboard } = require('electron')
 export default {
   name: 'detail',
   data () {
     return {
-      sites: sites,
       scroll: false,
       loading: true,
       vDetail: {},
@@ -59,8 +57,13 @@ export default {
     }
   },
   computed: {
-    site () {
-      return this.$store.getters.getSite
+    view: {
+      get () {
+        return this.$store.getters.getView
+      },
+      set (val) {
+        this.SET_VIEW(val)
+      }
     },
     video: {
       get () {
@@ -80,12 +83,13 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['SET_VIDEO', 'SET_DETAIL']),
+    ...mapMutations(['SET_VIEW', 'SET_VIDEO', 'SET_DETAIL']),
     closeDetail () {
       this.detail.show = false
     },
     getDetail () {
-      tools.detail_get(this.site, this.detail.url).then(res => {
+      console.log(this.detail)
+      tools.detail_get(this.detail.v.site, this.detail.v.detail).then(res => {
         this.vDetail = res
         if (res.desc.length > 0) {
           this.show.desc = true
@@ -99,11 +103,9 @@ export default {
       })
     },
     playEvent (e) {
-      const v = {
-        dUrl: this.detail.url,
-        vUrl: e
-      }
-      this.video = v
+      this.video = this.detail.v
+      this.detail.show = false
+      this.view = 'Play'
     },
     download (e) {
       const name = e.split('$')[0]

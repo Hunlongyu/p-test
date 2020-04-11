@@ -1,30 +1,30 @@
 <template>
   <div class="film">
-    <div class="top">
+    <div class="top" v-if="top">
       <!-- site -->
       <div class="vue-select" @mouseleave="show.site = false">
-        <div class="vs-placeholder" @click="show.site = true">{{sites[site].name}}</div>
+        <div class="vs-placeholder" @click="show.site = true">{{site.name}}</div>
         <div class="vs-options" v-show="show.site">
           <ul>
-            <li :class="site === j ? 'active' : ''" v-for="(i, j) in sites" :key="j" @click="siteClick(i, j)">{{ i.name }}</li>
+            <li :class="site === j ? 'active' : ''" v-for="(i, j) in sites" :key="j" @click="siteClick(i)">{{ i.name }}</li>
           </ul>
         </div>
       </div>
       <!-- tags -->
-      <div class="vue-select" @mouseleave="show.tags = false" v-if="sites[site].tags.length > 0">
-        <div class="vs-placeholder" @click="show.tags = true">{{sites[site].tags[tag].title}}</div>
+      <div class="vue-select" @mouseleave="show.tags = false" v-if="site.tags.length > 0">
+        <div class="vs-placeholder" @click="show.tags = true">{{site.tags[tag].title}}</div>
         <div class="vs-options" v-show="show.tags">
           <ul>
-            <li :class="tag === j ? 'active' : ''" v-for="(i, j) in sites[site].tags" :key="j" @click="tagClick(i, j)">{{ i.title }}</li>
+            <li :class="tag === j ? 'active' : ''" v-for="(i, j) in site.tags" :key="j" @click="tagClick(i, j)">{{ i.title }}</li>
           </ul>
         </div>
       </div>
       <!-- type -->
-      <div class="vue-select" @mouseleave="show.type = false" v-if="sites[site].tags[tag].children.length > 0">
-        <div class="vs-placeholder" @click="show.type = true">{{sites[site].tags[tag].children[type].title}}</div>
+      <div class="vue-select" @mouseleave="show.type = false" v-if="site.tags[tag].children.length > 0">
+        <div class="vs-placeholder" @click="show.type = true">{{site.tags[tag].children[type].title}}</div>
         <div class="vs-options" v-show="show.type">
           <ul>
-            <li :class="type === j ? 'active' : ''" v-for="(i, j) in sites[site].tags[tag].children" :key="j" @click="typeClick(i, j)">{{ i.title }}</li>
+            <li :class="type === j ? 'active' : ''" v-for="(i, j) in site.tags[tag].children" :key="j" @click="typeClick(i, j)">{{ i.title }}</li>
           </ul>
         </div>
       </div>
@@ -74,7 +74,7 @@
 </template>
 <script>
 import { mapMutations } from 'vuex'
-import sites from '../lib/site/sites'
+import { sites, getSite } from '../lib/site/sites'
 import tools from '../lib/site/tools'
 import video from '../lib/dexie/video'
 import setting from '../lib/dexie/setting'
@@ -83,6 +83,8 @@ export default {
   data () {
     return {
       sites: sites,
+      site: {},
+      top: false,
       tag: 0,
       type: 0,
       keywords: '',
@@ -112,14 +114,6 @@ export default {
         this.SET_VIEW(val)
       }
     },
-    site: {
-      get () {
-        return this.$store.getters.getSite
-      },
-      set (val) {
-        this.SET_SITE(val)
-      }
-    },
     detail: {
       get () {
         return this.$store.getters.getDetail
@@ -138,10 +132,11 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['SET_VIEW', 'SET_SITE', 'SET_DETAIL', 'SET_VIDEO']),
+    ...mapMutations(['SET_VIEW', 'SET_DETAIL', 'SET_VIDEO']),
     init () {
       setting.find().then(res => {
-        this.site = res.site
+        this.site = getSite(res.site)
+        this.top = true
         tools.film_get(res.site).then(tRes => {
           this.tb.list = tRes.list
           this.tb.total = tRes.total
@@ -150,15 +145,15 @@ export default {
         })
       })
     },
-    siteClick (e, n) {
+    siteClick (e) {
+      this.site = e
       this.tb.update = 0
       this.tb.total = 0
-      this.site = n
       this.tag = 0
       this.id = e.tags[0].id
       this.tb.loading = true
       this.show.site = false
-      tools.film_get(n, this.id).then(res => {
+      tools.film_get(e.key, this.id).then(res => {
         this.tb.list = res.list
         this.tb.total = res.total
         this.tb.update = res.update
@@ -177,7 +172,7 @@ export default {
       }
       this.tb.loading = true
       this.show.tags = false
-      tools.film_get(this.site, this.id).then(res => {
+      tools.film_get(this.site.key, this.id).then(res => {
         this.tb.list = res.list
         this.tb.total = res.total
         this.tb.update = res.update
@@ -191,7 +186,7 @@ export default {
       this.id = e.id
       this.tb.loading = true
       this.show.type = false
-      tools.film_get(this.site, this.id).then(res => {
+      tools.film_get(this.site.key, this.id).then(res => {
         this.tb.list = res.list
         this.tb.total = res.total
         this.tb.update = res.update
@@ -199,7 +194,7 @@ export default {
       })
     },
     searchEvent () {
-      const flag = this.sites[this.site].search
+      const flag = this.site.search
       if (flag === '') {
         this.$message.warning('该视频源不支持搜索')
         return false
@@ -207,7 +202,7 @@ export default {
       this.tb.loading = true
       this.tb.update = 0
       this.tb.total = 0
-      tools.search_get(this.site, this.keywords).then(res => {
+      tools.search_get(this.site.key, this.keywords).then(res => {
         this.tb.list = res.list
         this.tb.total = res.total
         this.tb.loading = false
@@ -216,7 +211,7 @@ export default {
     detailEvent (e) {
       this.detail = {
         show: true,
-        url: e.detail
+        v: e
       }
     },
     playEvent (e) {
@@ -234,13 +229,13 @@ export default {
         }
       })
     },
-    shareEvent (e) {
+    shareEvent (e) { // TODO: share
       console.log(e, 'share')
     },
     tbPageChange (e) {
       this.tb.loading = true
       this.tb.page = e
-      tools.film_get(this.site, this.id, this.tb.page).then(res => {
+      tools.film_get(this.site.key, this.id, this.tb.page).then(res => {
         this.tb.list = res.list
         this.tb.loading = false
       })

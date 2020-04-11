@@ -70,7 +70,15 @@ ipcMain.on('min', () => {
 ipcMain.on('close', () => {
   win.close()
 })
-
+ipcMain.on('top', () => {
+  if (win) {
+    if (win.isAlwaysOnTop()) {
+      win.setAlwaysOnTop(false)
+    } else {
+      win.setAlwaysOnTop(true)
+    }
+  }
+})
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.

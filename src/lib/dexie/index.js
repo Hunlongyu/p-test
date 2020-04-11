@@ -10,14 +10,14 @@ db.version(1).stores({
 
 db.version(2).stores({
   setting: 'id, theme, site, language, cloud, cloudKey',
-  history: '++id, name, detail, index, currentTime, playTime',
-  video: '++id, name, type, time, detail, urls, index'
+  video: '++id, site, name, type, time, detail, index',
+  history: '++id, site, name, type, time, detail, index, currentTime'
 })
 
 const initData = [{
   id: 0,
   theme: 'light',
-  site: 0,
+  site: 'zuidazy',
   language: 'zh-cn',
   cloud: false,
   cloudKey: ''
