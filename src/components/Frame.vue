@@ -27,10 +27,10 @@ export default {
   span{
     -webkit-app-region: no-drag;
     display: inline-block;
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
-    margin-right: 10px;
+    margin-left: 10px;
     cursor: pointer;
     opacity: 0.5;
     &.min{

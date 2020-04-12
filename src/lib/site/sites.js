@@ -2,9 +2,10 @@ const sites = [
   {
     key: 'zuidazy',
     name: '最大资源网',
-    url: 'http://www.zuidazy1.com',
-    view: 'http://www.zuidazy1.com/?m=vod-type-id-{id}-page-{page}.html',
-    search: 'http://www.zuidazy1.com/index.php?m=vod-search-pg-{page}-wd-{keywords}.html',
+    url: 'http://www.zuidazy5.com',
+    new: 'http://www.zuidazy5.com/?m=vod-index-pg-{page}.html',
+    view: 'http://www.zuidazy5.com/?m=vod-type-id-{id}-page-{page}.html',
+    search: 'http://www.zuidazy5.com/index.php?m=vod-search-pg-{page}-wd-{keywords}.html',
     type: 0,
     tags: [
       {
@@ -115,6 +116,7 @@ const sites = [
     key: 'subo',
     name: '速播资源站',
     url: 'https://www.subo988.com',
+    new: 'https://www.subo988.com/?m=vod-index-pg-{page}.html',
     view: 'https://www.subo988.com/?m=vod-type-id-{id}-pg-{page}.html',
     search: 'https://www.subo988.com/index.php?m=vod-search-pg-{page}-wd-{keywords}.html',
     type: 0,
@@ -216,9 +218,10 @@ const sites = [
   {
     key: 'zuixinzy',
     name: '最新资源网',
-    url: 'http://www.zuixinzy.cc',
-    view: 'http://www.zuixinzy.cc/?m=vod-type-id-{id}-pg-{page}.html',
-    search: 'http://www.zuixinzy.cc/index.php?m=vod-search-pg-{page}-wd-{keywords}.html',
+    url: 'http://www.zuixinzy.net',
+    new: 'http://www.zuixinzy.net/?m=vod-index-pg-{page}.html',
+    view: 'http://www.zuixinzy.net/?m=vod-type-id-{id}-pg-{page}.html',
+    search: 'http://www.zuixinzy.net/index.php?m=vod-search-pg-{page}-wd-{keywords}.html',
     type: 0,
     tags: [
       {
@@ -352,6 +355,7 @@ const sites = [
     key: '123ku',
     name: '123资源网',
     url: 'https://www.123ku.com',
+    new: 'https://www.123ku.com/?m=vod-index-pg-{page}.html',
     view: 'https://www.123ku.com/?m=vod-type-id-{id}-pg-{page}.html',
     search: 'https://www.123ku.com/index.php?m=vod-search-pg-{page}-wd-{keywords}.html',
     type: 0,
@@ -453,6 +457,7 @@ const sites = [
     key: '209zy',
     name: '209资源网',
     url: 'http://www.209zy.com',
+    new: 'http://www.209zy.com/?m=vod-index-pg-{page}.html',
     view: 'http://www.209zy.com/?m=vod-type-id-{id}-pg-{page}.html',
     search: 'http://www.209zy.com/index.php?m=vod-search-pg-{page}-wd-{keywords}.html',
     type: 0,
@@ -562,6 +567,7 @@ const sites = [
     key: '265zy',
     name: '超快资源网',
     url: 'http://265zy.cc',
+    new: 'http://265zy.cc/?m=vod-index-pg-{page}.html',
     view: 'http://265zy.cc/?m=vod-type-id-{id}-pg-{page}.html',
     search: 'http://265zy.cc/index.php?m=vod-search-pg-{page}-wd-{keywords}.html',
     type: 0,
@@ -700,6 +706,7 @@ const sites = [
     key: '666zy',
     name: '哈酷资源网',
     url: 'http://www.666zy.com',
+    new: 'http://www.666zy.com/?m=vod-index-pg-{page}.html',
     view: 'http://www.666zy.com/?m=vod-type-id-{id}-pg-{page}.html',
     search: 'http://www.666zy.com/index.php?m=vod-search-pg-{page}-wd-{keywords}.html',
     type: 0,
@@ -862,6 +869,7 @@ const sites = [
     key: 'wolongzy',
     name: '卧龙资源网',
     url: 'https://wolongzy.net',
+    new: 'https://wolongzy.net/?page={page}',
     view: 'https://wolongzy.net/type/{id}.html?page={page}',
     search: 'https://wolongzy.net/search.html?searchword={keywords}',
     type: 1,
@@ -972,11 +980,17 @@ const sites = [
   {
     key: 'gaoqingzy',
     name: '高清资源网',
-    url: 'http://www.gaoqingzy.com',
-    view: 'http://www.gaoqingzy.com/?m=vod-type-id-{id}-pg-{page}.html',
+    url: 'http://cj.gaoqingzyw.com',
+    new: 'http://cj.gaoqingzyw.com/?m=vod-index-pg-{page}.html',
+    view: 'http://cj.gaoqingzyw.com/?m=vod-type-id-{id}-pg-{page}.html',
     search: '',
     type: 2,
     tags: [
+      {
+        title: '最新',
+        id: 0,
+        children: []
+      },
       {
         title: '电影',
         id: 21,
@@ -1071,4 +1085,15 @@ const sites = [
   }
 ]
 
-export default sites
+const getSite = (e) => {
+  for (const i of sites) {
+    if (e === i.key) {
+      return i
+    }
+  }
+}
+
+export {
+  sites,
+  getSite
+}

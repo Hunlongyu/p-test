@@ -9,7 +9,7 @@
       <Setting v-show="view === 'Setting'" />
     </div>
     <transition name="slide">
-      <Detail v-if="show"/>
+      <Detail v-if="detail.show"/>
     </transition>
   </div>
 </template>
@@ -40,18 +40,28 @@ export default {
       set (val) {
         this.SET_VIEW(val)
       }
+    },
+    detail: {
+      get () {
+        return this.$store.getters.getDetail
+      },
+      set (val) {
+        this.SET_DETAIL(val)
+      }
     }
   },
   methods: {
-    ...mapMutations(['SET_VIEW'])
+    ...mapMutations(['SET_VIEW', 'SET_DETAIL'])
   }
 }
 </script>
 
 <style lang="scss">
 @import './assets/scss/theme.scss';
+@import url('./assets/scss/style.scss');
 html, body, #app{
   height: 100%;
+  border-radius: 6px;
 }
 #app {
   font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', SimSun, sans-serif;
@@ -75,11 +85,11 @@ html, body, #app{
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
-    background-color: #f5f5f5;
-    padding: 0 10px 10px;
+    background-color: #f2f6f9;
+    padding: 0 20px 20px;
   }
   .slide-enter-active, .slide-leave-active{
-    transition: all 0.8s ease-in-out;
+    transition: all 0.3s ease-in-out;
   }
   .slide-enter, .slide-leave-to{
     transform: translateY(100%);
