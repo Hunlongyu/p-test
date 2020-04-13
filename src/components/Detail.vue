@@ -88,7 +88,6 @@ export default {
       this.detail.show = false
     },
     getDetail () {
-      console.log(this.detail)
       tools.detail_get(this.detail.v.site, this.detail.v.detail).then(res => {
         this.vDetail = res
         if (res.desc.length > 0) {

@@ -33,7 +33,7 @@
             <path d="M12,21 L10.55,19.7051771 C5.4,15.1242507 2,12.1029973 2,8.39509537 C2,5.37384196 4.42,3 7.5,3 C9.24,3 10.91,3.79455041 12,5.05013624 C13.09,3.79455041 14.76,3 16.5,3 C19.58,3 22,5.37384196 22,8.39509537 C22,12.1029973 18.6,15.1242507 13.45,19.7149864 L12,21 Z"></path>
           </svg>
         </span>
-        <span>
+        <span @click="topEvent" :class="isTop ? 'active' : ''" v-show="right.listData.length > 0">
           <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="arrowUpIconTitle">
             <title id="arrowUpIconTitle">置顶</title>
             <path d="M9 10.5l3-3 3 3"></path>
@@ -174,23 +174,24 @@ export default {
   methods: {
     ...mapMutations(['SET_VIEW', 'SET_DETAIL', 'SET_VIDEO']),
     getUrls () {
-      if (this.xg) {
-        this.xg.destroy(true)
-        this.xg = null
-      }
       if (this.timer !== null) {
         clearInterval(this.timer)
         this.timer = null
       }
+      if (this.xg) {
+        this.xg.destroy(true)
+        this.xg = null
+      }
+      this.changeVideo()
       tools.detail_get(this.video.site, this.video.detail).then(res => {
         this.name = this.video.name
+        this.right.listData = res.m3u8_urls
         if (res.m3u8_urls.length > 1) {
           const m3 = res.m3u8_urls
           const arr = []
           for (const i of m3) {
             arr.push(i.split('$')[1])
           }
-          this.right.listData = m3
           this.xg = new Hls(this.config)
           this.xg.src = arr[this.video.index]
           this.showNext = true
@@ -213,22 +214,35 @@ export default {
         })
       })
     },
+    changeVideo () {
+      this.checkStar()
+      this.checkTop()
+      this.name = ''
+    },
     checkStar () {
       video.find({ detail: this.video.detail }).then(res => {
         if (res) {
           this.isStar = true
+        } else {
+          this.isStar = false
         }
+      })
+    },
+    checkTop () {
+      ipc.send('checkTop')
+      ipc.on('isTop', (e, flag) => {
+        this.isTop = flag
       })
     },
     onPlayVideo () {
       this.more = true
-      this.checkStar()
       const h = this.video
       history.find({ detail: h.detail }).then(res => {
         if (res) {
           history.update(res.id, h)
         } else {
           h.currentTime = ''
+          delete h.id
           history.add(h)
         }
       })
@@ -237,9 +251,10 @@ export default {
     timerEvent (d) {
       this.timer = setInterval(() => {
         history.find({ detail: d }).then(res => {
-          res.currentTime = this.xg.currentTime
           if (res) {
-            history.update(res.id, res)
+            const h = this.video
+            h.currentTime = this.xg.currentTime
+            history.update(res.id, h)
           }
         })
       }, 10000)
@@ -286,6 +301,7 @@ export default {
     },
     topEvent () {
       ipc.send('top')
+      this.checkTop()
     },
     clearAll () {
       history.clear().then(res => {
