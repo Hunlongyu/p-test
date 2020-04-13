@@ -88,7 +88,6 @@ export default {
       this.detail.show = false
     },
     getDetail () {
-      console.log(this.detail)
       tools.detail_get(this.detail.v.site, this.detail.v.detail).then(res => {
         this.vDetail = res
         if (res.desc.length > 0) {
@@ -140,6 +139,7 @@ export default {
   box-shadow:0 -4px 12px 0 #8e8da21f;
   padding: 10px;
   color: #808695;
+  z-index: 999;
   .detail-content{
     height: 660px;
     padding: 10px 40px;

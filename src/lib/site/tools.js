@@ -154,6 +154,7 @@ const zy = {
         const html = parser.parseFromString(txt, 'text/html')
         const data = {
           site: key,
+          name: '',
           info: '',
           desc: '',
           m3u8_urls: [],
@@ -161,6 +162,7 @@ const zy = {
         }
         const vodBox = html.querySelector('.vodBox')
         data.info = vodBox.innerHTML
+        // const name = html.querySelector('vodh')
         const vodInfo = html.querySelectorAll('.playBox')
         for (let i = 0; i < vodInfo.length; i++) {
           const k = vodInfo[i].innerText

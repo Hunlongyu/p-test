@@ -33,7 +33,7 @@
             <path d="M12,21 L10.55,19.7051771 C5.4,15.1242507 2,12.1029973 2,8.39509537 C2,5.37384196 4.42,3 7.5,3 C9.24,3 10.91,3.79455041 12,5.05013624 C13.09,3.79455041 14.76,3 16.5,3 C19.58,3 22,5.37384196 22,8.39509537 C22,12.1029973 18.6,15.1242507 13.45,19.7149864 L12,21 Z"></path>
           </svg>
         </span>
-        <span>
+        <span @click="topEvent" :class="isTop ? 'active' : ''" v-show="right.listData.length > 0">
           <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="arrowUpIconTitle">
             <title id="arrowUpIconTitle">置顶</title>
             <path d="M9 10.5l3-3 3 3"></path>
@@ -42,7 +42,23 @@
             <circle cx="12" cy="12" r="10"></circle>
           </svg>
         </span>
-        <span v-show="right.listData.length > 0">
+        <span @click="detailEvent" v-show="right.listData.length > 0">
+          <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="feedIconTitle">
+            <title id="feedIconTitle">详情</title>
+            <circle cx="7.5" cy="7.5" r="2.5"></circle>
+            <path d="M22 13H2"></path>
+            <path d="M18 6h-5m5 3h-5"></path>
+            <path d="M5 2h14a3 3 0 0 1 3 3v17H2V5a3 3 0 0 1 3-3z"></path>
+          </svg>
+        </span>
+        <!-- <span @click="smallEvent" v-show="right.listData.length > 0">
+          <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="tvIconTitle">
+            <title id="tvIconTitle">精简模式</title>
+            <polygon points="20 8 20 20 4 20 4 8"></polygon>
+            <polyline stroke-linejoin="round" points="8 4 12 7.917 16 4"></polyline>
+          </svg>
+        </span> -->
+        <span @click="shareEvent" v-show="right.listData.length > 0">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-labelledby="qrIconTitle">
             <title id="qrIconTitle">分享</title>
             <rect x="10" y="3" width="7" height="7" transform="rotate(90 10 3)"></rect>
@@ -117,7 +133,7 @@ export default {
         keyShortcut: 'on',
         crossOrigin: true,
         defaultPlaybackRate: 1,
-        playbackRate: [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
+        playbackRate: [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 3, 4, 5]
       },
       name: '',
       timer: null,
@@ -152,6 +168,14 @@ export default {
       set (val) {
         this.SET_DETAIL(val)
       }
+    },
+    share: {
+      get () {
+        return this.$store.getters.getShare
+      },
+      set (val) {
+        this.SET_SHARE(val)
+      }
     }
   },
   filters: {
@@ -172,25 +196,26 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['SET_VIEW', 'SET_DETAIL', 'SET_VIDEO']),
+    ...mapMutations(['SET_VIEW', 'SET_DETAIL', 'SET_VIDEO', 'SET_SHARE']),
     getUrls () {
-      if (this.xg) {
-        this.xg.destroy(true)
-        this.xg = null
-      }
       if (this.timer !== null) {
         clearInterval(this.timer)
         this.timer = null
       }
+      if (this.xg) {
+        this.xg.destroy(true)
+        this.xg = null
+      }
+      this.changeVideo()
       tools.detail_get(this.video.site, this.video.detail).then(res => {
         this.name = this.video.name
+        this.right.listData = res.m3u8_urls
         if (res.m3u8_urls.length > 1) {
           const m3 = res.m3u8_urls
           const arr = []
           for (const i of m3) {
             arr.push(i.split('$')[1])
           }
-          this.right.listData = m3
           this.xg = new Hls(this.config)
           this.xg.src = arr[this.video.index]
           this.showNext = true
@@ -213,22 +238,35 @@ export default {
         })
       })
     },
+    changeVideo () {
+      this.checkStar()
+      this.checkTop()
+      this.name = ''
+    },
     checkStar () {
       video.find({ detail: this.video.detail }).then(res => {
         if (res) {
           this.isStar = true
+        } else {
+          this.isStar = false
         }
+      })
+    },
+    checkTop () {
+      ipc.send('checkTop')
+      ipc.on('isTop', (e, flag) => {
+        this.isTop = flag
       })
     },
     onPlayVideo () {
       this.more = true
-      this.checkStar()
       const h = this.video
       history.find({ detail: h.detail }).then(res => {
         if (res) {
           history.update(res.id, h)
         } else {
           h.currentTime = ''
+          delete h.id
           history.add(h)
         }
       })
@@ -237,9 +275,11 @@ export default {
     timerEvent (d) {
       this.timer = setInterval(() => {
         history.find({ detail: d }).then(res => {
-          res.currentTime = this.xg.currentTime
           if (res) {
-            history.update(res.id, res)
+            const h = this.video
+            h.currentTime = this.xg.currentTime
+            delete h.id
+            history.update(res.id, h)
           }
         })
       }, 10000)
@@ -286,6 +326,20 @@ export default {
     },
     topEvent () {
       ipc.send('top')
+      this.checkTop()
+    },
+    detailEvent () {
+      this.detail = {
+        show: true,
+        v: this.video
+      }
+    },
+    smallEvent () {}, // TODO 小窗口模式
+    shareEvent () {
+      this.share = {
+        show: true,
+        v: this.video
+      }
     },
     clearAll () {
       history.clear().then(res => {
@@ -344,15 +398,9 @@ export default {
       align-items: center;
       span{
         display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
+        margin-right: 10px;
         cursor: pointer;
         &:hover{
-          border: 1px solid #823aa011;
-          background-color: #823aa011;
           svg{
             stroke: #823aa0ee;
             stroke-width: 1.5;

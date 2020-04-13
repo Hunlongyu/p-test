@@ -5,11 +5,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    view: 'Film',
+    view: 'Star',
     theme: 'light',
     site: 0,
     language: 'zh-cn',
     detail: {
+      show: false,
+      v: {}
+    },
+    share: {
       show: false,
       v: {}
     },
@@ -33,6 +37,9 @@ export default new Vuex.Store({
     },
     getVideo: state => {
       return state.video
+    },
+    getShare: state => {
+      return state.share
     }
   },
   mutations: {
@@ -53,6 +60,9 @@ export default new Vuex.Store({
     },
     SET_VIDEO: (state, payload) => {
       state.video = payload
+    },
+    SET_SHARE: (state, payload) => {
+      state.share = payload
     }
   }
 })

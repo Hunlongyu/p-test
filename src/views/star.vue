@@ -6,7 +6,7 @@
         <span class="type">类型</span>
         <span class="time">时间</span>
         <span class="from">来源</span>
-        <span class="operate">操作</span>
+        <span class="operate" style="width: 160px">操作</span>
       </div>
       <div class="tBody">
         <ul v-show="!loading">
@@ -15,10 +15,11 @@
             <span class="type">{{i.type}}</span>
             <span class="time">{{i.time}}</span>
             <span class="from">{{i.site | ftSite}}</span>
-            <span class="operate">
+            <span class="operate" style="width: 160px">
               <span class="btn" @click.stop="playEvent(i)">播放</span>
               <span class="btn" @click.stop="deleteEvent(i)">删除</span>
               <span class="btn" @click.stop="shareEvent(i)">分享</span>
+              <span class="btn" @click.stop="updateEvent(i)">同步</span>
             </span>
           </li>
         </ul>
@@ -34,6 +35,7 @@
 </template>
 <script>
 import { mapMutations } from 'vuex'
+import tools from '../lib/site/tools'
 import video from '../lib/dexie/video'
 import { sites, getSite } from '../lib/site/sites'
 export default {
@@ -69,6 +71,14 @@ export default {
       set (val) {
         this.SET_VIDEO(val)
       }
+    },
+    share: {
+      get () {
+        return this.$store.getters.getShare
+      },
+      set (val) {
+        this.SET_SHARE(val)
+      }
     }
   },
   filters: {
@@ -83,7 +93,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['SET_VIEW', 'SET_DETAIL', 'SET_VIDEO']),
+    ...mapMutations(['SET_VIEW', 'SET_DETAIL', 'SET_VIDEO', 'SET_SHARE']),
     detailEvent (e) {
       this.detail = {
         show: true,
@@ -104,8 +114,19 @@ export default {
         this.getAllStar()
       })
     },
-    shareEvent (e) { // TODO: share
-      console.log(e, 'share')
+    shareEvent (e) {
+      console.log(e, 'star')
+      this.share = {
+        show: true,
+        v: e
+      }
+    },
+    updateEvent (e) {
+      console.log(e, 'updateEvent')
+      tools.detail_get(e.site, e.detail).then(res => {
+        const info = res.info
+        console.log(info, 'info')
+      })
     },
     getAllStar () {
       video.all().then(res => {
