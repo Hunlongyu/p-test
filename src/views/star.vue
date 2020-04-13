@@ -69,6 +69,14 @@ export default {
       set (val) {
         this.SET_VIDEO(val)
       }
+    },
+    share: {
+      get () {
+        return this.$store.getters.getShare
+      },
+      set (val) {
+        this.SET_SHARE(val)
+      }
     }
   },
   filters: {
@@ -83,7 +91,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['SET_VIEW', 'SET_DETAIL', 'SET_VIDEO']),
+    ...mapMutations(['SET_VIEW', 'SET_DETAIL', 'SET_VIDEO', 'SET_SHARE']),
     detailEvent (e) {
       this.detail = {
         show: true,
@@ -104,8 +112,12 @@ export default {
         this.getAllStar()
       })
     },
-    shareEvent (e) { // TODO: share
-      console.log(e, 'share')
+    shareEvent (e) {
+      console.log(e, 'star')
+      this.share = {
+        show: true,
+        v: e
+      }
     },
     getAllStar () {
       video.all().then(res => {

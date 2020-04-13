@@ -11,6 +11,9 @@
     <transition name="slide">
       <Detail v-if="detail.show"/>
     </transition>
+    <transition name="slide">
+      <Share v-if="share.show"/>
+    </transition>
   </div>
 </template>
 
@@ -18,7 +21,7 @@
 import Aside from './components/Aside'
 import Frame from './components/Frame'
 import Detail from './components/Detail'
-import { mapMutations } from 'vuex'
+import Share from './components/Share'
 import './lib/dexie/index'
 export default {
   name: 'App',
@@ -30,28 +33,19 @@ export default {
   components: {
     Aside,
     Frame,
-    Detail
+    Detail,
+    Share
   },
   computed: {
-    view: {
-      get () {
-        return this.$store.getters.getView
-      },
-      set (val) {
-        this.SET_VIEW(val)
-      }
+    view () {
+      return this.$store.getters.getView
     },
-    detail: {
-      get () {
-        return this.$store.getters.getDetail
-      },
-      set (val) {
-        this.SET_DETAIL(val)
-      }
+    detail () {
+      return this.$store.getters.getDetail
+    },
+    share () {
+      return this.$store.getters.getShare
     }
-  },
-  methods: {
-    ...mapMutations(['SET_VIEW', 'SET_DETAIL'])
   }
 }
 </script>

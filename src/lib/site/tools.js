@@ -128,6 +128,7 @@ const zy = {
   // 获取详情
   detail_get (key, url) {
     return new Promise((resolve, reject) => {
+      console.log(key, url, 'detail get')
       const type = getSite(key).type
       axios.get(url).then(async res => {
         if (type === 0) {

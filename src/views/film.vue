@@ -129,10 +129,18 @@ export default {
       set (val) {
         this.SET_VIDEO(val)
       }
+    },
+    share: {
+      get () {
+        return this.$store.getters.getShare
+      },
+      set (val) {
+        this.SET_SHARE(val)
+      }
     }
   },
   methods: {
-    ...mapMutations(['SET_VIEW', 'SET_DETAIL', 'SET_VIDEO']),
+    ...mapMutations(['SET_VIEW', 'SET_DETAIL', 'SET_VIDEO', 'SET_SHARE']),
     init () {
       setting.find().then(res => {
         this.site = getSite(res.site)
@@ -229,8 +237,11 @@ export default {
         }
       })
     },
-    shareEvent (e) { // TODO: share
-      console.log(e, 'share')
+    shareEvent (e) {
+      this.share = {
+        show: true,
+        v: e
+      }
     },
     tbPageChange (e) {
       this.tb.loading = true

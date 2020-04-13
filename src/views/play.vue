@@ -42,7 +42,23 @@
             <circle cx="12" cy="12" r="10"></circle>
           </svg>
         </span>
-        <span v-show="right.listData.length > 0">
+        <span @click="detailEvent" v-show="right.listData.length > 0">
+          <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="feedIconTitle">
+            <title id="feedIconTitle">详情</title>
+            <circle cx="7.5" cy="7.5" r="2.5"></circle>
+            <path d="M22 13H2"></path>
+            <path d="M18 6h-5m5 3h-5"></path>
+            <path d="M5 2h14a3 3 0 0 1 3 3v17H2V5a3 3 0 0 1 3-3z"></path>
+          </svg>
+        </span>
+        <!-- <span @click="smallEvent" v-show="right.listData.length > 0">
+          <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="tvIconTitle">
+            <title id="tvIconTitle">精简模式</title>
+            <polygon points="20 8 20 20 4 20 4 8"></polygon>
+            <polyline stroke-linejoin="round" points="8 4 12 7.917 16 4"></polyline>
+          </svg>
+        </span> -->
+        <span @click="shareEvent" v-show="right.listData.length > 0">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-labelledby="qrIconTitle">
             <title id="qrIconTitle">分享</title>
             <rect x="10" y="3" width="7" height="7" transform="rotate(90 10 3)"></rect>
@@ -117,7 +133,7 @@ export default {
         keyShortcut: 'on',
         crossOrigin: true,
         defaultPlaybackRate: 1,
-        playbackRate: [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]
+        playbackRate: [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 3, 4, 5]
       },
       name: '',
       timer: null,
@@ -152,6 +168,14 @@ export default {
       set (val) {
         this.SET_DETAIL(val)
       }
+    },
+    share: {
+      get () {
+        return this.$store.getters.getShare
+      },
+      set (val) {
+        this.SET_SHARE(val)
+      }
     }
   },
   filters: {
@@ -172,7 +196,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['SET_VIEW', 'SET_DETAIL', 'SET_VIDEO']),
+    ...mapMutations(['SET_VIEW', 'SET_DETAIL', 'SET_VIDEO', 'SET_SHARE']),
     getUrls () {
       if (this.timer !== null) {
         clearInterval(this.timer)
@@ -254,6 +278,7 @@ export default {
           if (res) {
             const h = this.video
             h.currentTime = this.xg.currentTime
+            delete h.id
             history.update(res.id, h)
           }
         })
@@ -302,6 +327,19 @@ export default {
     topEvent () {
       ipc.send('top')
       this.checkTop()
+    },
+    detailEvent () {
+      this.detail = {
+        show: true,
+        v: this.video
+      }
+    },
+    smallEvent () {}, // TODO 小窗口模式
+    shareEvent () {
+      this.share = {
+        show: true,
+        v: this.video
+      }
     },
     clearAll () {
       history.clear().then(res => {
@@ -360,15 +398,9 @@ export default {
       align-items: center;
       span{
         display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
+        margin-right: 10px;
         cursor: pointer;
         &:hover{
-          border: 1px solid #823aa011;
-          background-color: #823aa011;
           svg{
             stroke: #823aa0ee;
             stroke-width: 1.5;

@@ -139,6 +139,7 @@ export default {
   box-shadow:0 -4px 12px 0 #8e8da21f;
   padding: 10px;
   color: #808695;
+  z-index: 999;
   .detail-content{
     height: 660px;
     padding: 10px 40px;
