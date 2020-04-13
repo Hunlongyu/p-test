@@ -128,7 +128,6 @@ const zy = {
   // 获取详情
   detail_get (key, url) {
     return new Promise((resolve, reject) => {
-      console.log(key, url, 'detail get')
       const type = getSite(key).type
       axios.get(url).then(async res => {
         if (type === 0) {
@@ -155,6 +154,7 @@ const zy = {
         const html = parser.parseFromString(txt, 'text/html')
         const data = {
           site: key,
+          name: '',
           info: '',
           desc: '',
           m3u8_urls: [],
@@ -162,6 +162,7 @@ const zy = {
         }
         const vodBox = html.querySelector('.vodBox')
         data.info = vodBox.innerHTML
+        // const name = html.querySelector('vodh')
         const vodInfo = html.querySelectorAll('.playBox')
         for (let i = 0; i < vodInfo.length; i++) {
           const k = vodInfo[i].innerText
