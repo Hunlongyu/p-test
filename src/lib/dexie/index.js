@@ -18,7 +18,7 @@ const initData = [{
   id: 0,
   theme: 'light',
   site: 'zuidazy',
-  language: 'zh-cn',
+  language: 'zhCn',
   cloud: false,
   cloudKey: ''
 }]

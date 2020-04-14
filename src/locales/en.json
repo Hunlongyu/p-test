@@ -1,4 +1,7 @@
 {
     "zh": "Chinese",
-    "en": "English"
+    "en": "English",
+    "language": "Language",
+    "default_site": "Default Site",
+    "view": "View"
 }
