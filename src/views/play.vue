@@ -4,7 +4,7 @@
       <div class="title">{{name}}</div>
       <div id="xg"></div>
       <div class="more" v-show="more">
-        <span v-show="showNext">
+        <span @click="nextEvent" v-show="showNext">
           <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="forwardIconTitle">
             <title id="forwardIconTitle">下一集</title>
             <path d="M10 14.74L3 19V5l7 4.26V5l12 7-12 7v-4.26z"></path>
@@ -204,6 +204,9 @@ export default {
       }
       if (this.xg) {
         this.xg.pause()
+        this.xg.off('play', () => {
+          console.log('play off')
+        })
       }
       this.changeVideo()
       tools.detail_get(this.video.site, this.video.detail).then(res => {
@@ -226,7 +229,9 @@ export default {
         const currentTime = this.video.currentTime
         if (currentTime !== '') {
           this.xg.play()
-          this.xg.currentTime = currentTime
+          this.xg.once('playing', () => {
+            this.xg.currentTime = currentTime
+          })
         } else {
           this.xg.play()
         }
@@ -283,6 +288,15 @@ export default {
       this.right.show = false
       this.right.type = ''
     },
+    nextEvent () {
+      const v = { ...this.video }
+      const i = v.index + 1
+      if (i < this.right.listData.length) {
+        this.video.index++
+      } else {
+        this.$message.warning('这是最后一集了.')
+      }
+    },
     listEvent () {
       if (this.right.type === 'list') {
         this.right.show = false
@@ -307,12 +321,16 @@ export default {
     starEvent () {
       video.find({ detail: this.video.detail }).then(res => {
         if (res) {
-          video.remove(this.video.id).then(res => {
+          video.remove(this.video.id).then(r => {
             this.$message.info('删除成功')
             this.isStar = false
           })
         } else {
-          video.add(this.video).then(res => {
+          const v = { ...this.video }
+          if (v.id) {
+            delete v.id
+          }
+          video.add(v).then(r => {
             this.$message.success('收藏成功')
             this.isStar = true
           })

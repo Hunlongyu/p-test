@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     view: 'Star',
     theme: 'light',
-    site: 0,
+    site: 'zuidazy',
     language: 'zh-cn',
     detail: {
       show: false,
