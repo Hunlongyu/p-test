@@ -119,14 +119,13 @@ export default {
     img{
       height: 320px;
       width: auto;
+      max-width: 240px;
     }
   }
   .right{
     .title{
       font-size: 18px;
       color: #666;
-      margin-top: 0px;
-      margin-left: 6px;
       margin-bottom: 10px;
       overflow: hidden;
       text-overflow: ellipsis;

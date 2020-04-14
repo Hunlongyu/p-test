@@ -105,12 +105,15 @@ const zy = {
         for (let i = 0; i < list.length; i++) {
           const info = {
             site: key,
-            name: list[i].querySelector('.name').innerText,
+            name: '',
             type: list[i].querySelector('.btn_span').innerText,
             time: list[i].querySelector('.hours').innerText,
             detail: url + list[i].querySelector('.name').getAttribute('href'),
             index: 0
           }
+          let name = list[i].querySelector('.name').innerText
+          name = name.replace(/^\s*|\s*$/g, '')
+          info.name = name
           d.list.push(info)
         }
         d.update = parseInt(html.querySelector('.kfs em').innerText)
@@ -162,7 +165,9 @@ const zy = {
         }
         const vodBox = html.querySelector('.vodBox')
         data.info = vodBox.innerHTML
-        // const name = html.querySelector('vodh')
+        const title = html.querySelector('.vodh h2').innerText
+        const index = html.querySelector('.vodh span').innerText
+        data.name = title + index
         const vodInfo = html.querySelectorAll('.playBox')
         for (let i = 0; i < vodInfo.length; i++) {
           const k = vodInfo[i].innerText
@@ -197,11 +202,15 @@ const zy = {
         const html = parser.parseFromString(txt, 'text/html')
         const data = {
           site: key,
+          name: '',
           info: '',
           desc: '',
           m3u8_urls: [],
           mp4_urls: []
         }
+        let name = html.querySelector('.whitetitle').innerText
+        name = name.split('：')[1].replace(/^\s*|\s*$/g, '')
+        data.name = name
         const vodBox = html.querySelector('.white').innerHTML
         data.info = vodBox
         const vodInfo = html.querySelectorAll('.white')
@@ -238,11 +247,15 @@ const zy = {
         const html = parser.parseFromString(txt, 'text/html')
         const data = {
           site: key,
+          name: '',
           info: '',
           desc: '',
           m3u8_urls: [],
           mp4_urls: []
         }
+        const title = html.querySelector('.vodh h2').innerText
+        const index = html.querySelector('.vodh span').innerText
+        data.name = title + index
         const vodBox = html.querySelector('.vodBox').innerHTML
         data.info = vodBox
         data.desc = html.querySelector('.vodplayinfo').innerText

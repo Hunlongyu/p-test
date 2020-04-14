@@ -7,6 +7,9 @@ export default {
   async find (doc) {
     return await video.get(doc)
   },
+  async update (id, docs) {
+    return await video.update(id, docs)
+  },
   async all () {
     return await video.toArray()
   },

@@ -203,8 +203,7 @@ export default {
         this.timer = null
       }
       if (this.xg) {
-        this.xg.destroy(true)
-        this.xg = null
+        this.xg.pause()
       }
       this.changeVideo()
       tools.detail_get(this.video.site, this.video.detail).then(res => {
@@ -216,26 +215,22 @@ export default {
           for (const i of m3) {
             arr.push(i.split('$')[1])
           }
-          this.xg = new Hls(this.config)
           this.xg.src = arr[this.video.index]
           this.showNext = true
         } else {
           const link = res.m3u8_urls[this.video.index]
           const src = link.split('$')[1]
-          this.xg = new Hls(this.config)
           this.xg.src = src
           this.showNext = false
         }
-        this.xg.on('play', () => {
-          const currentTime = this.video.currentTime
-          if (currentTime !== '') {
-            this.xg.play()
-            this.xg.currentTime = currentTime
-          } else {
-            this.xg.play()
-          }
-          this.onPlayVideo()
-        })
+        const currentTime = this.video.currentTime
+        if (currentTime !== '') {
+          this.xg.play()
+          this.xg.currentTime = currentTime
+        } else {
+          this.xg.play()
+        }
+        this.onPlayVideo()
       })
     },
     changeVideo () {
@@ -260,7 +255,7 @@ export default {
     },
     onPlayVideo () {
       this.more = true
-      const h = this.video
+      const h = { ...this.video }
       history.find({ detail: h.detail }).then(res => {
         if (res) {
           history.update(res.id, h)
@@ -276,7 +271,7 @@ export default {
       this.timer = setInterval(() => {
         history.find({ detail: d }).then(res => {
           if (res) {
-            const h = this.video
+            const h = { ...this.video }
             h.currentTime = this.xg.currentTime
             delete h.id
             history.update(res.id, h)
