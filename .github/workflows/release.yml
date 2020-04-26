@@ -8,6 +8,8 @@ on:
 jobs:
   release:
     runs-on: ${{ matrix.os }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     strategy:
       matrix:
@@ -20,8 +22,6 @@ jobs:
           node-version: 12
 
       - name: Build/release Electron app
-        env:
-          GH_TOKEN: ${{ secrets.github_token }}
         run: |
           yarn
           yarn bp

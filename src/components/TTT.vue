@@ -24,7 +24,7 @@ import QrcodeVue from 'qrcode.vue'
 import html2canvas from 'html2canvas'
 const { clipboard, nativeImage } = require('electron')
 export default {
-  name: 'share',
+  name: 'TTT',
   data () {
     return {
       card: {

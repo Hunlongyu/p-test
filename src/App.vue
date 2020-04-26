@@ -21,7 +21,7 @@
 import Aside from './components/Aside'
 import Frame from './components/Frame'
 import Detail from './components/Detail'
-import Share from './components/Share'
+import Share from './components/TTT'
 import './lib/dexie/index'
 export default {
   name: 'App',
