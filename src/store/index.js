@@ -5,10 +5,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    view: 'Star',
+    view: 'Setting',
     theme: 'light',
-    site: 0,
-    language: 'zh-cn',
+    site: 'zuidazy',
+    language: 'zhCn',
     detail: {
       show: false,
       v: {}

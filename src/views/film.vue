@@ -114,6 +114,14 @@ export default {
         this.SET_VIEW(val)
       }
     },
+    gSite: {
+      get () {
+        return this.$store.getters.getSite
+      },
+      set (val) {
+        this.SET_SITE(val)
+      }
+    },
     detail: {
       get () {
         return this.$store.getters.getDetail
@@ -139,8 +147,14 @@ export default {
       }
     }
   },
+  watch: {
+    gSite (n, o) {
+      const s = getSite(n)
+      this.siteClick(s)
+    }
+  },
   methods: {
-    ...mapMutations(['SET_VIEW', 'SET_DETAIL', 'SET_VIDEO', 'SET_SHARE']),
+    ...mapMutations(['SET_VIEW', 'SET_SITE', 'SET_DETAIL', 'SET_VIDEO', 'SET_SHARE']),
     init () {
       setting.find().then(res => {
         this.site = getSite(res.site)

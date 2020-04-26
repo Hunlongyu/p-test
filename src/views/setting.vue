@@ -1,14 +1,56 @@
 <template>
-  <div class="setting">
+  <div class="setting" v-if="show.setting">
     <div class="logo"><img src="@/assets/image/logo.png"></div>
-    <div class="language">{{ $t('zh') }}</div>
+    <div class="info"><a href="https://github.com/Hunlongyu/ZY-Player">官网</a><a href="https://github.com/Hunlongyu/ZY-Player/issues">反馈</a></div>
+    <div class="change">
+      <div class="vue-select" @mouseleave="show.language = false">
+        <div class="vs-placeholder" @click="show.language = true">{{$t('language')}}</div>
+        <div class="vs-options" v-show="show.language">
+          <ul>
+            <li :class="s.language === i.key ? 'active' : ''" v-for="(i, j) in languages" :key="j" @click="languageClick(i.key)">{{ i.name }}</li>
+          </ul>
+        </div>
+      </div>
+      <div class="vue-select" @mouseleave="show.site = false">
+        <div class="vs-placeholder" @click="show.site = true">{{$t('default_site')}}</div>
+        <div class="vs-options" v-show="show.site">
+          <ul>
+            <li :class="s.site === i.key ? 'active' : ''" v-for="(i, j) in sites" :key="j" @click="siteClick(i.key)">{{ i.name }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="theme">主题</div>
+    <div class="qrcode">喝咖啡</div>
   </div>
 </template>
 <script>
 import { mapMutations } from 'vuex'
 import setting from '../lib/dexie/setting'
+import { sites } from '../lib/site/sites'
 export default {
   name: 'setting',
+  data () {
+    return {
+      s: {},
+      languages: [
+        {
+          key: 'zhCn',
+          name: '中文'
+        },
+        {
+          key: 'en',
+          name: 'English'
+        }
+      ],
+      sites: sites,
+      show: {
+        setting: false,
+        language: false,
+        site: false
+      }
+    }
+  },
   computed: {
     theme: {
       get () {
@@ -25,14 +67,41 @@ export default {
       set (val) {
         this.SET_LANGUAGE(val)
       }
+    },
+    site: {
+      get () {
+        return this.$store.getters.getSite
+      },
+      set (val) {
+        this.SET_SITE(val)
+      }
     }
   },
   methods: {
-    ...mapMutations(['SET_THEME', 'SET_LANGUAGE'])
+    ...mapMutations(['SET_THEME', 'SET_LANGUAGE', 'SET_SITE']),
+    languageClick (e) {
+      this.language = e
+      this.show.language = false
+      this.$i18n.locale = e
+      this.s.language = e
+      setting.update(this.s).then(res => {
+        this.$message.success('设置成功')
+      })
+    },
+    siteClick (e) {
+      this.site = e
+      this.show.site = false
+      this.s.site = e
+      setting.update(this.s).then(res => {
+        this.$message.success('设置成功')
+      })
+    }
   },
   created () {
     setting.find().then(res => {
-      // console.log(res, 'find')
+      this.s = res
+      this.$i18n.locale = this.s.language
+      this.show.setting = true
     })
   }
 }
@@ -53,6 +122,30 @@ export default {
     img{
       width: 120px;
       height: auto;
+    }
+  }
+  .info{
+    width: 100%;
+    margin-top: 20px;
+    text-align: center;
+    a{
+      text-decoration: none;
+      margin: 0 10px;
+      font-size: 14px;
+      color: #808695;
+      &:hover{
+        color: #4c4f57;
+      }
+    }
+  }
+  .change{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 20px;
+    margin-top: 40px;
+    .vue-select{
+      margin-right: 20px;
     }
   }
 }

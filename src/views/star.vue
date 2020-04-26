@@ -115,17 +115,24 @@ export default {
       })
     },
     shareEvent (e) {
-      console.log(e, 'star')
       this.share = {
         show: true,
         v: e
       }
     },
     updateEvent (e) {
-      console.log(e, 'updateEvent')
       tools.detail_get(e.site, e.detail).then(res => {
-        const info = res.info
-        console.log(info, 'info')
+        const nameOne = e.name.replace(/\s*/g, '')
+        const nameTwo = res.name.replace(/\s*/g, '')
+        if (nameOne === nameTwo) {
+          this.$message.info('同步成功, 未查询到更新.')
+        } else {
+          const h = e
+          h.name = res.name
+          video.update(h.id, h).then(res => {
+            this.$message.success('同步成功, 查询到更新.')
+          })
+        }
       })
     },
     getAllStar () {

@@ -66,7 +66,6 @@ html, body, #app{
   align-items: flex-start;
   will-change: transform;
   overflow: hidden;
-  // backdrop-filter: blur(1px);
   @keyframes gradient {
     0%{background-position:0% 50%}
     50%{background-position:100% 50%}

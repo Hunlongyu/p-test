@@ -4,7 +4,7 @@
       <div class="title">{{name}}</div>
       <div id="xg"></div>
       <div class="more" v-show="more">
-        <span v-show="showNext">
+        <span @click="nextEvent" v-show="showNext">
           <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="forwardIconTitle">
             <title id="forwardIconTitle">下一集</title>
             <path d="M10 14.74L3 19V5l7 4.26V5l12 7-12 7v-4.26z"></path>
@@ -203,8 +203,10 @@ export default {
         this.timer = null
       }
       if (this.xg) {
-        this.xg.destroy(true)
-        this.xg = null
+        this.xg.pause()
+        this.xg.off('play', () => {
+          console.log('play off')
+        })
       }
       this.changeVideo()
       tools.detail_get(this.video.site, this.video.detail).then(res => {
@@ -216,26 +218,24 @@ export default {
           for (const i of m3) {
             arr.push(i.split('$')[1])
           }
-          this.xg = new Hls(this.config)
           this.xg.src = arr[this.video.index]
           this.showNext = true
         } else {
           const link = res.m3u8_urls[this.video.index]
           const src = link.split('$')[1]
-          this.xg = new Hls(this.config)
           this.xg.src = src
           this.showNext = false
         }
-        this.xg.on('play', () => {
-          const currentTime = this.video.currentTime
-          if (currentTime !== '') {
-            this.xg.play()
+        const currentTime = this.video.currentTime
+        if (currentTime !== '') {
+          this.xg.play()
+          this.xg.once('playing', () => {
             this.xg.currentTime = currentTime
-          } else {
-            this.xg.play()
-          }
-          this.onPlayVideo()
-        })
+          })
+        } else {
+          this.xg.play()
+        }
+        this.onPlayVideo()
       })
     },
     changeVideo () {
@@ -260,7 +260,7 @@ export default {
     },
     onPlayVideo () {
       this.more = true
-      const h = this.video
+      const h = { ...this.video }
       history.find({ detail: h.detail }).then(res => {
         if (res) {
           history.update(res.id, h)
@@ -276,7 +276,7 @@ export default {
       this.timer = setInterval(() => {
         history.find({ detail: d }).then(res => {
           if (res) {
-            const h = this.video
+            const h = { ...this.video }
             h.currentTime = this.xg.currentTime
             delete h.id
             history.update(res.id, h)
@@ -287,6 +287,15 @@ export default {
     closeEvent () {
       this.right.show = false
       this.right.type = ''
+    },
+    nextEvent () {
+      const v = { ...this.video }
+      const i = v.index + 1
+      if (i < this.right.listData.length) {
+        this.video.index++
+      } else {
+        this.$message.warning('这是最后一集了.')
+      }
     },
     listEvent () {
       if (this.right.type === 'list') {
@@ -312,12 +321,16 @@ export default {
     starEvent () {
       video.find({ detail: this.video.detail }).then(res => {
         if (res) {
-          video.remove(this.video.id).then(res => {
+          video.remove(this.video.id).then(r => {
             this.$message.info('删除成功')
             this.isStar = false
           })
         } else {
-          video.add(this.video).then(res => {
+          const v = { ...this.video }
+          if (v.id) {
+            delete v.id
+          }
+          video.add(v).then(r => {
             this.$message.success('收藏成功')
             this.isStar = true
           })
