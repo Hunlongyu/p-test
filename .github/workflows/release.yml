@@ -27,17 +27,8 @@ jobs:
         shell: pwsh
 
       - name: Build/release Electron app
+        env:
+          GH_TOKEN: ${{ secrets.github_token }}
         run: |
-          npm run bd
-        shell: pwsh
-
-      - name: Upload Windows exe
-        uses: actions/upload-artifact@v1
-        with:
-          name: exe
-          path: ./dist_electron/ptest.setup.${{env.PACKAGE_VERSION}}.exe
-
-      - name: clean
-        run: |
-          npm run clean
-        shell: pwsh
+          yarn
+          yarn bp
