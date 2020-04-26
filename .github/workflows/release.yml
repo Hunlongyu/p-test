@@ -19,13 +19,6 @@ jobs:
         with:
           node-version: 12
 
-      - name: Get version
-        run: |
-          PACKAGE_VERSION=$(node -p -e "require('./package.json').version")
-          echo $PACKAGE_VERSION
-          echo ::set-env name=PACKAGE_VERSION::$PACKAGE_VERSION
-        shell: pwsh
-
       - name: Build/release Electron app
         env:
           GH_TOKEN: ${{ secrets.github_token }}
