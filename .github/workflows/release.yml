@@ -14,7 +14,6 @@ jobs:
         os: [windows-latest]
 
     steps:
-      - name: Check & Install
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
