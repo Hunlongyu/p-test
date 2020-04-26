@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Check & Install
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         uses: actions/setup-node@v1
         with:
           node-version: 12
