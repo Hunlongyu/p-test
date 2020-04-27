@@ -23,7 +23,7 @@ jobs:
 
       - run: |
           yarn
-          yarn publish
+          yarn bp
         shell: pwsh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
