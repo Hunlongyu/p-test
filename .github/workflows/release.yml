@@ -22,6 +22,7 @@ jobs:
       - run: |
           yarn
           yarn electron:build
+        shell: pwsh
 
       - name: Release
         uses: softprops/action-gh-release@v1
