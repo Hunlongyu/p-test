@@ -8,8 +8,6 @@ on:
 jobs:
   release:
     runs-on: ${{ matrix.os }}
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     strategy:
       matrix:
@@ -23,7 +21,7 @@ jobs:
 
       - run: |
           yarn
-          yarn bp
+          yarn electron:build
         shell: pwsh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -33,3 +31,5 @@ jobs:
         with:
           name: dist_electron
           path: dist_electron
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
