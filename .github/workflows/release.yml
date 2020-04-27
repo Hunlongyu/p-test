@@ -26,9 +26,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload to release
-        uses: JasonEtco/upload-to-release@master
-        with:
-          args: 'ZY Player*'
+      - name: Upload the artifacts
+        uses: skx/github-action-publish-binaries@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: 'ZY Player-*'
