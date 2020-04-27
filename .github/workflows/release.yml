@@ -7,7 +7,11 @@ on:
 
 jobs:
   build_on_win:
-    runs-on: ['windows-latest', 'mac-latest']
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latests]
 
     steps:
       - uses: actions/checkout@v2
