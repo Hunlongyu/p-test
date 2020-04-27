@@ -3,7 +3,7 @@ name: release-build
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - v*.*.*
 
 jobs:
   release:
@@ -33,5 +33,7 @@ jobs:
             dist_electron/*.exe
             dist_electron/*.dmg
             dist_electron/*.snap
+            dist_electron/*.zip
+            dist_electron/*.blockmap
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
