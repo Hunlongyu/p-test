@@ -5,7 +5,11 @@ module.exports = {
   },
   pluginOptions: {
     electronBuilder: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      builderOptions: {
+        productName: 'ZY Player',
+        publish: ['github']
+      }
     }
   }
 }

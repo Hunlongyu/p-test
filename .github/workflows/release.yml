@@ -24,4 +24,4 @@ jobs:
       - name: Build/release Electron app
         run: |
           yarn
-          yarn bp
+          yarn electron:release
