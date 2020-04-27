@@ -22,8 +22,8 @@ jobs:
           node-version: 12
 
       - run: |
-        yarn install
-        yarn publish
+          yarn install
+          yarn publish
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
