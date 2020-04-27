@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, windows-latests]
+        os: [windows-latest, macos-latest]
 
     steps:
       - uses: actions/checkout@v2
@@ -26,9 +26,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload the artifacts
-        uses: skx/github-action-publish-binaries@master
+      - name: Upload to release
+        uses: JasonEtco/upload-to-release@master
+        with:
+          args: 'ZY Player*'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          args: 'ZY Player-*'
