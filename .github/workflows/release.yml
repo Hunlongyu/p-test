@@ -6,7 +6,7 @@ on:
       - 'v*.*.*'
 
 jobs:
-  build_on_win:
+  release:
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -32,5 +32,6 @@ jobs:
           files: |
             dist_electron/*.exe
             dist_electron/*.dmg
+            dist_electron/*.snap
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
