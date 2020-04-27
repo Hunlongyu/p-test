@@ -7,9 +7,9 @@
       <div class="title">{{ card.name }}</div>
       <qrcode-vue id="qr" :value="value" :size="160" level="L" />
       <div class="tips">
-        <p>长按识别二维码, 即可播放.</p>
+        <p>{{$t('qr_tips')}}</p>
         <p><img src="@/assets/image/logo.png"></p>
-        <p class="zy">『ZY Player』提供技术支持.严禁传播违法资源</p>
+        <p class="zy">{{$t('zy_tips')}}</p>
       </div>
     </div>
     <div class="share-mask" v-show="loading">
@@ -24,7 +24,7 @@ import QrcodeVue from 'qrcode.vue'
 import html2canvas from 'html2canvas'
 const { clipboard, nativeImage } = require('electron')
 export default {
-  name: 'TTT',
+  name: 'share',
   data () {
     return {
       card: {
@@ -68,6 +68,9 @@ export default {
         const img = html.querySelector('img').src
         this.card.img = img
         this.card.name = this.share.v.name
+        const urls = res.m3u8_urls
+        const url = urls[this.share.v.index].split('$')[1]
+        this.value = 'http://m3u8.hunlongyu.fun/?url=' + url + '&title=' + this.share.v.name
         this.loading = false
         this.$nextTick(() => {
           const dom = document.getElementById('share')
@@ -75,7 +78,7 @@ export default {
             const png = res.toDataURL('image/png')
             const p = nativeImage.createFromDataURL(png)
             clipboard.writeImage(p)
-            this.$message.success('已复制到剪贴板中, 快去分享吧~')
+            this.$m.success(this.$t('share_tips'))
             this.share.show = true
           })
         })
@@ -100,12 +103,10 @@ export default {
   right: 20px;
   width: 540px;
   height: 360px;
-  background-color: #fff;
   border-radius: 2px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #cfcfcf;
   padding: 20px;
   z-index: 888;
   .left, .right{
@@ -125,7 +126,6 @@ export default {
   .right{
     .title{
       font-size: 18px;
-      color: #666;
       margin-bottom: 10px;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -137,7 +137,6 @@ export default {
     .tips{
       font-size: 14px;
       text-align: center;
-      color: #808695;
       img{
         width: 50px;
       }
@@ -155,7 +154,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #fff;
     .loader {
       color: #823aa055;
       font-size: 8px;

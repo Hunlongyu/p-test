@@ -2,7 +2,7 @@
   <div class="film">
     <div class="top" v-if="top">
       <!-- site -->
-      <div class="vue-select" @mouseleave="show.site = false">
+      <div class="zy-select" @mouseleave="show.site = false">
         <div class="vs-placeholder" @click="show.site = true">{{site.name}}</div>
         <div class="vs-options" v-show="show.site">
           <ul>
@@ -11,7 +11,7 @@
         </div>
       </div>
       <!-- tags -->
-      <div class="vue-select" @mouseleave="show.tags = false" v-if="site.tags.length > 0">
+      <div class="zy-select" @mouseleave="show.tags = false" v-if="site.tags.length > 0">
         <div class="vs-placeholder" @click="show.tags = true">{{site.tags[tag].title}}</div>
         <div class="vs-options" v-show="show.tags">
           <ul>
@@ -20,8 +20,8 @@
         </div>
       </div>
       <!-- type -->
-      <div class="vue-select" @mouseleave="show.type = false" v-if="site.tags[tag].children.length > 0">
-        <div class="vs-placeholder" @click="show.type = true">{{site.tags[tag].children[type].title}}</div>
+      <div class="zy-select" @mouseleave="show.type = false" v-if="site.tags[tag].children.length > 0">
+        <div class="vs-placeholder" @click="show.type = true">{{typeName}}</div>
         <div class="vs-options" v-show="show.type">
           <ul>
             <li :class="type === j ? 'active' : ''" v-for="(i, j) in site.tags[tag].children" :key="j" @click="typeClick(i, j)">{{ i.title }}</li>
@@ -30,37 +30,39 @@
       </div>
       <div :class="[inputFocus ? 'active ': ''] + 'search'" @mouseover="inputFocus = true" @mouseleave="inputFocus = false">
         <div class="search-icon">
-          <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="searchIconTitle">
-            <title id="searchIconTitle">Search</title>
-            <path d="M14.4121122,14.4121122 L20,20"></path>
-            <circle cx="10" cy="10" r="6"></circle>
-          </svg>
+          <span class="zy-svg">
+            <svg role="img" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="searchIconTitle">
+              <title id="searchIconTitle">Search</title>
+              <path d="M14.4121122,14.4121122 L20,20"></path>
+              <circle cx="10" cy="10" r="6"></circle>
+            </svg>
+          </span>
         </div>
         <input type="text" class="search-box" v-model="keywords" @keypress.enter="searchEvent">
       </div>
     </div>
     <div class="middle">
-      <div class="vue-table">
+      <div class="zy-table">
         <div class="tHead">
-          <span class="name">影片名称</span>
-          <span class="type">类型</span>
-          <span class="time">时间</span>
-          <span class="operate">操作</span>
+          <span class="name">{{$t('videoName')}}</span>
+          <span class="type">{{$t('type')}}</span>
+          <span class="time">{{$t('time')}}</span>
+          <span class="operate">{{$t('operate')}}</span>
         </div>
-        <div class="tBody">
+        <div class="tBody zy-scroll">
           <ul v-show="!tb.loading">
             <li v-for="(i, j) in tb.list" :key="j" @click="detailEvent(i)">
               <span class="name">{{i.name}}</span>
               <span class="type">{{i.type}}</span>
               <span class="time">{{i.time}}</span>
               <span class="operate">
-                <span class="btn" @click.stop="playEvent(i)">播放</span>
-                <span class="btn" @click.stop="starEvent(i)">收藏</span>
-                <span class="btn" @click.stop="shareEvent(i)">分享</span>
+                <span class="btn" @click.stop="playEvent(i)">{{$t('play')}}</span>
+                <span class="btn" @click.stop="starEvent(i)">{{$t('star')}}</span>
+                <span class="btn" @click.stop="shareEvent(i)">{{$t('share')}}</span>
               </span>
             </li>
           </ul>
-          <div class="tBody-mask" v-show="tb.loading">
+          <div class="tBody-mask zy-loading" v-show="tb.loading">
             <div class="loader"></div>
           </div>
         </div>
@@ -87,6 +89,7 @@ export default {
       top: false,
       tag: 0,
       type: 0,
+      typeName: '',
       keywords: '',
       id: '',
       show: {
@@ -186,12 +189,8 @@ export default {
       this.tb.update = 0
       this.tb.total = 0
       this.tag = n
-      this.type = 0
-      if (e.children.length === 0) {
-        this.id = e.id
-      } else {
-        this.id = e.children[this.type].id
-      }
+      this.id = e.id
+      this.typeName = 'All'
       this.tb.loading = true
       this.show.tags = false
       tools.film_get(this.site.key, this.id).then(res => {
@@ -205,6 +204,7 @@ export default {
       this.tb.update = 0
       this.tb.total = 0
       this.type = n
+      this.typeName = e.title
       this.id = e.id
       this.tb.loading = true
       this.show.type = false
@@ -218,7 +218,7 @@ export default {
     searchEvent () {
       const flag = this.site.search
       if (flag === '') {
-        this.$message.warning('该视频源不支持搜索')
+        this.$m.warning(this.$t('not_support_search'))
         return false
       }
       this.tb.loading = true
@@ -243,10 +243,10 @@ export default {
     starEvent (e) {
       video.find({ detail: e.detail }).then(res => {
         if (res) {
-          this.$message.warning('已存在')
+          this.$m.warning(this.$t('exists'))
         } else {
           video.add(e).then(res => {
-            this.$message.success('收藏成功')
+            this.$m.success(this.$t('star_success'))
           })
         }
       })
@@ -288,19 +288,14 @@ export default {
       width: 200px;
       height: 30px;
       display: flex;
-      background-color: #fff;
       justify-content: center;
       align-items: center;
       border-radius: 15px;
-      box-shadow: 0 3px 1px -2px #8e8da233, 0 2px 2px 0 #8e8da224, 0 1px 5px 0 #8e8da21f;
       svg{
         width: 20px;
         height: 20px;
-        stroke: #823aa099;
-        stroke-width: 1;
         stroke-linecap: round;
         stroke-linejoin: round;
-        fill: none;
       }
       .search-icon{
         width: 40px;
@@ -314,19 +309,11 @@ export default {
         height: 30px;
         border-radius: 20px;
         border: none;
-        background-color: #00000000;
         text-indent: 2px;
         font-size: 14px;
         &:focus{
           outline: none;
           border: none;
-        }
-      }
-      &.active{
-        box-shadow: 0 14px 26px -12px #8e8da26b, 0 4px 23px 0 #8e8da21f, 0 8px 10px -5px #8e8da233;
-        svg{
-          stroke-width: 1.5;
-          fill: #823aa022;
         }
       }
     }
@@ -335,10 +322,8 @@ export default {
     height: 620px;
     width: 100%;
     margin-top: 10px;
-    padding-bottom:0px;
-    background-color: #fff;
+    padding-bottom: 0px;
     border-radius: 5px;
-    box-shadow: 0 3px 1px -2px #8e8da233, 0 2px 2px 0 #8e8da224, 0 1px 5px 0 #8e8da21f;
   }
 }
 </style>

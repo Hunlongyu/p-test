@@ -1,25 +1,25 @@
 <template>
   <div class="star">
-    <div class="vue-table">
+    <div class="zy-table">
       <div class="tHead">
-        <span class="name">影片名称</span>
-        <span class="type">类型</span>
-        <span class="time">时间</span>
-        <span class="from">来源</span>
-        <span class="operate" style="width: 160px">操作</span>
+        <span class="name">{{$t('videoName')}}</span>
+        <span class="type">{{$t('type')}}</span>
+        <span class="time">{{$t('time')}}</span>
+        <span class="from">{{$t('from')}}</span>
+        <span class="operate" style="width: 170px">{{$t('operate')}}</span>
       </div>
-      <div class="tBody">
+      <div class="tBody zy-scroll">
         <ul v-show="!loading">
           <li v-for="(i, j) in data" :key="j" @click="detailEvent(i)">
             <span class="name">{{i.name}}</span>
             <span class="type">{{i.type}}</span>
             <span class="time">{{i.time}}</span>
             <span class="from">{{i.site | ftSite}}</span>
-            <span class="operate" style="width: 160px">
-              <span class="btn" @click.stop="playEvent(i)">播放</span>
-              <span class="btn" @click.stop="deleteEvent(i)">删除</span>
-              <span class="btn" @click.stop="shareEvent(i)">分享</span>
-              <span class="btn" @click.stop="updateEvent(i)">同步</span>
+            <span class="operate" style="width: 170px">
+              <span class="btn" @click.stop="playEvent(i)">{{$t('play')}}</span>
+              <span class="btn" @click.stop="deleteEvent(i)">{{$t('delete')}}</span>
+              <span class="btn" @click.stop="shareEvent(i)">{{$t('share')}}</span>
+              <span class="btn" @click.stop="updateEvent(i)">{{$t('sync')}}</span>
             </span>
           </li>
         </ul>
@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="tFooter">
-        <span class="tFooter-span">共 {{data.length}} 条数据</span>
+        <span class="tFooter-span">{{data.length}} {{$t('total')}}</span>
       </div>
     </div>
   </div>
@@ -44,7 +44,8 @@ export default {
     return {
       sites: sites,
       data: [],
-      loading: true
+      loading: true,
+      checkFlag: false
     }
   },
   computed: {
@@ -107,9 +108,9 @@ export default {
     deleteEvent (e) {
       video.remove(e.id).then(res => {
         if (res) {
-          this.$message.warning('删除失败')
+          this.$m.warning(this.$t('delete_failed'))
         } else {
-          this.$message.success('删除成功')
+          this.$m.success(this.$t('delete_success'))
         }
         this.getAllStar()
       })
@@ -125,12 +126,12 @@ export default {
         const nameOne = e.name.replace(/\s*/g, '')
         const nameTwo = res.name.replace(/\s*/g, '')
         if (nameOne === nameTwo) {
-          this.$message.info('同步成功, 未查询到更新.')
+          this.$m.info(this.$t('async_failed'))
         } else {
           const h = e
           h.name = res.name
           video.update(h.id, h).then(res => {
-            this.$message.success('同步成功, 查询到更新.')
+            this.$m.success(this.$t('async_success'))
           })
         }
       })
@@ -153,8 +154,6 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
   border-radius: 5px;
-  box-shadow: 0 3px 1px -2px #8e8da233, 0 2px 2px 0 #8e8da224, 0 1px 5px 0 #8e8da21f;
 }
 </style>

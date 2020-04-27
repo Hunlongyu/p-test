@@ -1,7 +1,7 @@
 <template>
-  <div id="app" class="theme-light">
+  <div id="app" :class="appTheme">
     <Aside />
-    <div class="body">
+    <div class="zy-body">
       <Frame />
       <Film v-show="view === 'Film'" />
       <Play v-show="view === 'Play'" />
@@ -16,25 +16,13 @@
     </transition>
   </div>
 </template>
-
 <script>
-import Aside from './components/Aside'
-import Frame from './components/Frame'
-import Detail from './components/Detail'
-import Share from './components/TTT'
-import './lib/dexie/index'
 export default {
   name: 'App',
   data () {
     return {
-      show: false
+      appTheme: 'theme-light'
     }
-  },
-  components: {
-    Aside,
-    Frame,
-    Detail,
-    Share
   },
   computed: {
     view () {
@@ -45,6 +33,19 @@ export default {
     },
     share () {
       return this.$store.getters.getShare
+    },
+    theme () {
+      return this.$store.getters.getTheme
+    }
+  },
+  watch: {
+    theme () {
+      this.changeTheme()
+    }
+  },
+  methods: {
+    changeTheme () {
+      this.appTheme = `theme-${this.theme}`
     }
   }
 }
@@ -52,7 +53,6 @@ export default {
 
 <style lang="scss">
 @import './assets/scss/theme.scss';
-@import url('./assets/scss/style.scss');
 html, body, #app{
   height: 100%;
   border-radius: 6px;
@@ -61,32 +61,20 @@ html, body, #app{
   font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', SimSun, sans-serif;
   -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  will-change: transform;
-  overflow: hidden;
-  @keyframes gradient {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-  }
-  .body{
+  .zy-body{
     flex: 1;
     height: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
-    background-color: #f2f6f9;
     padding: 0 20px 20px;
-  }
-  .slide-enter-active, .slide-leave-active{
-    transition: all 0.3s ease-in-out;
-  }
-  .slide-enter, .slide-leave-to{
-    transform: translateY(100%);
-    opacity: 0;
   }
 }
 </style>

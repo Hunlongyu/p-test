@@ -1,19 +1,18 @@
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
-import VueI18n from 'vue-i18n'
-import Register from './views/register'
 import 'modern-normalize'
+import Register from './components/register'
+import VueI18n from 'vue-i18n'
 import { languages, defaultLocal } from './locales/index'
-import './lib/element/element.js'
-import './lib/cloud/index'
+import './lib/element/index'
 
 Vue.config.productionTip = false
-Vue.use(VueI18n)
+
 Register.registerComponents()
 
+Vue.use(VueI18n)
 const messages = Object.assign(languages)
-
 const i18n = new VueI18n({
   locale: defaultLocal,
   fallbackLocale: 'zhCn',

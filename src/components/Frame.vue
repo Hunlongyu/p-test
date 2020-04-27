@@ -33,12 +33,6 @@ export default {
     margin-left: 10px;
     cursor: pointer;
     opacity: 0.5;
-    &.min{
-      background-color: #ffbe2a;
-    }
-    &.close{
-      background-color: #ff5f56;
-    }
     &:hover{
       animation: heartbeat 3s ease-in-out infinite both;
     }
