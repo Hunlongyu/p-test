@@ -21,7 +21,16 @@ jobs:
 
       - run: |
           yarn
-          yarn bp
+          yarn electron:build
         shell: pwsh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload the artifacts
+        uses: skx/github-action-publish-binaries@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: 
+            'ZY Player*.exe'
+            'ZY Player*.dmg'
