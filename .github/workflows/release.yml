@@ -28,5 +28,7 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v1
+        width:
+          files: 'dist_electron/**'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
