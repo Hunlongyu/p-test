@@ -21,15 +21,7 @@ jobs:
 
       - run: |
           yarn
-          yarn electron:build
+          yarn bp
         shell: pwsh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: xresloader/upload-to-github-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          file: "*.exe; *.dmg"
-          tags: true
-          draft: true
