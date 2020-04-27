@@ -25,6 +25,8 @@ jobs:
           yarn
           yarn publish
         shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
