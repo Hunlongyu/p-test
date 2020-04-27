@@ -15,12 +15,12 @@ jobs:
         with:
           node-version: 12
 
-        - run: |
-            yarn
-            yarn electron:build
-          shell: pwsh
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: |
+          yarn
+          yarn electron:build
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload the artifacts
         uses: skx/github-action-publish-binaries@master
@@ -38,12 +38,12 @@ jobs:
           with:
             node-version: 12
 
-          - run: |
-              yarn
-              yarn electron:build
-            shell: pwsh
-            env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: |
+          yarn
+          yarn electron:build
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         - name: Upload the artifacts
           uses: skx/github-action-publish-binaries@master
