@@ -21,7 +21,12 @@ jobs:
 
       - run: |
           yarn
-          yarn bp
+          yarn electron:build
         shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
