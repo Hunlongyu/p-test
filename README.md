@@ -21,6 +21,8 @@
 
 大家有什么新的需求建议欢迎踊跃提出[点击这里提意见](https://github.com/Hunlongyu/ZY-Player/issues/14).
 
+git tag v0.1.40
+git push & git push --tags
 
 ## v0.9.1 版本：
 
