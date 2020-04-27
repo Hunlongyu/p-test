@@ -8,6 +8,8 @@ on:
 jobs:
   release:
     runs-on: ${{ matrix.os }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     strategy:
       matrix:
@@ -16,15 +18,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           node-version: 12
 
-      - run: yarn install
-      - run: yarn publish
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - run: |
+        yarn install
+        yarn publish
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
