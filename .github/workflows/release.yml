@@ -8,8 +8,6 @@ on:
 jobs:
   release:
     runs-on: ${{ matrix.os }}
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     strategy:
       matrix:
@@ -22,8 +20,8 @@ jobs:
         with:
           node-version: 12
 
-      - run: yarn
-      - run: yarn run publish
+      - run: npm install
+      - run: npm run publish
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
