@@ -22,9 +22,6 @@ jobs:
       - run: |
           yarn
           yarn electron:build
-        shell: pwsh
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -33,7 +30,5 @@ jobs:
             dist_electron/*.exe
             dist_electron/*.dmg
             dist_electron/*.snap
-            dist_electron/*.zip
-            dist_electron/*.blockmap
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
