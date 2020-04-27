@@ -14,12 +14,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, macos-latest, ubuntu-latest]
-        node: [ '12', '10', '8' ]
-        include:
-        - os: windows-latest
-          commandPrefix: ''
-        - os: ubuntu-latest
-          commandPrefix: xvfb-run
+        node: [ '12' ]
 
     steps:
       - uses: actions/checkout@v2
@@ -27,7 +22,13 @@ jobs:
         with:
           node-version: 12
 
-      - name: Build/release Electron app
-        run: |
-          yarn
-          yarn bp
+      - run: yarn
+      - run: yarn run publish
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: dist_electron
+          path: dist_electron

@@ -1,6 +1,6 @@
 {
   "name": "zyplayer",
-  "version": "0.1.23",
+  "version": "0.1.24",
   "author": {
     "name": "Hunlongyu",
     "email": "hunlongyu@gmail.com"
@@ -17,7 +17,8 @@
     "dev": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
-    "bp": "vue-cli-service electron:build -p always"
+    "bp": "vue-cli-service electron:build -p always",
+    "publish": "yarn run electron:build -p always"
   },
   "main": "background.js",
   "dependencies": {
