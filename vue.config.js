@@ -11,17 +11,16 @@ module.exports = {
           oneClick: false,
           allowToChangeInstallationDirectory: true
         },
-        productName: 'p-test',
+        copyright: 'Copyright @ 2020 Hunlongyu',
+        artifactName: 'P Test Setup ${version}.${ext}',
         win: {
-          target: [
-            {
-              target: 'nsis',
-              arch: [
-                'x64',
-                'ia32'
-              ]
-            }
-          ]
+          target: {
+            target: 'nsis',
+            arch: [
+              'x64',
+              'ia32'
+            ]
+          }
         }
       }
     }
