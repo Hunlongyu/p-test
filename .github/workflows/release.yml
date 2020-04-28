@@ -21,7 +21,7 @@ jobs:
 
       - run: |
           yarn
-          yarn electron:build --ia32
+          yarn electron:build
         shell: pwsh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
