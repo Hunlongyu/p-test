@@ -5,8 +5,6 @@
     "name": "Hunlongyu",
     "email": "hunlongyu@gmail.com"
   },
-  "description": "ZY Player 资源播放器",
-  "repository": "github:Hunlongyu/ZY-Player",
   "license": "MIT",
   "private": false,
   "scripts": {
