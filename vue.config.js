@@ -12,7 +12,7 @@ module.exports = {
           allowToChangeInstallationDirectory: true
         },
         copyright: 'Copyright @ 2020 Hunlongyu',
-        artifactName: 'P Test Setup ${version}.${ext}',
+        artifactName: 'P-Test_Setup_${version}.${ext}',
         win: {
           target: {
             target: 'nsis',
