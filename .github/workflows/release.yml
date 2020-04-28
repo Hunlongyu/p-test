@@ -1,9 +1,9 @@
-name: Build/release
+name: release-build
 
-on: 
+on:
   push:
     tags:
-      - 'v*.*.*'
+      - v*.*.*
 
 jobs:
   release:
@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, windows-latest]
+        os: [windows-latest, macos-latest, ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v2
@@ -26,10 +26,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: xresloader/upload-to-github-release@v1
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist_electron/*.exe
+            dist_electron/*.dmg
+            dist_electron/*.snap
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          file: "*.exe; *.dmg"
-          tags: true
-          draft: true

@@ -7,8 +7,22 @@ module.exports = {
     electronBuilder: {
       nodeIntegration: true,
       builderOptions: {
-        productName: 'ZY Player',
-        publish: ['github']
+        nsis: {
+          oneClick: false,
+          allowToChangeInstallationDirectory: true
+        },
+        productName: 'p-test',
+        win: {
+          target: [
+            {
+              target: 'nsis',
+              arch: [
+                'x64',
+                'ia32'
+              ]
+            }
+          ]
+        }
       }
     }
   }
