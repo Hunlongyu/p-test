@@ -33,5 +33,6 @@ jobs:
             dist_electron/*.exe
             dist_electron/*.dmg
             dist_electron/*.snap
+            dist_electron/*.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
