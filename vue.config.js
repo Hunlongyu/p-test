@@ -12,7 +12,7 @@ module.exports = {
           oneClick: false,
           allowToChangeInstallationDirectory: true
         },
-        copyright: 'Copyright @ 2020 ${authore}',
+        copyright: 'Copyright @ 2020 Hunlongyu',
         artifactName: 'PTest-${version}.${ext}',
         productName: 'pTest-${version}',
         publish: [{

@@ -1,6 +1,6 @@
 {
   "name": "zyplayer",
-  "version": "0.1.83",
+  "version": "0.1.84",
   "author": {
     "name": "Hunlongyu",
     "email": "hunlongyu@gmail.com"
@@ -18,7 +18,6 @@
     "bp": "vue-cli-service electron:build -p always"
   },
   "main": "background.js",
-  "cpu": ["x64", "ia32"],
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
