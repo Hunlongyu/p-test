@@ -7,13 +7,13 @@ module.exports = {
     electronBuilder: {
       nodeIntegration: true,
       builderOptions: {
-        appId: 'com.electron.zyplayer',
+        appId: 'com.electron.ptest',
         nsis: {
           oneClick: false,
           allowToChangeInstallationDirectory: true
         },
         copyright: 'Copyright @ 2020 Hunlongyu',
-        productName: 'pTest'
+        productName: 'ptest'
       }
     }
   }
