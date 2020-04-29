@@ -21,7 +21,6 @@ jobs:
 
       - run: |
           yarn
-          yarn electron:build --x64 -p always
           yarn electron:build --ia32 -p always
         shell: pwsh
         env:

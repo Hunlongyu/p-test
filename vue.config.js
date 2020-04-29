@@ -13,7 +13,6 @@ module.exports = {
           allowToChangeInstallationDirectory: true
         },
         copyright: 'Copyright @ 2020 Hunlongyu',
-        artifactName: 'PTest-${version}.${ext}',
         productName: 'pTest-${version}',
         publish: [{
           'provider': 'github',
