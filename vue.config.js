@@ -13,7 +13,7 @@ module.exports = {
           allowToChangeInstallationDirectory: true
         },
         copyright: 'Copyright @ 2020 Hunlongyu',
-        productName: 'pTest-v${version}'
+        productName: 'pTest'
       }
     }
   }
