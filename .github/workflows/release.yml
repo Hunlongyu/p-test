@@ -21,7 +21,18 @@ jobs:
 
       - run: |
           yarn
-          yarn electron:build --ia32 -p always
+          yarn electron:build
         shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist_electron/*.exe
+            dist_electron/*.dmg
+            dist_electron/*.snap
+            dist_electron/*.AppImage
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
