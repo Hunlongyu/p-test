@@ -7,6 +7,7 @@
   },
   "license": "MIT",
   "private": false,
+  "repository": "github:Hunlongyu/p-test",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
