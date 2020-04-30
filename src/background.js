@@ -36,6 +36,7 @@ function createWindow () {
     if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     win.loadURL('app://./index.html')
+    autoUpdater.setFeedURL('https://github.com/Hunlongyu/p-test/releases/latest')
     autoUpdater.checkForUpdatesAndNotify()
   }
 
