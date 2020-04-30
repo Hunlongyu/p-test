@@ -2,7 +2,7 @@
   <div class="setting">
     <div class="setting-box zy-scroll" v-if="show.setting">
       <div class="logo"><img src="@/assets/image/logo.png"></div>
-      <div class="info"><a href="https://github.com/Hunlongyu/ZY-Player">{{$t('website')}}91</a><a href="https://github.com/Hunlongyu/ZY-Player/issues">{{$t('issues')}}</a></div>
+      <div class="info"><a href="https://github.com/Hunlongyu/ZY-Player">{{$t('website')}}92</a><a href="https://github.com/Hunlongyu/ZY-Player/issues">{{$t('issues')}}</a></div>
       <div class="change">
         <div class="zy-select" @mouseleave="show.language = false">
           <div class="vs-placeholder" @click="show.language = true">{{$t('language')}}</div>
