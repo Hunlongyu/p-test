@@ -24,7 +24,10 @@ module.exports = {
         mac: {
           icon: 'build/icon/icon.icns',
           category: 'public.app-category.developer-tools',
-          target: 'default'
+          target: 'default',
+          extendInfo: {
+            LSUIElement: 1
+          }
         },
         win: {
           icon: 'build/icons/icon.ico',
