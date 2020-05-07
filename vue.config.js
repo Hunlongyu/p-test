@@ -7,7 +7,7 @@ module.exports = {
     electronBuilder: {
       nodeIntegration: true,
       builderOptions: {
-        appId: 'com.electron.ptest',
+        appId: 'com.hunlongyu.ptest',
         nsis: {
           oneClick: false,
           allowToChangeInstallationDirectory: true
@@ -18,10 +18,24 @@ module.exports = {
           {
             provider: 'github',
             owner: 'Hunlongyu',
-            repo: 'p-test',
-            releaseType: 'draft'
+            repo: 'p-test'
           }
-        ]
+        ],
+        mac: {
+          icon: 'build/icon/icon.icns',
+          category: 'public.app-category.developer-tools',
+          target: 'default'
+        },
+        win: {
+          icon: 'build/icons/icon.ico',
+          target: 'nsis'
+        },
+        linux: {
+          icon: 'build/icons/'
+        },
+        snap: {
+          publish: ['github']
+        }
       }
     }
   }

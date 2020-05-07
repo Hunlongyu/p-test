@@ -1,6 +1,6 @@
 {
   "name": "ptest",
-  "version": "0.1.97",
+  "version": "0.1.98",
   "author": {
     "name": "Hunlongyu",
     "email": "hunlongyu@gmail.com"
@@ -8,6 +8,7 @@
   "license": "MIT",
   "private": false,
   "repository": "github:Hunlongyu/p-test",
+  "description": "p test",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
