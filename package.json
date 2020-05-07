@@ -1,6 +1,6 @@
 {
   "name": "ptest",
-  "version": "0.1.96",
+  "version": "0.1.97",
   "author": {
     "name": "Hunlongyu",
     "email": "hunlongyu@gmail.com"
@@ -16,7 +16,7 @@
     "dev": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
-    "bp": "vue-cli-service electron:build -p always"
+    "release": "vue-cli-service electron:build -p always"
   },
   "main": "background.js",
   "dependencies": {

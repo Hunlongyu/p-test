@@ -13,7 +13,15 @@ module.exports = {
           allowToChangeInstallationDirectory: true
         },
         copyright: 'Copyright @ 2020 Hunlongyu',
-        productName: 'ptest'
+        productName: 'ptest',
+        publish: [
+          {
+            provider: 'github',
+            owner: 'Hunlongyu',
+            repo: 'p-test',
+            releaseType: 'draft'
+          }
+        ]
       }
     }
   }
