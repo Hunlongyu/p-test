@@ -1,6 +1,7 @@
 import Vue from 'vue'
-import { Message, Pagination } from 'element-ui'
+import { Message, Pagination, Button } from 'element-ui'
 
 Vue.use(Pagination)
+Vue.use(Button)
 
 Vue.prototype.$m = Message
