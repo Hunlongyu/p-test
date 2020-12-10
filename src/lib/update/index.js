@@ -1,5 +1,5 @@
 import { BrowserWindow, ipcMain } from 'electron'
-import { autoUpdater } from 'electron-updater'
+import { autoUpdater } from 'electron-differential-updater'
 
 export function initUpdater (win = BrowserWindow) {
   autoUpdater.autoDownload = false
@@ -37,9 +37,7 @@ export function initUpdater (win = BrowserWindow) {
 
   // 下载更新进度
   autoUpdater.on('download-progress', (progressObj) => {
-    setTimeout(() => {
-      win.webContents.send('download-progress', progressObj)
-    }, 1000)
+    win.webContents.send('download-progress', progressObj)
   })
 
   // 下载完成并退出安装
