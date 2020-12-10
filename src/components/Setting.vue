@@ -133,6 +133,7 @@ export default {
       })
     },
     checkUpdate () {
+      console.log('开始检测更新')
       ipcRenderer.send('checkForUpdate')
       ipcRenderer.on('update-available', (e, info) => {
         this.haveUpdate = true
