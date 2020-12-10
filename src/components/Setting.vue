@@ -3,7 +3,7 @@
     <div class="setting-box zy-scroll" v-if="show.setting">
       <div class="logo"><img src="@/assets/image/logo.png"></div>
       <div class="info"><a href="https://github.com/Hunlongyu/ZY-Player">{{$t('website')}}99</a><a href="https://github.com/Hunlongyu/ZY-Player/issues">{{$t('issues')}}</a></div>
-      <div class="update11">v0.2.23
+      <div class="update11">v0.2.24
         <el-button size="small" v-show="update.flag" @click="openUpdate()">更新</el-button>
       </div>
       <div class="change">
@@ -51,11 +51,11 @@
     </div>
     <div class="update" v-if="update.show">
       <div class="wrapper">
-        <div class="header">更新: </div>
         <div class="body">
           <div class="content" v-html="update.html"></div>
-          <div class="progress" v-show="update.percent">
+          <div class="progress" v-show="update.percent > 0">
             <el-progress :percentage="update.percent"></el-progress>
+            <div class="info">大小: {{update.size}} KB</div>
           </div>
         </div>
         <div class="footer">
@@ -96,7 +96,8 @@ export default {
         flag: false,
         show: true,
         html: '',
-        percent: 0
+        percent: 0,
+        size: 0
       }
     }
   },
@@ -170,7 +171,8 @@ export default {
     startUpdate () {
       ipcRenderer.send('quitAndInstall')
       ipcRenderer.on('download-progress', (info, progress) => {
-        this.update.progress = parseFloat(progress.percent).toFixed(2)
+        this.update.percent = parseFloat(progress.percent).toFixed(2)
+        this.update.size = progress.total
         console.log('progress', progress, JSON.stringify(progress))
         console.log('进度: ' + parseFloat(progress.percent).toFixed(2))
       })
