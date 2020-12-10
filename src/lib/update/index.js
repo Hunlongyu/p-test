@@ -1,6 +1,7 @@
 import { BrowserWindow, ipcMain } from 'electron'
+import { autoUpdater } from 'electron-updater'
 // import { autoUpdater } from 'electron-differential-updater'
-const { autoUpdater } = require('@imjs/electron-differential-updater')
+// const { autoUpdater } = require('@imjs/electron-differential-updater')
 
 export function initUpdater (win = BrowserWindow) {
   autoUpdater.autoDownload = false

@@ -3,7 +3,7 @@
     <div class="setting-box zy-scroll" v-if="show.setting">
       <div class="logo"><img src="@/assets/image/logo.png"></div>
       <div class="info"><a href="https://github.com/Hunlongyu/ZY-Player">{{$t('website')}}99</a><a href="https://github.com/Hunlongyu/ZY-Player/issues">{{$t('issues')}}</a></div>
-      <div class="update11">v0.2.25
+      <div class="update11">v0.2.26
         <el-button size="small" v-show="update.flag" @click="openUpdate()">更新</el-button>
       </div>
       <div class="change">
@@ -171,10 +171,10 @@ export default {
     startUpdate () {
       ipcRenderer.send('quitAndInstall')
       ipcRenderer.on('download-progress', (info, progress) => {
-        this.update.percent = parseFloat(progress.percent).toFixed(2)
+        this.update.percent = parseInt(progress.percent)
         this.update.size = progress.total
         console.log('progress', progress, JSON.stringify(progress))
-        console.log('进度: ' + parseFloat(progress.percent).toFixed(2))
+        console.log('进度: ' + parseFloat(progress.percent).toFixed(0))
       })
       ipcRenderer.on('update-downloaded', () => {
         console.log('下载完毕, 开始安装')
@@ -291,9 +291,11 @@ export default {
     justify-content: center;
     .wrapper{
       background-color: #fff;
-      padding: 10px 30px;
+      padding: 30px 40px;
       border-radius: 4px;
-      max-width: 400px;
+      max-width: 500px;
+      max-height: 90%;
+      overflow: auto;
       .footer{
         display: flex;
         justify-content: flex-end;

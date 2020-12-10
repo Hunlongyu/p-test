@@ -1,6 +1,6 @@
 {
   "name": "ptest",
-  "version": "0.2.25",
+  "version": "0.2.26",
   "author": {
     "name": "Hunlongyu",
     "email": "hunlongyu@gmail.com"
@@ -26,6 +26,7 @@
     "core-js": "^3.6.4",
     "dexie": "^2.0.4",
     "element-ui": "^2.13.1",
+    "electron-updater": "^4.3.5",
     "html2canvas": "^1.0.0-rc.5",
     "leancloud-storage": "^4.5.3",
     "macaddress": "^0.2.9",
