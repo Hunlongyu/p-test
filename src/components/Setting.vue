@@ -3,7 +3,7 @@
     <div class="setting-box zy-scroll" v-if="show.setting">
       <div class="logo"><img src="@/assets/image/logo.png"></div>
       <div class="info"><a href="https://github.com/Hunlongyu/ZY-Player">{{$t('website')}}99</a><a href="https://github.com/Hunlongyu/ZY-Player/issues">{{$t('issues')}}</a></div>
-      <div class="update11">v0.2.20
+      <div class="update11">v0.2.22
         <el-button size="small" v-show="update.flag" @click="openUpdate()">更新</el-button>
       </div>
       <div class="change">
