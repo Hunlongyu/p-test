@@ -3,7 +3,7 @@
     <div class="setting-box zy-scroll" v-if="show.setting">
       <div class="logo"><img src="@/assets/image/logo.png"></div>
       <div class="info"><a href="https://github.com/Hunlongyu/ZY-Player">{{$t('website')}}99</a><a href="https://github.com/Hunlongyu/ZY-Player/issues">{{$t('issues')}}</a></div>
-      <div class="update">v0.2.13
+      <div class="update">v0.2.14
         <el-button size="small" v-show="haveUpdate" @click="startUpdate()">更新</el-button>
       </div>
       <div class="change">
@@ -143,7 +143,7 @@ export default {
     startUpdate () {
       ipcRenderer.send('quitAndInstall')
       ipcRenderer.on('download-progress', info => {
-        console.log('进度: ' + info)
+        console.log('进度: ' + JSON.stringify(info))
       })
       ipcRenderer.on('update-downloaded', () => {
         console.log('下载完毕, 开始安装')
