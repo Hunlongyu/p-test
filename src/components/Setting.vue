@@ -3,8 +3,11 @@
     <div class="setting-box zy-scroll" v-if="show.setting">
       <div class="logo"><img src="@/assets/image/logo.png"></div>
       <div class="info"><a href="https://github.com/Hunlongyu/ZY-Player">{{$t('website')}}99</a><a href="https://github.com/Hunlongyu/ZY-Player/issues">{{$t('issues')}}</a></div>
-      <div class="update">v0.2.15
+      <div class="update">v0.2.16
         <el-button size="small" v-show="haveUpdate" @click="startUpdate()">更新</el-button>
+      </div>
+      <div class="html">
+        <div v-html="updateHtml"></div>
       </div>
       <div class="change">
         <div class="zy-select" @mouseleave="show.language = false">
@@ -77,7 +80,8 @@ export default {
         language: false,
         site: false
       },
-      haveUpdate: false
+      haveUpdate: false,
+      updateHtml: ''
     }
   },
   computed: {
@@ -137,6 +141,7 @@ export default {
       ipcRenderer.send('checkForUpdate')
       ipcRenderer.on('update-available', (e, info) => {
         this.haveUpdate = true
+        this.updateHtml = info.releaseNotes
         console.log('有更新, 其版本号为: ' + info.version)
       })
     },
