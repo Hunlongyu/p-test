@@ -3,11 +3,8 @@
     <div class="setting-box zy-scroll" v-if="show.setting">
       <div class="logo"><img src="@/assets/image/logo.png"></div>
       <div class="info"><a href="https://github.com/Hunlongyu/ZY-Player">{{$t('website')}}99</a><a href="https://github.com/Hunlongyu/ZY-Player/issues">{{$t('issues')}}</a></div>
-      <div class="update">v0.2.19
-        <el-button size="small" v-show="haveUpdate" @click="startUpdate()">更新</el-button>
-      </div>
-      <div class="html">
-        <div v-html="updateHtml"></div>
+      <div class="update11">v0.2.20
+        <el-button size="small" v-show="update.flag" @click="openUpdate()">更新</el-button>
       </div>
       <div class="change">
         <div class="zy-select" @mouseleave="show.language = false">
@@ -52,6 +49,21 @@
         </div>
       </div>
     </div>
+    <div class="update" v-if="update.show">
+      <div class="wrapper">
+        <div class="header">更新: </div>
+        <div class="body">
+          <div class="content" v-html="update.html"></div>
+          <div class="progress" v-show="update.percent">
+            <el-progress :percentage="update.percent"></el-progress>
+          </div>
+        </div>
+        <div class="footer">
+          <el-button size="small" @click="cancelUpdate">取消</el-button>
+          <el-button size="small" @click="startUpdate">更新</el-button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -80,8 +92,12 @@ export default {
         language: false,
         site: false
       },
-      haveUpdate: false,
-      updateHtml: ''
+      update: {
+        flag: false,
+        show: true,
+        html: '',
+        percent: 0
+      }
     }
   },
   computed: {
@@ -140,17 +156,23 @@ export default {
       console.log('开始检测更新')
       ipcRenderer.send('checkForUpdate')
       ipcRenderer.on('update-available', (e, info) => {
-        this.haveUpdate = true
-        this.updateHtml = info.releaseNotes
+        this.update.flag = true
+        this.update.html = info.releaseNotes
         console.log('有更新, 其版本号为: ' + info.version)
       })
+    },
+    cancelUpdate () {
+      this.update.show = false
+    },
+    openUpdate () {
+      this.update.show = true
     },
     startUpdate () {
       ipcRenderer.send('quitAndInstall')
       ipcRenderer.on('download-progress', (info, progress) => {
-        console.log('更新包大小: ' + parseFloat(progress.total / (1024 * 1024)).toFixed(2))
+        this.update.progress = parseFloat(progress.percent).toFixed(2)
+        console.log('progress', progress, JSON.stringify(progress))
         console.log('进度: ' + parseFloat(progress.percent).toFixed(2))
-        console.log('速度: ' + parseFloat(progress.bytesPerSecond / (1024 * 1024)).toFixed(2))
       })
       ipcRenderer.on('update-downloaded', () => {
         console.log('下载完毕, 开始安装')
@@ -252,6 +274,27 @@ export default {
         height: 300px;
         margin-right: 20px;
         border-radius: 2px;
+      }
+    }
+  }
+  .update{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(7, 17, 27, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .wrapper{
+      background-color: #fff;
+      padding: 10px 30px;
+      border-radius: 4px;
+      max-width: 400px;
+      .footer{
+        display: flex;
+        justify-content: flex-end;
       }
     }
   }
