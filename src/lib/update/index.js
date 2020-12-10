@@ -38,7 +38,7 @@ export function initUpdater (win = BrowserWindow) {
 
   // 下载更新进度
   autoUpdater.on('download-progress', (progressObj) => {
-    win.webContents.send('download-progress', progressObj)
+    win.webContents.send('download-progress', progressObj.percent)
   })
 
   // 下载完成并退出安装
