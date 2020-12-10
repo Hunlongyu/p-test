@@ -3,6 +3,9 @@
     <div class="setting-box zy-scroll" v-if="show.setting">
       <div class="logo"><img src="@/assets/image/logo.png"></div>
       <div class="info"><a href="https://github.com/Hunlongyu/ZY-Player">{{$t('website')}}99</a><a href="https://github.com/Hunlongyu/ZY-Player/issues">{{$t('issues')}}</a></div>
+      <div class="update">
+        <el-button size="small" v-show="haveUpdate" @click="startUpdate()">更新</el-button>
+      </div>
       <div class="change">
         <div class="zy-select" @mouseleave="show.language = false">
           <div class="vs-placeholder" @click="show.language = true">{{$t('language')}}</div>
@@ -52,6 +55,7 @@
 import { mapMutations } from 'vuex'
 import setting from '../lib/dexie/setting'
 import { sites } from '../lib/site/sites'
+import { ipcRenderer } from 'electron'
 export default {
   name: 'setting',
   data () {
@@ -72,7 +76,8 @@ export default {
         setting: false,
         language: false,
         site: false
-      }
+      },
+      haveUpdate: false
     }
   },
   computed: {
@@ -126,9 +131,32 @@ export default {
       setting.update(this.s).then(res => {
         this.$m.success(this.$t('set_success'))
       })
+    },
+    checkUpdate () {
+      ipcRenderer.send('checkForUpdate')
+      ipcRenderer.on('update-available', (e, info) => {
+        this.haveUpdate = true
+        console.log('有更新, 其版本号为: ' + info.version)
+      })
+      ipcRenderer.on('download-progress', info => {
+        console.log('进度: ' + info)
+      })
+      ipcRenderer.on('update-downloaded', () => {
+        console.log('下载完毕, 开始安装')
+      })
+    },
+    startUpdate () {
+      ipcRenderer.send('quitAndInstall')
+      ipcRenderer.on('download-progress', info => {
+        console.log('进度: ' + info)
+      })
+      ipcRenderer.on('update-downloaded', () => {
+        console.log('下载完毕, 开始安装')
+      })
     }
   },
   created () {
+    this.checkUpdate()
     setting.find().then(res => {
       this.s = res
       this.theme = res.theme
